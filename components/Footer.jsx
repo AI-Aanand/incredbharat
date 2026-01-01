@@ -34,15 +34,15 @@ export default function Footer() {
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#d1d5db' }}>
                                 <MapPin size={18} />
-                                <span>Connaught Place, New Delhi, India</span>
+                                <span>Kalyan Nagar, Bengaluru, Karnataka</span>
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#d1d5db' }}>
                                 <Phone size={18} />
-                                <span>+91 98765 43210</span>
+                                <span>+91 9663080203</span>
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#d1d5db' }}>
                                 <Mail size={18} />
-                                <span>hello@incred-bharat.com</span>
+                                <span>aanand.blog@gmail.com</span>
                             </div>
                         </div>
                     </div>
