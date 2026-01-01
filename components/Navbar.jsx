@@ -28,7 +28,8 @@ export default function Navbar() {
     const menuItems = [
         { name: 'Packages', href: '/packages' },
         { name: 'Favorites', href: '/favorites', icon: Heart, badge: favCount },
-        { name: 'About', href: '/about' }
+        { name: 'About', href: '/about' },
+        { name: 'Disclaimer', href: '/disclaimer' }
     ];
 
     return (
