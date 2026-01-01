@@ -6,7 +6,7 @@ import ImageWithFallback from './ImageWithFallback';
 export default function Hero() {
 
     return (
-        <div style={{
+        <div className="hero-container" style={{
             position: 'relative',
             height: '80vh',
             minHeight: '600px',
@@ -45,8 +45,8 @@ export default function Hero() {
                 }}></div>
             </div>
 
-            <div className="container" style={{ position: 'relative', zIndex: 10 }}>
-                <h1 style={{
+            <div className="container" style={{ position: 'relative', zIndex: 10, padding: '0 1.5rem' }}>
+                <h1 className="hero-title" style={{
                     fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
                     fontWeight: 800,
                     marginBottom: '1.5rem',
@@ -55,7 +55,7 @@ export default function Hero() {
                 }}>
                     Discover the Magic <br /> of <span style={{ color: '#FF9933' }}>Incredible India</span>
                 </h1>
-                <p style={{
+                <p className="hero-subtitle" style={{
                     fontSize: 'clamp(1.1rem, 2vw, 1.5rem)',
                     maxWidth: '600px',
                     margin: '0 auto 3rem',
@@ -65,6 +65,36 @@ export default function Hero() {
                     From the Himalayas in the north to the backwaters in the south, find your perfect getaway.
                 </p>
             </div>
+
+            <style jsx>{`
+                @media (max-width: 768px) {
+                    .hero-container {
+                        height: 60vh !important;
+                        min-height: 500px !important;
+                    }
+                    .hero-title {
+                        font-size: 2rem !important;
+                        line-height: 1.2;
+                    }
+                    .hero-subtitle {
+                        font-size: 1rem !important;
+                        margin-bottom: 2rem !important;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .hero-container {
+                        height: 50vh !important;
+                        min-height: 400px !important;
+                    }
+                    .hero-title {
+                        font-size: 1.75rem !important;
+                    }
+                    .hero-subtitle {
+                        font-size: 0.95rem !important;
+                    }
+                }
+            `}</style>
         </div>
     );
 }

@@ -19,18 +19,18 @@ export default function StateCardsGrid() {
     };
 
     return (
-        <section style={{ padding: '5rem 0', background: 'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)' }}>
+        <section className="state-cards-section" style={{ padding: '5rem 0', background: 'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)' }}>
             <div className="container">
                 <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                    <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', fontWeight: 700 }}>
+                    <h2 className="section-title" style={{ fontSize: '2.5rem', marginBottom: '1rem', fontWeight: 700 }}>
                         Explore by State
                     </h2>
-                    <p style={{ color: '#6b7280', fontSize: '1.125rem' }}>
+                    <p className="section-subtitle" style={{ color: '#6b7280', fontSize: '1.125rem' }}>
                         Choose your destination and discover amazing travel packages
                     </p>
                 </div>
 
-                <div style={{
+                <div className="state-cards-grid" style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
                     gap: '1.5rem',
@@ -167,6 +167,40 @@ export default function StateCardsGrid() {
                     ))}
                 </div>
             </div>
+
+            <style jsx>{`
+                @media (max-width: 768px) {
+                    .state-cards-section {
+                        padding: 3rem 0 !important;
+                    }
+                    .section-title {
+                        font-size: 2rem !important;
+                    }
+                    .section-subtitle {
+                        font-size: 1rem !important;
+                    }
+                    .state-cards-grid {
+                        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+                        gap: 1.25rem !important;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .state-cards-section {
+                        padding: 2.5rem 0 !important;
+                    }
+                    .section-title {
+                        font-size: 1.75rem !important;
+                    }
+                    .section-subtitle {
+                        font-size: 0.95rem !important;
+                    }
+                    .state-cards-grid {
+                        grid-template-columns: 1fr !important;
+                        gap: 1rem !important;
+                    }
+                }
+            `}</style>
         </section>
     );
 }

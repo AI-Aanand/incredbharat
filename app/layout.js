@@ -1,6 +1,7 @@
 export const metadata = {
     title: 'IncredBharat | Explore Amazing India',
     description: 'Your gateway to the most beautiful destinations in India.',
+    viewport: 'width=device-width, initial-scale=1, maximum-scale=5',
 }
 
 import './globals.css'
