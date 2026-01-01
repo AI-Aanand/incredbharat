@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 
 export default function Footer() {
@@ -22,11 +23,21 @@ export default function Footer() {
                     <div>
                         <h4 style={{ color: 'white', marginBottom: '1.25rem' }}>Quick Links</h4>
                         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                            {['Home', 'Destinations', 'Packages', 'About Us', 'Contact'].map(link => (
-                                <li key={link} style={{ marginBottom: '0.75rem' }}>
-                                    <a href="#" style={{ color: '#d1d5db', transition: 'color 0.2s' }}>{link}</a>
-                                </li>
-                            ))}
+                            <li style={{ marginBottom: '0.75rem' }}>
+                                <Link href="/" style={{ color: '#d1d5db', textDecoration: 'none', transition: 'color 0.2s' }}>Home</Link>
+                            </li>
+                            <li style={{ marginBottom: '0.75rem' }}>
+                                <Link href="/packages" style={{ color: '#d1d5db', textDecoration: 'none', transition: 'color 0.2s' }}>Packages</Link>
+                            </li>
+                            <li style={{ marginBottom: '0.75rem' }}>
+                                <Link href="/favorites" style={{ color: '#d1d5db', textDecoration: 'none', transition: 'color 0.2s' }}>Favorites</Link>
+                            </li>
+                            <li style={{ marginBottom: '0.75rem' }}>
+                                <Link href="/about" style={{ color: '#d1d5db', textDecoration: 'none', transition: 'color 0.2s' }}>About Us</Link>
+                            </li>
+                            <li style={{ marginBottom: '0.75rem' }}>
+                                <Link href="/disclaimer" style={{ color: '#d1d5db', textDecoration: 'none', transition: 'color 0.2s' }}>Disclaimer</Link>
+                            </li>
                         </ul>
                     </div>
 
@@ -50,8 +61,27 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <div style={{ borderTop: '1px solid #374151', paddingTop: '2rem', textAlign: 'center', color: '#9ca3af' }}>
-                    <p>&copy; {new Date().getFullYear()} IncredBharat Tourism. All rights reserved.</p>
+                {/* Disclaimer Banner */}
+                <div style={{
+                    backgroundColor: 'rgba(251, 191, 36, 0.1)',
+                    border: '1px solid rgba(251, 191, 36, 0.3)',
+                    borderRadius: '0.5rem',
+                    padding: '1rem 1.5rem',
+                    marginBottom: '1.5rem',
+                    textAlign: 'center'
+                }}>
+                    <p style={{ color: '#fcd34d', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+                        <strong>Disclaimer:</strong> IncredBharat is an information aggregator only. All package details are sourced from official government tourism websites.
+                        Please verify information and make bookings directly through official channels.
+                        <Link href="/disclaimer" style={{ color: '#fbbf24', marginLeft: '0.5rem', fontWeight: 600 }}>Read Full Disclaimer →</Link>
+                    </p>
+                </div>
+
+                <div style={{ borderTop: '1px solid #374151', paddingTop: '1.5rem', textAlign: 'center', color: '#9ca3af' }}>
+                    <p style={{ marginBottom: '0.5rem' }}>&copy; {new Date().getFullYear()} IncredBharat Tourism. All rights reserved.</p>
+                    <p style={{ fontSize: '0.75rem', color: '#6b7280' }}>
+                        Not affiliated with any government tourism department. For informational purposes only.
+                    </p>
                 </div>
             </div>
 
