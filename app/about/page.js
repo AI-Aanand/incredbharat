@@ -29,15 +29,78 @@ export default function AboutPage() {
                     Our Mission
                 </h2>
                 <p style={{ fontSize: '1.125rem', color: '#4b5563', lineHeight: 1.8, marginBottom: '1rem' }}>
-                    India has incredible tourism packages offered by various government bodies - from state tourism development
+                    India offers incredible tourism packages through various government bodies - from state tourism development
                     corporations like KTDC and RTDC to IRCTC's luxury trains and state road transport services. However,
-                    these are scattered across multiple websites, making it hard for travelers to discover and compare options.
+                    these are scattered across dozens of websites, making it difficult for travelers to discover, compare,
+                    and choose the best options.
+                </p>
+                <p style={{ fontSize: '1.125rem', color: '#4b5563', lineHeight: 1.8, marginBottom: '1rem' }}>
+                    <strong>IncredBharat</strong> brings together these official government tourism packages into one modern,
+                    user-friendly platform. Whether you're looking for a budget KSRTC bus tour, a subsidized heritage circuit,
+                    or a luxury Palace on Wheels experience, we make it easy to find and compare options.
                 </p>
                 <p style={{ fontSize: '1.125rem', color: '#4b5563', lineHeight: 1.8 }}>
-                    <strong>IncredBharat</strong> aggregates these official government tourism packages into one convenient platform,
-                    helping you find the perfect tour based on your preferences - whether it's a budget KSRTC bus tour,
-                    a subsidized heritage circuit, or a luxury Palace on Wheels experience.
+                    With <strong>mobile-first design</strong>, <strong>intelligent search</strong>, <strong>easy sharing</strong>,
+                    and <strong>visual package indicators</strong>, we've modernized the way you discover India's incredible
+                    travel experiences - all from trusted government sources.
                 </p>
+            </div>
+
+            {/* New Features Section */}
+            <div className="card" style={{ marginBottom: '3rem', padding: '3rem', background: 'linear-gradient(135deg, #FFF5E6 0%, #FFE5CC 100%)' }}>
+                <h2 style={{ fontSize: '2rem', marginBottom: '2rem', fontWeight: 700, textAlign: 'center' }}>
+                    Platform Features
+                </h2>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
+                    <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>📱</div>
+                        <h3 style={{ fontSize: '1.125rem', marginBottom: '0.5rem', fontWeight: 700 }}>Mobile Responsive</h3>
+                        <p style={{ color: '#6b7280', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                            Seamlessly browse packages on any device - desktop, tablet, or smartphone
+                        </p>
+                    </div>
+
+                    <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🔍</div>
+                        <h3 style={{ fontSize: '1.125rem', marginBottom: '0.5rem', fontWeight: 700 }}>Smart Search</h3>
+                        <p style={{ color: '#6b7280', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                            Find exactly what you need with intelligent search across all packages
+                        </p>
+                    </div>
+
+                    <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🔖</div>
+                        <h3 style={{ fontSize: '1.125rem', marginBottom: '0.5rem', fontWeight: 700 }}>Visual Indicators</h3>
+                        <p style={{ color: '#6b7280', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                            Color-coded badges help you instantly identify package types and organizers
+                        </p>
+                    </div>
+
+                    <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>📤</div>
+                        <h3 style={{ fontSize: '1.125rem', marginBottom: '0.5rem', fontWeight: 700 }}>Easy Sharing</h3>
+                        <p style={{ color: '#6b7280', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                            Share packages via WhatsApp, Email, Facebook, Twitter, or copy link
+                        </p>
+                    </div>
+
+                    <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🗺️</div>
+                        <h3 style={{ fontSize: '1.125rem', marginBottom: '0.5rem', fontWeight: 700 }}>Interactive Map</h3>
+                        <p style={{ color: '#6b7280', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                            Explore destinations visually with our interactive India map
+                        </p>
+                    </div>
+
+                    <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>⚡</div>
+                        <h3 style={{ fontSize: '1.125rem', marginBottom: '0.5rem', fontWeight: 700 }}>Lightning Fast</h3>
+                        <p style={{ color: '#6b7280', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                            Built with Next.js for blazing-fast performance and smooth navigation
+                        </p>
+                    </div>
+                </div>
             </div>
 
             {/* Package Types Explanation */}
