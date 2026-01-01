@@ -338,54 +338,6 @@ export default function AboutPage() {
                     Browse All Packages
                 </Link>
             </div>
-
-            <style jsx>{`
-                @media (max-width: 768px) {
-                    .about-page {
-                        padding-top: 2rem !important;
-                        padding-bottom: 3rem !important;
-                    }
-                    .about-hero {
-                        margin-bottom: 3rem !important;
-                    }
-                    .about-logo-icon {
-                        width: 36px !important;
-                        height: 36px !important;
-                    }
-                    .about-title {
-                        font-size: 2.25rem !important;
-                    }
-                    .about-subtitle {
-                        font-size: 1.05rem !important;
-                    }
-                    :global(.card) {
-                        padding: 2rem !important;
-                    }
-                }
-
-                @media (max-width: 480px) {
-                    .about-page {
-                        padding-top: 1.5rem !important;
-                        padding-bottom: 2.5rem !important;
-                    }
-                    .about-hero {
-                        margin-bottom: 2.5rem !important;
-                    }
-                    .about-logo-icon {
-                        width: 32px !important;
-                        height: 32px !important;
-                    }
-                    .about-title {
-                        font-size: 1.875rem !important;
-                    }
-                    .about-subtitle {
-                        font-size: 0.95rem !important;
-                    }
-                    :global(.card) {
-                        padding: 1.5rem !important;
-                    }
-                }
-            `}</style>
         </div>
     );
 }

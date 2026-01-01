@@ -4,6 +4,7 @@ import { packages } from '../lib/data';
 import { samplePackagesWithMetadata } from '../lib/sample-packages-with-metadata';
 import PackageTypeIndicator from './PackageTypeIndicator';
 import ImageWithFallback from './ImageWithFallback';
+import FavoriteButton from './FavoriteButton';
 
 export default function PackageList() {
     // Use sample packages with metadata for demonstration, fallback to regular packages
@@ -55,8 +56,13 @@ export default function PackageList() {
                                     </div>
                                 )}
 
-                                {/* Rating Badge - Top Right */}
-                                <div style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'white', padding: '0.25rem 0.75rem', borderRadius: '2rem', display: 'flex', alignItems: 'center', gap: '0.25rem', fontWeight: 600, fontSize: '0.875rem' }}>
+                                {/* Favorite Button - Top Right */}
+                                <div style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', zIndex: 10 }}>
+                                    <FavoriteButton packageId={pkg.id} size={20} />
+                                </div>
+
+                                {/* Rating Badge - Below Favorite Button */}
+                                <div style={{ position: 'absolute', top: '3.5rem', right: '1rem', background: 'white', padding: '0.25rem 0.75rem', borderRadius: '2rem', display: 'flex', alignItems: 'center', gap: '0.25rem', fontWeight: 600, fontSize: '0.875rem' }}>
                                     <Star size={14} fill="#FF9933" stroke="#FF9933" />
                                     {pkg.rating}
                                 </div>

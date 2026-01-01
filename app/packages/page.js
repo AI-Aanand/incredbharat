@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { packages, states } from '../../lib/data';
 import PackageTypeIndicator from '../../components/PackageTypeIndicator';
 import ImageWithFallback from '../../components/ImageWithFallback';
+import FavoriteButton from '../../components/FavoriteButton';
 import { Star, Clock, MapPin, SlidersHorizontal, X } from 'lucide-react';
 
 export default function PackagesPage() {
@@ -287,7 +288,6 @@ export default function PackagesPage() {
                                                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                             />
 
-
                                             {/* Package Type Indicators - Top Left with overlay for better readability */}
                                             {(pkg.organizer || pkg.transportMode || pkg.isSubsidized) && (
                                                 <div style={{
@@ -306,11 +306,15 @@ export default function PackagesPage() {
                                                 </div>
                                             )}
 
+                                            {/* Favorite Button - Top Right */}
+                                            <div style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', zIndex: 10 }}>
+                                                <FavoriteButton packageId={pkg.id} size={20} />
+                                            </div>
 
-                                            {/* Rating Badge - Top Right */}
+                                            {/* Rating Badge - Below Favorite Button */}
                                             <div style={{
                                                 position: 'absolute',
-                                                top: '1rem',
+                                                top: '3.5rem',
                                                 right: '1rem',
                                                 background: 'white',
                                                 padding: '0.25rem 0.75rem',

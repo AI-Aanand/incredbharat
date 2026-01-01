@@ -7,6 +7,7 @@ import { MapPin, Clock, CheckCircle2, Share2, Heart, ArrowLeft, ExternalLink } f
 import Link from 'next/link';
 import BookingModal from '../../../components/BookingModal';
 import ShareModal from '../../../components/ShareModal';
+import FavoriteButton from '../../../components/FavoriteButton';
 import { formatShareMessage, formatEmailShare, shareViaWebAPI, canUseWebShare } from '../../../lib/shareUtils';
 
 
@@ -152,6 +153,31 @@ export default function PackagePage({ params }) {
                                     >
                                         <Share2 size={18} style={{ marginRight: '0.5rem' }} /> Share Package
                                     </button>
+
+                                    <div style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        gap: '0.75rem',
+                                        padding: '0.75rem',
+                                        border: '2px solid #e5e7eb',
+                                        borderRadius: '0.5rem',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.2s',
+                                        width: '100%'
+                                    }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.borderColor = '#FF0000';
+                                            e.currentTarget.style.background = '#fee2e2';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.borderColor = '#e5e7eb';
+                                            e.currentTarget.style.background = 'transparent';
+                                        }}
+                                    >
+                                        <FavoriteButton packageId={pkg.id} size={18} />
+                                        <span style={{ fontWeight: 600, fontSize: '1rem' }}>Add to Favorites</span>
+                                    </div>
                                 </div>
 
                                 <div style={{ marginTop: '1.5rem', padding: '1rem', backgroundColor: '#f0fdf4', borderRadius: '0.5rem', border: '1px solid #bbf7d0' }}>
