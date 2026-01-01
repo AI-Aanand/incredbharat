@@ -236,10 +236,10 @@ export default function AboutPage() {
                 </div>
             </div>
 
-            {/* Partner Organizations */}
+            {/* Featured Government Sources */}
             <div className="card" style={{ padding: '3rem', marginBottom: '3rem' }}>
                 <h2 style={{ fontSize: '2rem', marginBottom: '2rem', fontWeight: 700 }}>
-                    Our Partner Organizations
+                    Featured Government Sources
                 </h2>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>

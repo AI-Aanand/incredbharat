@@ -15,7 +15,7 @@ export default function Footer() {
                             Incred<span style={{ color: '#FF9933' }}>Bharat</span>
                         </h3>
                         <p style={{ color: '#9ca3af', lineHeight: '1.6' }}>
-                            Discover the soul of India. From the Himalayas to the Indian Ocean, we curate the best experiences for you.
+                            Discover the soul of India. From the Himalayas to the Indian Ocean, we aggregate the best experiences for you.
                         </p>
                     </div>
 
