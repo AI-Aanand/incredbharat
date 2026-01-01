@@ -130,7 +130,7 @@ export default function ShareModal({ isOpen, onClose, shareUrl, shareMessage, em
                 </div>
 
                 {/* Share Options Grid */}
-                <div style={{
+                <div className="share-grid" style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(3, 1fr)',
                     gap: '1rem',
@@ -143,6 +143,7 @@ export default function ShareModal({ isOpen, onClose, shareUrl, shareMessage, em
                             <button
                                 key={option.name}
                                 onClick={option.onClick}
+                                className="share-option-btn"
                                 style={{
                                     display: 'flex',
                                     flexDirection: 'column',
@@ -216,6 +217,27 @@ export default function ShareModal({ isOpen, onClose, shareUrl, shareMessage, em
                         top: 50% !important;
                         transform: translateY(-50%) !important;
                         border-radius: 1.5rem !important;
+                    }
+                }
+
+                /* Mobile Optimizations */
+                @media (max-width: 640px) {
+                    :global(.share-grid) {
+                        grid-template-columns: repeat(2, 1fr) !important;
+                        gap: 0.875rem !important;
+                        padding: 1.5rem !important;
+                        padding-bottom: 2rem !important;
+                    }
+                    :global(.share-option-btn) {
+                        padding: 1.25rem 0.75rem !important;
+                        min-height: 100px;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    :global(.share-grid) {
+                        gap: 0.75rem !important;
+                        padding: 1.25rem !important;
                     }
                 }
             `}</style>

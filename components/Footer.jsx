@@ -2,9 +2,9 @@ import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react'
 
 export default function Footer() {
     return (
-        <footer style={{ backgroundColor: '#1f2937', color: 'white', paddingTop: '4rem', paddingBottom: '2rem' }}>
+        <footer className="footer-container" style={{ backgroundColor: '#1f2937', color: 'white', paddingTop: '4rem', paddingBottom: '2rem' }}>
             <div className="container">
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
+                <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
 
                     {/* Brand */}
                     <div>
@@ -36,14 +36,14 @@ export default function Footer() {
                                 <MapPin size={18} />
                                 <span>Kalyan Nagar, Bengaluru, Karnataka</span>
                             </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#d1d5db' }}>
+                            <a href="tel:+919663080203" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#d1d5db', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.currentTarget.style.color = '#FF9933'} onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}>
                                 <Phone size={18} />
                                 <span>+91 9663080203</span>
-                            </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#d1d5db' }}>
+                            </a>
+                            <a href="mailto:aanand.blog@gmail.com" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#d1d5db', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.currentTarget.style.color = '#FF9933'} onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}>
                                 <Mail size={18} />
                                 <span>aanand.blog@gmail.com</span>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -52,6 +52,28 @@ export default function Footer() {
                     <p>&copy; {new Date().getFullYear()} IncredBharat Tourism. All rights reserved.</p>
                 </div>
             </div>
+
+            <style jsx>{`
+                @media (max-width: 768px) {
+                    .footer-container {
+                        padding-top: 3rem !important;
+                        padding-bottom: 1.5rem !important;
+                    }
+                    .footer-grid {
+                        grid-template-columns: 1fr !important;
+                        gap: 2.5rem !important;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .footer-container {
+                        padding-top: 2.5rem !important;
+                    }
+                    .footer-grid {
+                        gap: 2rem !important;
+                    }
+                }
+            `}</style>
         </footer>
     );
 }

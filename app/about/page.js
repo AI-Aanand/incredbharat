@@ -3,21 +3,21 @@ import { MapPin, Building2, Train, Bus, Plane, Award } from 'lucide-react';
 
 export default function AboutPage() {
     return (
-        <div className="container" style={{ paddingTop: '3rem', paddingBottom: '5rem' }}>
+        <div className="container about-page" style={{ paddingTop: '3rem', paddingBottom: '5rem' }}>
             {/* Hero Section */}
-            <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 5rem' }}>
-                <div style={{
+            <div className="about-hero" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 5rem' }}>
+                <div className="about-logo-container" style={{
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '0.5rem',
                     marginBottom: '2rem'
                 }}>
-                    <MapPin size={48} style={{ color: '#FF9933' }} />
-                    <h1 style={{ fontSize: '3rem', fontWeight: 800 }}>
+                    <MapPin className="about-logo-icon" size={48} style={{ color: '#FF9933' }} />
+                    <h1 className="about-title" style={{ fontSize: '3rem', fontWeight: 800 }}>
                         Incred<span style={{ color: '#FF9933' }}>Bharat</span>
                     </h1>
                 </div>
-                <p style={{ fontSize: '1.25rem', color: '#6b7280', lineHeight: 1.8 }}>
+                <p className="about-subtitle" style={{ fontSize: '1.25rem', color: '#6b7280', lineHeight: 1.8 }}>
                     Your one-stop platform to discover and compare tourism packages from all Indian state tourism boards,
                     IRCTC, and state road transport corporations.
                 </p>
@@ -338,6 +338,54 @@ export default function AboutPage() {
                     Browse All Packages
                 </Link>
             </div>
+
+            <style jsx>{`
+                @media (max-width: 768px) {
+                    .about-page {
+                        padding-top: 2rem !important;
+                        padding-bottom: 3rem !important;
+                    }
+                    .about-hero {
+                        margin-bottom: 3rem !important;
+                    }
+                    .about-logo-icon {
+                        width: 36px !important;
+                        height: 36px !important;
+                    }
+                    .about-title {
+                        font-size: 2.25rem !important;
+                    }
+                    .about-subtitle {
+                        font-size: 1.05rem !important;
+                    }
+                    :global(.card) {
+                        padding: 2rem !important;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .about-page {
+                        padding-top: 1.5rem !important;
+                        padding-bottom: 2.5rem !important;
+                    }
+                    .about-hero {
+                        margin-bottom: 2.5rem !important;
+                    }
+                    .about-logo-icon {
+                        width: 32px !important;
+                        height: 32px !important;
+                    }
+                    .about-title {
+                        font-size: 1.875rem !important;
+                    }
+                    .about-subtitle {
+                        font-size: 0.95rem !important;
+                    }
+                    :global(.card) {
+                        padding: 1.5rem !important;
+                    }
+                }
+            `}</style>
         </div>
     );
 }
