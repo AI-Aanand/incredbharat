@@ -1,13 +1,35 @@
 'use client';
 
 import Link from 'next/link';
-import { Menu, X, MapPin } from 'lucide-react';
-import { useState } from 'react';
+import { Menu, X, MapPin, Heart } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { getFavoritesCount } from '../lib/favorites';
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const [favCount, setFavCount] = useState(0);
 
-    const menuItems = ['Packages', 'About'];
+    useEffect(() => {
+        // Update favorites count on mount and when localStorage changes
+        const updateCount = () => setFavCount(getFavoritesCount());
+        updateCount();
+
+        // Listen for storage events (when favorites change in other tabs/components)
+        window.addEventListener('storage', updateCount);
+        // Custom event for same-tab updates
+        window.addEventListener('favoritesChanged', updateCount);
+
+        return () => {
+            window.removeEventListener('storage', updateCount);
+            window.removeEventListener('favoritesChanged', updateCount);
+        };
+    }, []);
+
+    const menuItems = [
+        { name: 'Packages', href: '/packages' },
+        { name: 'Favorites', href: '/favorites', icon: Heart, badge: favCount },
+        { name: 'About', href: '/about' }
+    ];
 
     return (
         <>
@@ -24,17 +46,43 @@ export default function Navbar() {
 
                         {/* Desktop Menu */}
                         <div className="hidden-mobile" style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-                            {menuItems.map((item) => (
-                                <Link
-                                    key={item}
-                                    href={`/${item.toLowerCase()}`}
-                                    style={{ fontWeight: '500', color: '#1f2937', transition: 'color 0.2s' }}
-                                    onMouseOver={(e) => e.target.style.color = '#FF9933'}
-                                    onMouseOut={(e) => e.target.style.color = '#1f2937'}
-                                >
-                                    {item}
-                                </Link>
-                            ))}
+                            {menuItems.map((item) => {
+                                const Icon = item.icon;
+                                return (
+                                    <Link
+                                        key={item.name}
+                                        href={item.href}
+                                        style={{
+                                            fontWeight: '500',
+                                            color: '#1f2937',
+                                            transition: 'color 0.2s',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '0.5rem',
+                                            position: 'relative'
+                                        }}
+                                        onMouseOver={(e) => e.currentTarget.style.color = '#FF9933'}
+                                        onMouseOut={(e) => e.currentTarget.style.color = '#1f2937'}
+                                    >
+                                        {Icon && <Icon size={18} />}
+                                        {item.name}
+                                        {item.badge > 0 && (
+                                            <span style={{
+                                                background: '#FF0000',
+                                                color: 'white',
+                                                fontSize: '0.75rem',
+                                                fontWeight: 700,
+                                                padding: '0.125rem 0.5rem',
+                                                borderRadius: '1rem',
+                                                minWidth: '20px',
+                                                textAlign: 'center'
+                                            }}>
+                                                {item.badge}
+                                            </span>
+                                        )}
+                                    </Link>
+                                );
+                            })}
                         </div>
 
                         {/* Mobile Menu Button */}
@@ -110,22 +158,45 @@ export default function Navbar() {
                     >
                         Home
                     </Link>
-                    {menuItems.map((item) => (
-                        <Link
-                            key={item}
-                            href={`/${item.toLowerCase()}`}
-                            onClick={() => setIsOpen(false)}
-                            style={{
-                                fontSize: '1.125rem',
-                                fontWeight: '600',
-                                color: '#1f2937',
-                                padding: '0.75rem 0',
-                                borderBottom: '1px solid #e5e7eb'
-                            }}
-                        >
-                            {item}
-                        </Link>
-                    ))}
+                    {menuItems.map((item) => {
+                        const Icon = item.icon;
+                        return (
+                            <Link
+                                key={item.name}
+                                href={item.href}
+                                onClick={() => setIsOpen(false)}
+                                style={{
+                                    fontSize: '1.125rem',
+                                    fontWeight: '600',
+                                    color: '#1f2937',
+                                    padding: '0.75rem 0',
+                                    borderBottom: '1px solid #e5e7eb',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.75rem',
+                                    position: 'relative'
+                                }}
+                            >
+                                {Icon && <Icon size={20} />}
+                                {item.name}
+                                {item.badge > 0 && (
+                                    <span style={{
+                                        background: '#FF0000',
+                                        color: 'white',
+                                        fontSize: '0.75rem',
+                                        fontWeight: 700,
+                                        padding: '0.125rem 0.5rem',
+                                        borderRadius: '1rem',
+                                        minWidth: '20px',
+                                        textAlign: 'center',
+                                        marginLeft: 'auto'
+                                    }}>
+                                        {item.badge}
+                                    </span>
+                                )}
+                            </Link>
+                        );
+                    })}
                 </div>
             </div>
 
