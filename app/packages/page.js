@@ -92,6 +92,26 @@ export default function PackagesPage() {
 
     return (
         <div className="container" style={{ paddingTop: '3rem', paddingBottom: '5rem' }}>
+            <style jsx>{`
+                /* Mobile: Hide sidebar by default, show FAB, drawer overlay */
+                @media (max-width: 767px) {
+                    .mobile-filter-btn {
+                        display: flex !important;
+                    }
+                }
+
+                /* Desktop: Fixed sidebar always visible */
+                @media (min-width: 1024px) {
+                    .filter-sidebar {
+                        left: 0 !important;
+                    }
+                    .main-content {
+                        margin-left: 300px !important;
+                        padding-left: 2rem !important;
+                    }
+                }
+            `}</style>
+
             {/* Header */}
             <div style={{ marginBottom: '3rem' }}>
                 <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem', fontWeight: 800 }}>
@@ -146,21 +166,47 @@ export default function PackagesPage() {
                 />
             </div>
 
-            <div style={{ display: 'flex', gap: '2rem' }}>
-                {/* Filter Sidebar */}
+            <div style={{ position: 'relative' }}>
+                {/* Mobile Filter Toggle Button */}
+                <button
+                    onClick={() => setShowFilters(!showFilters)}
+                    style={{
+                        position: 'fixed',
+                        bottom: '20px',
+                        right: '20px',
+                        zIndex: 1000,
+                        display: 'none', // Will be shown via CSS media query
+                        padding: '1rem',
+                        background: '#FF9933',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '50%',
+                        width: '60px',
+                        height: '60px',
+                        cursor: 'pointer',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}
+                    className="mobile-filter-btn"
+                >
+                    <SlidersHorizontal size={24} />
+                </button>
+
+                {/* Filter Sidebar - Fixed on Desktop, Drawer on Mobile */}
                 <div style={{
-                    width: showFilters ? '280px' : '0',
-                    flexShrink: 0,
-                    alignSelf: 'flex-start',
-                    transition: 'width 0.3s',
-                    overflow: showFilters ? 'visible' : 'hidden'
-                }}>
-                    <div className="card" style={{
-                        position: 'sticky',
-                        top: '100px',
-                        maxHeight: 'calc(100vh - 120px)',
-                        overflowY: 'auto'
-                    }}>
+                    position: 'fixed',
+                    left: showFilters ? '0' : '-320px',
+                    top: '80px',
+                    width: '280px',
+                    height: 'calc(100vh - 80px)',
+                    background: 'white',
+                    zIndex: 999,
+                    transition: 'left 0.3s ease-in-out',
+                    boxShadow: '2px 0 8px rgba(0,0,0,0.1)',
+                    overflowY: 'auto'
+                }} className="filter-sidebar">
+                    <div style={{ padding: '1.5rem' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                             <h3 style={{ fontSize: '1.25rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                 <SlidersHorizontal size={20} />
@@ -334,8 +380,12 @@ export default function PackagesPage() {
                     </div>
                 </div>
 
-                {/* Packages Grid */}
-                <div style={{ flex: 1 }}>
+                {/* Main Content Area - with margin for desktop sidebar */}
+                <div style={{
+                    marginLeft: '0', // Will be adjusted via CSS media query for desktop
+                    width: '100%',
+                    transition: 'margin-left 0.3s ease-in-out'
+                }} className="main-content">
                     {/* Results Count & Filter Toggle */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
                         <p style={{ fontSize: '1rem', color: '#6b7280' }}>
