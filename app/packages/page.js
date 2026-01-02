@@ -1,13 +1,15 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { packages, states } from '../../lib/data';
 import PackageTypeIndicator from '../../components/PackageTypeIndicator';
 import ImageWithFallback from '../../components/ImageWithFallback';
 import FavoriteButton from '../../components/FavoriteButton';
+import CompareButton from '../../components/CompareButton';
 import { Star, Clock, MapPin, SlidersHorizontal, X, ExternalLink, Shield } from 'lucide-react';
 import { generateUSPs } from '../../lib/uspGenerator';
+import { generateThemes } from '../../lib/themeGenerator';
 
 export default function PackagesPage() {
     const [filters, setFilters] = useState({
@@ -17,9 +19,13 @@ export default function PackagesPage() {
         isSubsidized: false,
         priceRange: 'all',
         minRating: 0,
+        durationMin: 0,
+        durationMax: 15,
         searchQuery: ''
     });
     const [showFilters, setShowFilters] = useState(true);
+    const [searchSuggestions, setSearchSuggestions] = useState([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
 
     // Get unique states
     const uniqueStates = useMemo(() => {
@@ -38,6 +44,43 @@ export default function PackagesPage() {
         const organizers = [...new Set(pkgs.map(p => p.organizer).filter(Boolean))];
         return organizers.sort();
     }, [filters.state]);
+
+    // Search suggestions logic
+    useEffect(() => {
+        if (!filters.searchQuery || filters.searchQuery.length < 2) {
+            setSearchSuggestions([]);
+            return;
+        }
+
+        const query = filters.searchQuery.toLowerCase();
+        const matches = [];
+
+        // Match States
+        states.forEach(state => {
+            if (state.name.toLowerCase().includes(query)) {
+                matches.push({ type: 'Location', text: state.name, value: state.id, field: 'state' });
+            }
+        });
+
+        // Match Packages
+        packages.forEach(pkg => {
+            if (pkg.title.toLowerCase().includes(query)) {
+                matches.push({ type: 'Package', text: pkg.title, value: pkg.title, field: 'searchQuery' });
+            }
+        });
+
+        // Match Organizers
+        const organizers = [...new Set(packages.map(p => p.organizer).filter(Boolean))];
+        organizers.forEach(org => {
+            if (org.toLowerCase().includes(query)) {
+                matches.push({ type: 'Organizer', text: org, value: org, field: 'organizer' });
+            }
+        });
+
+        setSearchSuggestions(matches.slice(0, 5)); // Limit to 5 suggestions
+        setShowSuggestions(true);
+    }, [filters.searchQuery]);
+
 
     const uniqueTransportModes = useMemo(() => {
         const modes = [...new Set(packages.map(p => p.transportMode).filter(Boolean))];
@@ -58,6 +101,14 @@ export default function PackagesPage() {
 
             // Subsidized filter
             if (filters.isSubsidized && !pkg.isSubsidized) return false;
+
+            // Duration filter
+            const durationMatch = pkg.duration.match(/(\d+)/);
+            const nights = durationMatch ? parseInt(durationMatch[0]) : 0;
+            // Handle "Day Trip" or similar (0 nights)
+            const pkgDuration = pkg.duration.toLowerCase().includes('day') && !pkg.duration.toLowerCase().includes('night') ? 1 : nights;
+
+            if (pkgDuration < filters.durationMin || pkgDuration > filters.durationMax) return false;
 
             // Price range filter
             if (filters.priceRange !== 'all') {
@@ -150,13 +201,16 @@ export default function PackagesPage() {
                 </div>
             </div>
 
-            {/* Search Bar */}
-            <div style={{ marginBottom: '2rem' }}>
+            {/* Search Bar with Autocomplete */}
+            <div style={{ marginBottom: '2rem', position: 'relative' }}>
                 <input
                     type="text"
                     placeholder="Search packages by destination, title, or organizer..."
                     value={filters.searchQuery}
                     onChange={(e) => setFilters({ ...filters, searchQuery: e.target.value })}
+                    onFocus={() => setShowSuggestions(true)}
+                    // Delay hiding to allow clicking suggestions
+                    onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                     style={{
                         width: '100%',
                         padding: '1rem 1.5rem',
@@ -166,9 +220,62 @@ export default function PackagesPage() {
                         outline: 'none',
                         transition: 'border-color 0.2s'
                     }}
-                    onFocus={(e) => e.target.style.borderColor = '#FF9933'}
-                    onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
                 />
+
+                {/* Autocomplete Dropdown */}
+                {showSuggestions && searchSuggestions.length > 0 && (
+                    <div style={{
+                        position: 'absolute',
+                        top: '100%',
+                        left: 0,
+                        right: 0,
+                        background: 'white',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '0.5rem',
+                        marginTop: '0.5rem',
+                        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                        zIndex: 50
+                    }}>
+                        {searchSuggestions.map((suggestion, index) => (
+                            <div
+                                key={index}
+                                onClick={() => {
+                                    if (suggestion.field === 'state') {
+                                        setFilters({ ...filters, state: suggestion.value, searchQuery: '' });
+                                    } else if (suggestion.field === 'organizer') {
+                                        setFilters({ ...filters, organizer: suggestion.value, searchQuery: '' });
+                                    } else {
+                                        setFilters({ ...filters, searchQuery: suggestion.value });
+                                    }
+                                    setShowSuggestions(false);
+                                }}
+                                style={{
+                                    padding: '0.75rem 1rem',
+                                    cursor: 'pointer',
+                                    borderBottom: index < searchSuggestions.length - 1 ? '1px solid #f3f4f6' : 'none',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.75rem'
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.background = '#f9fafb'}
+                                onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+                            >
+                                <span style={{
+                                    fontSize: '0.75rem',
+                                    padding: '0.25rem 0.5rem',
+                                    background: '#EFF6FF',
+                                    color: '#1E40AF',
+                                    borderRadius: '0.25rem',
+                                    width: '80px',
+                                    textAlign: 'center'
+                                }}>
+                                    {suggestion.type}
+                                </span>
+                                <span style={{ color: '#374151' }}>{suggestion.text}</span>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
 
             <div style={{ position: 'relative' }}>
@@ -225,6 +332,8 @@ export default function PackagesPage() {
                                     isSubsidized: false,
                                     priceRange: 'all',
                                     minRating: 0,
+                                    durationMin: 0,
+                                    durationMax: 15,
                                     searchQuery: ''
                                 })}
                                 style={{
@@ -297,6 +406,49 @@ export default function PackagesPage() {
                                     <option key={org} value={org}>{org}</option>
                                 ))}
                             </select>
+                        </div>
+
+                        {/* Duration Filter */}
+                        <div style={{ marginBottom: '1.5rem' }}>
+                            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, fontSize: '0.875rem' }}>
+                                Duration (Days)
+                            </label>
+                            <div style={{ padding: '0 0.5rem' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.875rem', color: '#6b7280' }}>
+                                    <span>{filters.durationMin}d</span>
+                                    <span>{filters.durationMax >= 15 ? '15+' : filters.durationMax}d</span>
+                                </div>
+                                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                                    <input
+                                        type="range"
+                                        min="0"
+                                        max="15"
+                                        step="1"
+                                        value={filters.durationMin}
+                                        onChange={(e) => {
+                                            const val = parseInt(e.target.value);
+                                            if (val <= filters.durationMax) {
+                                                setFilters({ ...filters, durationMin: val });
+                                            }
+                                        }}
+                                        style={{ width: '100%', accentColor: '#FF9933', height: '4px' }}
+                                    />
+                                    <input
+                                        type="range"
+                                        min="0"
+                                        max="15"
+                                        step="1"
+                                        value={filters.durationMax}
+                                        onChange={(e) => {
+                                            const val = parseInt(e.target.value);
+                                            if (val >= filters.durationMin) {
+                                                setFilters({ ...filters, durationMax: val });
+                                            }
+                                        }}
+                                        style={{ width: '100%', accentColor: '#FF9933', height: '4px' }}
+                                    />
+                                </div>
+                            </div>
                         </div>
 
                         {/* Transport Mode Filter */}
@@ -459,8 +611,9 @@ export default function PackagesPage() {
                                                 </div>
                                             )}
 
-                                            {/* Favorite Button - Top Right */}
-                                            <div style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', zIndex: 10 }}>
+                                            {/* Action Buttons - Top Right */}
+                                            <div style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', zIndex: 10, display: 'flex', gap: '0.5rem' }}>
+                                                <CompareButton packageId={pkg.id} size={18} />
                                                 <FavoriteButton packageId={pkg.id} size={20} />
                                             </div>
 
@@ -530,6 +683,22 @@ export default function PackagesPage() {
                                                         <span style={{ color: '#FF9933', marginTop: '0.125rem' }}>✓</span>
                                                         <span>{usp}</span>
                                                     </div>
+                                                ))}
+                                            </div>
+
+                                            {/* Theme Tags */}
+                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' }}>
+                                                {generateThemes(pkg).map((theme, idx) => (
+                                                    <span key={idx} style={{
+                                                        fontSize: '0.75rem',
+                                                        padding: '0.25rem 0.5rem',
+                                                        background: '#F3F4F6',
+                                                        color: '#4B5563',
+                                                        borderRadius: '0.25rem',
+                                                        fontWeight: 500
+                                                    }}>
+                                                        {theme}
+                                                    </span>
                                                 ))}
                                             </div>
 

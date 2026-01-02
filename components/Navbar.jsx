@@ -1,33 +1,41 @@
 'use client';
 
 import Link from 'next/link';
-import { Menu, X, MapPin, Heart } from 'lucide-react';
+import { Menu, X, MapPin, Heart, Scale } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { getFavoritesCount } from '../lib/favorites';
+import { getCompareCount } from '../lib/compare';
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [favCount, setFavCount] = useState(0);
+    const [compareCount, setCompareCount] = useState(0);
 
     useEffect(() => {
         // Update favorites count on mount and when localStorage changes
-        const updateCount = () => setFavCount(getFavoritesCount());
-        updateCount();
+        const updateFavCount = () => setFavCount(getFavoritesCount());
+        const updateCompareCount = () => setCompareCount(getCompareCount());
+
+        updateFavCount();
+        updateCompareCount();
 
         // Listen for storage events (when favorites change in other tabs/components)
-        window.addEventListener('storage', updateCount);
-        // Custom event for same-tab updates
-        window.addEventListener('favoritesChanged', updateCount);
+        window.addEventListener('storage', updateFavCount);
+        window.addEventListener('favoritesChanged', updateFavCount);
+        window.addEventListener('compareChanged', updateCompareCount);
 
         return () => {
-            window.removeEventListener('storage', updateCount);
-            window.removeEventListener('favoritesChanged', updateCount);
+            window.removeEventListener('storage', updateFavCount);
+            window.removeEventListener('favoritesChanged', updateFavCount);
+            window.removeEventListener('compareChanged', updateCompareCount);
         };
     }, []);
 
     const menuItems = [
         { name: 'Packages', href: '/packages' },
         { name: 'Favorites', href: '/favorites', icon: Heart, badge: favCount },
+        { name: 'Compare', href: '/compare', icon: Scale, badge: compareCount },
+        { name: 'FAQ', href: '/faq' },
         { name: 'About', href: '/about' },
         { name: 'Disclaimer', href: '/disclaimer' }
     ];

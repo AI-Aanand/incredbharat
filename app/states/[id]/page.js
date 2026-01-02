@@ -1,6 +1,7 @@
 import { states, packages } from '../../../lib/data';
 import Link from 'next/link';
-import { ArrowLeft, MapPin, Clock, Star, ExternalLink, Info, Train, Bus, Building2, BadgeCheck } from 'lucide-react';
+import { ArrowLeft, MapPin, Clock, Star, ExternalLink, Info, Train, Bus, Building2, BadgeCheck, Sun, CloudRain, UtensilsCrossed, Camera, Landmark, Music } from 'lucide-react';
+import { destinationGuides } from '../../../lib/destinationData';
 import { notFound } from 'next/navigation';
 
 // Helper function to detect package transport type
@@ -100,6 +101,72 @@ export default function StatePage({ params }) {
                     )}
                 </div>
             </div>
+            {/* Destination Guide Section */}
+            {destinationGuides[state.id] && (
+                <div className="container" style={{ marginTop: '2rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+
+                        {/* Best Time & Weather */}
+                        <div style={{ background: 'white', padding: '1.5rem', borderRadius: '1rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}>
+                            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#ea580c' }}>
+                                <Sun size={20} /> Best Time to Visit
+                            </h3>
+                            <div style={{ marginBottom: '1rem' }}>
+                                <div style={{ fontWeight: 600, color: '#111827' }}>{destinationGuides[state.id].bestTime.peak}</div>
+                                <div style={{ color: '#6b7280', fontSize: '0.9rem', marginTop: '0.25rem' }}>{destinationGuides[state.id].bestTime.description}</div>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#fff7ed', padding: '0.75rem', borderRadius: '0.5rem', color: '#c2410c' }}>
+                                <CloudRain size={18} />
+                                <span style={{ fontWeight: 500 }}>{destinationGuides[state.id].bestTime.temperature}</span>
+                            </div>
+                        </div>
+
+                        {/* Culture & Food */}
+                        <div style={{ background: 'white', padding: '1.5rem', borderRadius: '1rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}>
+                            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#db2777' }}>
+                                <Music size={20} /> Culture & Food
+                            </h3>
+                            <div style={{ marginBottom: '1rem' }}>
+                                <p style={{ color: '#4b5563', fontSize: '0.9rem', lineHeight: 1.5 }}>
+                                    {destinationGuides[state.id].culture}
+                                </p>
+                            </div>
+                            <div>
+                                <h4 style={{ fontSize: '0.9rem', fontWeight: 600, marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.3rem', color: '#1f2937' }}>
+                                    <UtensilsCrossed size={14} /> Must Try Foods:
+                                </h4>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                                    {destinationGuides[state.id].food.map((item, i) => (
+                                        <span key={i} style={{ fontSize: '0.75rem', padding: '0.25rem 0.75rem', background: '#fce7f3', color: '#db2777', borderRadius: '1rem', fontWeight: 500 }}>
+                                            {item}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Top Highlights */}
+                    <div style={{ marginTop: '2rem' }}>
+                        <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1.5rem', color: '#111827', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <Camera size={24} style={{ color: '#059669' }} /> Top Attractions
+                        </h3>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
+                            {destinationGuides[state.id].highlights.map((highlight, idx) => (
+                                <div key={idx} style={{ background: 'white', padding: '1rem', borderRadius: '0.75rem', border: '1px solid #e5e7eb', transition: 'all 0.2s' }} className="hover:shadow-md">
+                                    <h4 style={{ fontWeight: 600, color: '#059669', marginBottom: '0.5rem', display: 'flex', alignItems: 'start', gap: '0.5rem' }}>
+                                        <Landmark size={16} style={{ marginTop: '3px', flexShrink: 0 }} />
+                                        {highlight.title}
+                                    </h4>
+                                    <p style={{ fontSize: '0.875rem', color: '#6b7280', lineHeight: 1.5 }}>
+                                        {highlight.description}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Packages Table */}
             <div className="container" style={{ marginTop: '3rem' }}>
