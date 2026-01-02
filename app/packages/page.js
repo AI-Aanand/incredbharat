@@ -88,7 +88,7 @@ export default function PackagesPage() {
 
             return true;
         });
-    }, [filters]);
+    }, [filters]); // Re-compute when filters change
 
     return (
         <div className="container" style={{ paddingTop: '3rem', paddingBottom: '5rem' }}>
@@ -98,6 +98,9 @@ export default function PackagesPage() {
                     .mobile-filter-btn {
                         display: flex !important;
                     }
+                    .packages-container {
+                        margin-left: 0 !important;
+                    }
                 }
 
                 /* Desktop: Fixed sidebar always visible */
@@ -105,15 +108,13 @@ export default function PackagesPage() {
                     .filter-sidebar {
                         left: 0 !important;
                     }
-                    .main-content {
-                        margin-left: 300px !important;
-                        padding-left: 2rem !important;
+                    .packages-container {
+                        margin-left: 320px !important;
                     }
                 }
             `}</style>
 
-            {/* Header */}
-            <div style={{ marginBottom: '3rem' }}>
+            <div className="packages-container" style={{ transition: 'margin-left 0.3s ease-in-out' }}>
                 <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem', fontWeight: 800 }}>
                     All Tour Packages
                 </h1>
@@ -652,7 +653,8 @@ export default function PackagesPage() {
                         </div>
                     )}
                 </div>
-            </div>
-        </div>
+            </div>{/* Close main-content */}
+        </div>{/* Close packages-container */ }
+        </div >
     );
 }
