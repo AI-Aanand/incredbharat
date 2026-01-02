@@ -56,6 +56,9 @@ export const metadata = {
         apple: '/apple-touch-icon.png',
     },
     manifest: '/manifest.json',
+    verification: {
+        google: 'pe35QBtevjNuhFwfNN36uXpytqMhN7Z93tAVRV9f6j4',
+    },
 }
 
 import './globals.css'
