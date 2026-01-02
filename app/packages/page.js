@@ -146,15 +146,21 @@ export default function PackagesPage() {
                 />
             </div>
 
-            <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
+            <div style={{ display: 'flex', gap: '2rem' }}>
                 {/* Filter Sidebar */}
                 <div style={{
                     width: showFilters ? '280px' : '0',
                     flexShrink: 0,
+                    alignSelf: 'flex-start',
                     transition: 'width 0.3s',
-                    overflow: 'hidden'
+                    overflow: showFilters ? 'visible' : 'hidden'
                 }}>
-                    <div className="card" style={{ position: 'sticky', top: '100px' }}>
+                    <div className="card" style={{
+                        position: 'sticky',
+                        top: '100px',
+                        maxHeight: 'calc(100vh - 120px)',
+                        overflowY: 'auto'
+                    }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                             <h3 style={{ fontSize: '1.25rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                 <SlidersHorizontal size={20} />
