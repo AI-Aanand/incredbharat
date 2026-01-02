@@ -11,6 +11,7 @@ import { generateUSPs } from '../../lib/uspGenerator';
 
 export default function PackagesPage() {
     const [filters, setFilters] = useState({
+        state: 'all',
         organizer: 'all',
         transportMode: 'all',
         isSubsidized: false,
@@ -20,11 +21,23 @@ export default function PackagesPage() {
     });
     const [showFilters, setShowFilters] = useState(true);
 
-    // Get unique organizers and transport modes
-    const uniqueOrganizers = useMemo(() => {
-        const organizers = [...new Set(packages.map(p => p.organizer).filter(Boolean))];
-        return organizers.sort();
+    // Get unique states
+    const uniqueStates = useMemo(() => {
+        const stateIds = [...new Set(packages.map(p => p.stateId).filter(Boolean))];
+        return states
+            .filter(s => stateIds.includes(s.id))
+            .sort((a, b) => a.name.localeCompare(b.name));
     }, []);
+
+    // Get organizers filtered by selected state (cascading)
+    const availableOrganizers = useMemo(() => {
+        let pkgs = packages;
+        if (filters.state !== 'all') {
+            pkgs = packages.filter(p => p.stateId === filters.state);
+        }
+        const organizers = [...new Set(pkgs.map(p => p.organizer).filter(Boolean))];
+        return organizers.sort();
+    }, [filters.state]);
 
     const uniqueTransportModes = useMemo(() => {
         const modes = [...new Set(packages.map(p => p.transportMode).filter(Boolean))];
@@ -34,6 +47,9 @@ export default function PackagesPage() {
     // Filter packages
     const filteredPackages = useMemo(() => {
         return packages.filter(pkg => {
+            // State filter
+            if (filters.state !== 'all' && pkg.stateId !== filters.state) return false;
+
             // Organizer filter
             if (filters.organizer !== 'all' && pkg.organizer !== filters.organizer) return false;
 
@@ -166,10 +182,45 @@ export default function PackagesPage() {
                             </button>
                         </div>
 
+                        {/* State Filter */}
+                        <div style={{ marginBottom: '1.5rem' }}>
+                            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, fontSize: '0.875rem' }}>
+                                State / Destination
+                            </label>
+                            <select
+                                value={filters.state}
+                                onChange={(e) => setFilters({
+                                    ...filters,
+                                    state: e.target.value,
+                                    organizer: 'all' // Reset organizer when state changes
+                                })}
+                                style={{
+                                    width: '100%',
+                                    padding: '0.5rem',
+                                    border: '1px solid #e5e7eb',
+                                    borderRadius: '0.375rem',
+                                    fontSize: '0.875rem',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                <option value="all">All States</option>
+                                {uniqueStates.map(state => (
+                                    <option key={state.id} value={state.id}>
+                                        {state.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
                         {/* Organizer Filter */}
                         <div style={{ marginBottom: '1.5rem' }}>
-                            <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.75rem', fontSize: '0.875rem', color: '#374151' }}>
+                            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, fontSize: '0.875rem' }}>
                                 Organizer
+                                {filters.state !== 'all' && (
+                                    <span style={{ fontSize: '0.75rem', color: '#6b7280', fontWeight: 400, marginLeft: '0.5rem' }}>
+                                        (in selected state)
+                                    </span>
+                                )}
                             </label>
                             <select
                                 value={filters.organizer}
@@ -179,11 +230,12 @@ export default function PackagesPage() {
                                     padding: '0.5rem',
                                     border: '1px solid #e5e7eb',
                                     borderRadius: '0.375rem',
-                                    fontSize: '0.875rem'
+                                    fontSize: '0.875rem',
+                                    cursor: 'pointer'
                                 }}
                             >
                                 <option value="all">All Organizers</option>
-                                {uniqueOrganizers.map(org => (
+                                {availableOrganizers.map(org => (
                                     <option key={org} value={org}>{org}</option>
                                 ))}
                             </select>
