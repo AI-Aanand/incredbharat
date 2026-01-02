@@ -116,11 +116,15 @@ export default function PackagesPage() {
 
             <div className="packages-container" style={{ transition: 'margin-left 0.3s ease-in-out' }}>
                 <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem', fontWeight: 800 }}>
-                    All Tour Packages
+                    {filters.state === 'all'
+                        ? 'All Tour Packages'
+                        : `${states.find(s => s.id === filters.state)?.name} Tour Packages`}
                 </h1>
                 <p style={{ fontSize: '1.125rem', color: '#6b7280', maxWidth: '800px' }}>
-                    Explore {packages.length} curated tour packages from state tourism boards, IRCTC, and private operators across India.
-                    Filter by organizer, transport mode, and discover government-subsidized schemes.
+                    {filters.state === 'all'
+                        ? `Explore ${packages.length} curated tour packages from state tourism boards, IRCTC, and private operators across India.`
+                        : `Discover ${filteredPackages.length} curated tour packages in ${states.find(s => s.id === filters.state)?.name}.`}
+                    {' '}Filter by organizer, transport mode, and discover government-subsidized schemes.
                 </p>
             </div>
 
@@ -215,6 +219,7 @@ export default function PackagesPage() {
                             </h3>
                             <button
                                 onClick={() => setFilters({
+                                    state: 'all',
                                     organizer: 'all',
                                     transportMode: 'all',
                                     isSubsidized: false,
@@ -404,11 +409,13 @@ export default function PackagesPage() {
 
                     {/* Packages Grid */}
                     {filteredPackages.length > 0 ? (
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-                            gap: '2rem'
-                        }}>
+                        <div
+                            key={`grid-${filters.state}-${filters.organizer}-${filteredPackages.length}`}
+                            style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+                                gap: '2rem'
+                            }}>
                             {filteredPackages.map(pkg => {
                                 const state = states.find(s => s.id === pkg.stateId);
                                 return (
@@ -639,6 +646,7 @@ export default function PackagesPage() {
                             </p>
                             <button
                                 onClick={() => setFilters({
+                                    state: 'all',
                                     organizer: 'all',
                                     transportMode: 'all',
                                     isSubsidized: false,
@@ -653,8 +661,7 @@ export default function PackagesPage() {
                         </div>
                     )}
                 </div>
-            </div>{/* Close main-content */}
-        </div>{/* Close packages-container */ }
-        </div >
+            </div>
+        </div>
     );
 }
