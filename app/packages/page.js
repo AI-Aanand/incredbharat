@@ -6,7 +6,8 @@ import { packages, states } from '../../lib/data';
 import PackageTypeIndicator from '../../components/PackageTypeIndicator';
 import ImageWithFallback from '../../components/ImageWithFallback';
 import FavoriteButton from '../../components/FavoriteButton';
-import { Star, Clock, MapPin, SlidersHorizontal, X } from 'lucide-react';
+import { Star, Clock, MapPin, SlidersHorizontal, X, ExternalLink, Shield } from 'lucide-react';
+import { generateUSPs } from '../../lib/uspGenerator';
 
 export default function PackagesPage() {
     const [filters, setFilters] = useState({
@@ -84,6 +85,28 @@ export default function PackagesPage() {
                     Explore {packages.length} curated tour packages from state tourism boards, IRCTC, and private operators across India.
                     Filter by organizer, transport mode, and discover government-subsidized schemes.
                 </p>
+            </div>
+
+            {/* Disclaimer Banner */}
+            <div style={{
+                background: '#FFFBEB',
+                border: '1px solid #FDE68A',
+                borderRadius: '0.5rem',
+                padding: '1rem 1.5rem',
+                marginBottom: '2rem',
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '0.75rem'
+            }}>
+                <span style={{ fontSize: '1.25rem', marginTop: '0.125rem' }}>ℹ️</span>
+                <div style={{ flex: 1 }}>
+                    <p style={{ fontSize: '0.875rem', color: '#92400E', margin: 0, lineHeight: 1.6 }}>
+                        <strong>IncredBharat is an information aggregator only.</strong> All packages are from official government & state tourism boards. Book directly on their websites.
+                        <Link href="/disclaimer" style={{ color: '#B45309', marginLeft: '0.5rem', textDecoration: 'underline' }}>
+                            Read full disclaimer →
+                        </Link>
+                    </p>
+                </div>
             </div>
 
             {/* Search Bar */}
@@ -280,8 +303,22 @@ export default function PackagesPage() {
                             {filteredPackages.map(pkg => {
                                 const state = states.find(s => s.id === pkg.stateId);
                                 return (
-                                    <div key={pkg.id} className="card" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                                        <div style={{ height: '200px', position: 'relative' }}>
+                                    <div key={pkg.id} className="card" style={{
+                                        height: '100%',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+                                    }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.transform = 'translateY(-4px)';
+                                            e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.transform = 'translateY(0)';
+                                            e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+                                        }}>
+                                        <div style={{ height: '220px', position: 'relative' }}>
                                             <ImageWithFallback
                                                 src={pkg.images[0]}
                                                 alt={pkg.title}
@@ -362,16 +399,116 @@ export default function PackagesPage() {
                                                 {pkg.duration}
                                             </div>
 
-                                            <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                                <div>
-                                                    <span style={{ fontSize: '0.875rem', color: '#6b7280' }}>From</span>
-                                                    <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#000080' }}>
-                                                        ₹{pkg.price.toLocaleString('en-IN')}
+                                            {/* USP Bullets */}
+                                            <div style={{ marginBottom: '1rem' }}>
+                                                {(pkg.usps || generateUSPs(pkg)).map((usp, idx) => (
+                                                    <div key={idx} style={{
+                                                        display: 'flex',
+                                                        alignItems: 'flex-start',
+                                                        gap: '0.5rem',
+                                                        marginBottom: '0.375rem',
+                                                        fontSize: '0.875rem',
+                                                        color: '#6b7280',
+                                                        lineHeight: 1.6
+                                                    }}>
+                                                        <span style={{ color: '#FF9933', marginTop: '0.125rem' }}>✓</span>
+                                                        <span>{usp}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                            {/* Trust Badge - Government packages */}
+                                            {pkg.organizer && pkg.organizer !== 'Private' && (
+                                                <div style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: '0.375rem',
+                                                    fontSize: '0.75rem',
+                                                    color: '#10B981',
+                                                    fontWeight: 500,
+                                                    marginBottom: '1rem'
+                                                }}>
+                                                    <Shield size={14} />
+                                                    <span>Official Government Package</span>
+                                                </div>
+                                            )}
+
+                                            <div style={{ marginTop: 'auto' }}>
+                                                {/* Price + Review Count */}
+                                                <div style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'space-between',
+                                                    marginBottom: '1rem'
+                                                }}>
+                                                    <div>
+                                                        <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>From</span>
+                                                        <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#000080' }}>
+                                                            ₹{pkg.price.toLocaleString('en-IN')}
+                                                        </div>
+                                                        <span style={{ fontSize: '0.6875rem', color: '#9ca3af' }}>Price from official source</span>
+                                                    </div>
+                                                    <div style={{ textAlign: 'right', fontSize: '0.75rem', color: '#6b7280' }}>
+                                                        ({pkg.reviews} reviews)
                                                     </div>
                                                 </div>
-                                                <Link href={`/packages/${pkg.id}`} className="btn btn-outline" style={{ padding: '0.5rem 1rem' }}>
-                                                    Details
-                                                </Link>
+
+                                                {/* Dual CTAs */}
+                                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                                    <Link
+                                                        href={`/packages/${pkg.id}`}
+                                                        className="btn btn-primary"
+                                                        style={{
+                                                            padding: '0.625rem 1.25rem',
+                                                            fontSize: '0.875rem',
+                                                            fontWeight: 600,
+                                                            textAlign: 'center',
+                                                            background: '#FF9933',
+                                                            color: 'white',
+                                                            border: 'none',
+                                                            borderRadius: '0.5rem',
+                                                            transition: 'all 0.2s'
+                                                        }}
+                                                        onMouseEnter={(e) => e.currentTarget.style.background = '#FF6600'}
+                                                        onMouseLeave={(e) => e.currentTarget.style.background = '#FF9933'}
+                                                    >
+                                                        View Details
+                                                    </Link>
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            // Future: Track outbound click and redirect to official site
+                                                            alert('Official booking site will open here. (Feature in development)');
+                                                        }}
+                                                        style={{
+                                                            padding: '0.5rem 1rem',
+                                                            fontSize: '0.75rem',
+                                                            fontWeight: 500,
+                                                            background: 'white',
+                                                            color: '#6b7280',
+                                                            border: '1px solid #e5e7eb',
+                                                            borderRadius: '0.5rem',
+                                                            cursor: 'pointer',
+                                                            transition: 'all 0.2s',
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center',
+                                                            gap: '0.375rem'
+                                                        }}
+                                                        onMouseEnter={(e) => {
+                                                            e.currentTarget.style.borderColor = '#FF9933';
+                                                            e.currentTarget.style.color = '#FF9933';
+                                                        }}
+                                                        onMouseLeave={(e) => {
+                                                            e.currentTarget.style.borderColor = '#e5e7eb';
+                                                            e.currentTarget.style.color = '#6b7280';
+                                                        }}
+                                                        title="Opens official government booking site"
+                                                    >
+                                                        Official Site
+                                                        <ExternalLink size={12} />
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

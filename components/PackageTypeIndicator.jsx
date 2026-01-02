@@ -10,7 +10,7 @@ export default function PackageTypeIndicator({ organizer, transportMode, isSubsi
         if (organizer === 'IRCTC') return { bg: '#0066CC', color: 'white' };
 
         // State Tourism Corporations - Saffron/Orange theme
-        const stateTourism = ['KTDC', 'RTDC', 'GTDC', 'MTDC', 'KSTDC', 'OTDC', 'WBTDC', 'ATDC', 'APTDC', 'JKTDC', 'DTTDC'];
+        const stateTourism = ['KTDC', 'RTDC', 'GTDC', 'MTDC', 'KSTDC', 'OTDC', 'WBTDC', 'ATDC', 'APTDC', 'JKTDC', 'DTTDC', 'HPTDC'];
         if (stateTourism.includes(organizer)) return { bg: '#FF9933', color: 'white' };
 
         // Private - Gray theme
