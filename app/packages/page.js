@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation'; // Import hook
 import { packages, states } from '../../lib/data';
 import PackageTypeIndicator from '../../components/PackageTypeIndicator';
 import ImageWithFallback from '../../components/ImageWithFallback';
@@ -12,8 +13,10 @@ import { generateUSPs } from '../../lib/uspGenerator';
 import { generateThemes } from '../../lib/themeGenerator';
 
 export default function PackagesPage() {
+    const searchParams = useSearchParams(); // Use hook
     const [filters, setFilters] = useState({
         state: 'all',
+        category: [],
         organizer: 'all',
         transportMode: 'all',
         isSubsidized: false,
@@ -23,6 +26,19 @@ export default function PackagesPage() {
         durationMax: 15,
         searchQuery: ''
     });
+
+    // Update filters when URL params change
+    useEffect(() => {
+        const category = searchParams.get('category');
+        const search = searchParams.get('search');
+
+        setFilters(prev => ({
+            ...prev,
+            category: category ? [category] : [],
+            searchQuery: search || ''
+        }));
+    }, [searchParams]);
+
     const [showFilters, setShowFilters] = useState(true);
     const [searchSuggestions, setSearchSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -90,6 +106,28 @@ export default function PackagesPage() {
     // Filter packages
     const filteredPackages = useMemo(() => {
         return packages.filter(pkg => {
+            // Search Query Filter
+            if (filters.searchQuery) {
+                const query = filters.searchQuery.toLowerCase();
+                const matchesSearch =
+                    pkg.title.toLowerCase().includes(query) ||
+                    pkg.description.toLowerCase().includes(query) ||
+                    (pkg.stateId && pkg.stateId.toLowerCase().includes(query)) ||
+                    (pkg.destinations && pkg.destinations.some(d => d.toLowerCase().includes(query)));
+
+                if (!matchesSearch) return false;
+            }
+
+            // Category Filter
+            if (filters.category.length > 0) {
+                const pkgCategories = pkg.themes || [];
+                // Check if ANY of the selected categories match ANY of the package themes
+                const hasCategory = filters.category.some(cat =>
+                    pkgCategories.some(pkgCat => pkgCat.toLowerCase().includes(cat.toLowerCase()))
+                );
+                if (!hasCategory) return false;
+            }
+
             // State filter
             if (filters.state !== 'all' && pkg.stateId !== filters.state) return false;
 

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import HeroV2 from '../components/v2/HeroV2';
 import ContinueExploring from '../components/v2/ContinueExploring';
