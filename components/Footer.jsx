@@ -14,7 +14,7 @@ export default function Footer() {
                         <h3 style={{ color: 'white', fontSize: '1.5rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                             Incred<span style={{ color: '#FF9933' }}>Bharat</span>
                         </h3>
-                        <p style={{ color: '#9ca3af', lineHeight: '1.6' }}>
+                        <p style={{ color: '#e5e7eb', lineHeight: '1.6' }}>
                             Discover the soul of India. From the Himalayas to the Indian Ocean, we aggregate the best experiences for you.
                         </p>
                     </div>
@@ -77,9 +77,9 @@ export default function Footer() {
                     </p>
                 </div>
 
-                <div style={{ borderTop: '1px solid #374151', paddingTop: '1.5rem', textAlign: 'center', color: '#9ca3af' }}>
+                <div style={{ borderTop: '1px solid #374151', paddingTop: '1.5rem', textAlign: 'center', color: '#d1d5db' }}>
                     <p style={{ marginBottom: '0.5rem' }}>&copy; {new Date().getFullYear()} IncredBharat Tourism. All rights reserved.</p>
-                    <p style={{ fontSize: '0.75rem', color: '#6b7280' }}>
+                    <p style={{ fontSize: '0.75rem', color: '#9ca3af' }}>
                         Not affiliated with any government tourism department. For informational purposes only.
                     </p>
                 </div>

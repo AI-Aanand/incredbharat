@@ -17,7 +17,7 @@ export default function AboutPage() {
                         Incred<span style={{ color: '#FF9933' }}>Bharat</span>
                     </h1>
                 </div>
-                <p className="about-subtitle" style={{ fontSize: '1.25rem', color: '#6b7280', lineHeight: 1.8 }}>
+                <p className="about-subtitle" style={{ fontSize: '1.25rem', color: '#374151', lineHeight: 1.8 }}>
                     Your one-stop platform to discover and compare tourism packages from all Indian state tourism boards,
                     IRCTC, and state road transport corporations.
                 </p>

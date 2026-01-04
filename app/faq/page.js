@@ -150,7 +150,7 @@ export default function FAQPage() {
                 }}>
                     Frequently Asked Questions
                 </h1>
-                <p style={{ fontSize: '1.25rem', color: '#6b7280', maxWidth: '700px', margin: '0 auto' }}>
+                <p style={{ fontSize: '1.25rem', color: '#374151', maxWidth: '700px', margin: '0 auto' }}>
                     Everything you need to know about booking and traveling with IncredBharat
                 </p>
             </div>
