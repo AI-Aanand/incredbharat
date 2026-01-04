@@ -111,7 +111,7 @@ export default function NavbarV2() {
                         gap: '1rem',
                         flexShrink: 0
                     }}>
-                        <Link href="/v2/packages" style={{
+                        <Link href="/packages" style={{
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
@@ -127,7 +127,7 @@ export default function NavbarV2() {
                             <span style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>Packages</span>
                         </Link>
 
-                        <Link href="/v2/favorites" style={{
+                        <Link href="/favorites" style={{
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
@@ -161,7 +161,7 @@ export default function NavbarV2() {
                             <span style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>Favorites</span>
                         </Link>
 
-                        <Link href="/v2/compare" style={{
+                        <Link href="/compare" style={{
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
@@ -313,12 +313,12 @@ export default function NavbarV2() {
                                 padding: '0.75rem',
                                 borderBottom: '1px solid rgba(255,255,255,0.1)'
                             }}>Home</Link>
-                            <Link href="/v2/packages" onClick={() => setIsOpen(false)} style={{
+                            <Link href="/packages" onClick={() => setIsOpen(false)} style={{
                                 color: 'white',
                                 padding: '0.75rem',
                                 borderBottom: '1px solid rgba(255,255,255,0.1)'
                             }}>Packages</Link>
-                            <Link href="/v2/favorites" onClick={() => setIsOpen(false)} style={{
+                            <Link href="/favorites" onClick={() => setIsOpen(false)} style={{
                                 color: 'white',
                                 padding: '0.75rem',
                                 borderBottom: '1px solid rgba(255,255,255,0.1)',
@@ -328,7 +328,7 @@ export default function NavbarV2() {
                                 Favorites
                                 {favCount > 0 && <span style={{ color: '#FF9933' }}>({favCount})</span>}
                             </Link>
-                            <Link href="/v2/compare" onClick={() => setIsOpen(false)} style={{
+                            <Link href="/compare" onClick={() => setIsOpen(false)} style={{
                                 color: 'white',
                                 padding: '0.75rem',
                                 borderBottom: '1px solid rgba(255,255,255,0.1)',

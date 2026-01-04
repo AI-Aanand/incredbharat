@@ -126,7 +126,7 @@ export default function HeroV2() {
                     left: 0;
                     right: 0;
                     bottom: 0;
-                    background: linear-gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.3) 100%);
+                    background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.5) 100%);
                 }
 
                 .v2-hero-container {
@@ -148,14 +148,15 @@ export default function HeroV2() {
                     font-size: clamp(1.75rem, 4vw, 3rem);
                     font-weight: 800;
                     margin-bottom: 1rem;
-                    text-shadow: 0 4px 6px rgba(0,0,0,0.5);
+                    color: white;
+                    text-shadow: 0 2px 4px rgba(0,0,0,0.9), 0 4px 8px rgba(0,0,0,0.7);
                     line-height: 1.2;
                 }
 
                 .v2-hero-subtitle {
                     font-size: clamp(0.9rem, 1.5vw, 1.125rem);
-                    color: #e5e7eb;
-                    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+                    color: white;
+                    text-shadow: 0 2px 4px rgba(0,0,0,0.9), 0 4px 8px rgba(0,0,0,0.6);
                     line-height: 1.5;
                 }
 
