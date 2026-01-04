@@ -26,7 +26,7 @@ export default function CategoryStrip({ onCategorySelect }) {
     return (
         <div style={{
             position: 'fixed',
-            top: '140px', // Below main header + search bar with spacing
+            top: '128px', // navbar (120px) + 8px gap
             left: 0,
             right: 0,
             zIndex: 999,

@@ -4,9 +4,16 @@
 
 /* Variables */
 :root {
-    --v2-header-height: 60px;
+    --v2-header-height: 56px;
+    /* Main navbar logo row */
+    --v2-search-height: 60px;
+    /* Search bar row on mobile */
     --v2-category-height: 52px;
-    --v2-total-header: 112px;
+    /* Category strip height */
+    --v2-navbar-total: 120px;
+    /* Total fixed navbar height (header + search) */
+    --v2-total-header: 172px;
+    /* Total height before content (navbar + category) */
     --v2-dark: #131921;
     --v2-dark-secondary: #232F3E;
     --v2-accent: #FF9933;

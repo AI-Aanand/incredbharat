@@ -108,7 +108,7 @@ export default function HeroV2() {
                     display: flex;
                     align-items: center;
                     overflow: hidden;
-                    margin-top: 200px; /* navbar + category strip height */
+                    margin-top: 190px; /* 128px (category top) + 52px (category height) + 10px gap */
                 }
 
                 .v2-hero-bg {
@@ -219,7 +219,7 @@ export default function HeroV2() {
                 /* Mobile */
                 @media (max-width: 768px) {
                     .v2-hero-wrapper {
-                        margin-top: 104px;
+                        margin-top: 190px; /* Same as desktop: navbar + category strip */
                         min-height: 280px;
                     }
 
