@@ -108,7 +108,7 @@ export default function HeroV2() {
                     display: flex;
                     align-items: center;
                     overflow: hidden;
-                    margin-top: 112px;
+                    margin-top: 200px; /* navbar + category strip height */
                 }
 
                 .v2-hero-bg {
