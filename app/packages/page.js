@@ -152,9 +152,12 @@ export default function PackagesPage() {
                     .packages-container {
                         margin-left: 0 !important;
                     }
+                    .mobile-submit-btn {
+                        display: block !important;
+                    }
                 }
 
-                /* Desktop: Fixed sidebar always visible */
+                /* Desktop: Fixed sidebar always visible, hide submit button */
                 @media (min-width: 1024px) {
                     .filter-sidebar {
                         left: 0 !important;
@@ -162,6 +165,14 @@ export default function PackagesPage() {
                     .packages-container {
                         margin-left: 320px !important;
                     }
+                    .mobile-submit-btn {
+                        display: none !important;
+                    }
+                }
+
+                /* Default: hide submit button */
+                .mobile-submit-btn {
+                    display: none;
                 }
             `}</style>
 
@@ -534,6 +545,31 @@ export default function PackagesPage() {
                                 <option value="4.5">4.5+ ⭐</option>
                                 <option value="4.8">4.8+ ⭐</option>
                             </select>
+                        </div>
+
+                        {/* Mobile Submit Button */}
+                        <div className="mobile-submit-btn" style={{
+                            marginTop: '1.5rem',
+                            paddingTop: '1.5rem',
+                            borderTop: '1px solid #e5e7eb'
+                        }}>
+                            <button
+                                onClick={() => setShowFilters(false)}
+                                style={{
+                                    width: '100%',
+                                    padding: '0.875rem',
+                                    background: '#FF9933',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '0.5rem',
+                                    fontSize: '1rem',
+                                    fontWeight: 700,
+                                    cursor: 'pointer',
+                                    boxShadow: '0 4px 12px rgba(255, 153, 51, 0.4)'
+                                }}
+                            >
+                                Apply Filters ({filteredPackages.length} Results)
+                            </button>
                         </div>
                     </div>
                 </div>
