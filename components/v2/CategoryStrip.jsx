@@ -1,25 +1,28 @@
 'use client';
 
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Mountain, Church, Waves, Castle, Ship, Sun } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function CategoryStrip({ onCategorySelect }) {
-    const [activeCategory, setActiveCategory] = useState(null);
+export default function CategoryStrip() {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const activeCategory = searchParams.get('category');
 
     const categories = [
-        { id: 'hill-stations', name: 'Hill Stations', icon: Mountain },
-        { id: 'pilgrimage', name: 'Pilgrimage', icon: Church },
-        { id: 'beaches', name: 'Beaches & Islands', icon: Waves },
-        { id: 'heritage', name: 'Heritage & Culture', icon: Castle },
-        { id: 'backwaters', name: 'Backwaters', icon: Ship },
-        { id: 'deserts', name: 'Deserts & Royalty', icon: Sun }
+        { id: 'Hill Stations', name: 'Hill Stations', icon: Mountain },
+        { id: 'Pilgrimage', name: 'Pilgrimage', icon: Church },
+        { id: 'Beaches', name: 'Beaches & Islands', icon: Waves },
+        { id: 'Heritage', name: 'Heritage & Culture', icon: Castle },
+        { id: 'Backwaters', name: 'Backwaters', icon: Ship },
+        { id: 'Deserts', name: 'Deserts & Royalty', icon: Sun }
     ];
 
     const handleClick = (categoryId) => {
-        const newActive = activeCategory === categoryId ? null : categoryId;
-        setActiveCategory(newActive);
-        if (onCategorySelect) {
-            onCategorySelect(newActive);
+        if (activeCategory === categoryId) {
+            router.push('/packages'); // Deselect
+        } else {
+            router.push(`/packages?category=${encodeURIComponent(categoryId)}`);
         }
     };
 
