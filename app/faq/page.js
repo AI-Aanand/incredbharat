@@ -143,7 +143,7 @@ export default function FAQPage() {
                     fontSize: '3rem',
                     fontWeight: 800,
                     marginBottom: '1rem',
-                    background: 'linear-gradient(135deg, #FF9933 0%, #138808 100%)',
+                    background: 'linear-gradient(135deg, #FF7A18 0%, #138808 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text'
@@ -163,7 +163,7 @@ export default function FAQPage() {
                         fontWeight: 700,
                         marginBottom: '2rem',
                         color: '#000080',
-                        borderBottom: '3px solid #FF9933',
+                        borderBottom: '3px solid #FF7A18',
                         paddingBottom: '0.5rem',
                         display: 'inline-block'
                     }}>
@@ -186,7 +186,7 @@ export default function FAQPage() {
                                     alignItems: 'flex-start'
                                 }}>
                                     <span style={{
-                                        color: '#FF9933',
+                                        color: '#FF7A18',
                                         marginRight: '0.75rem',
                                         fontSize: '1.5rem',
                                         fontWeight: 800

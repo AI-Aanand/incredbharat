@@ -12,9 +12,9 @@ export default function AboutPage() {
                     gap: '0.5rem',
                     marginBottom: '2rem'
                 }}>
-                    <MapPin className="about-logo-icon" size={48} style={{ color: '#FF9933' }} />
+                    <MapPin className="about-logo-icon" size={48} style={{ color: '#FF7A18' }} />
                     <h1 className="about-title" style={{ fontSize: '3rem', fontWeight: 800 }}>
-                        Incred<span style={{ color: '#FF9933' }}>Bharat</span>
+                        Incred<span style={{ color: '#FF7A18' }}>Bharat</span>
                     </h1>
                 </div>
                 <p className="about-subtitle" style={{ fontSize: '1.25rem', color: '#374151', lineHeight: 1.8 }}>
@@ -119,7 +119,7 @@ export default function AboutPage() {
                             background: '#FFF5E6',
                             marginBottom: '1.5rem'
                         }}>
-                            <Building2 size={32} style={{ color: '#FF9933' }} />
+                            <Building2 size={32} style={{ color: '#FF7A18' }} />
                         </div>
                         <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem', fontWeight: 700 }}>
                             State Tourism
@@ -128,7 +128,7 @@ export default function AboutPage() {
                             display: 'inline-block',
                             padding: '0.25rem 0.75rem',
                             borderRadius: '1rem',
-                            background: '#FF9933',
+                            background: '#FF7A18',
                             color: 'white',
                             fontSize: '0.75rem',
                             fontWeight: 600,
@@ -295,7 +295,7 @@ export default function AboutPage() {
                                 width: '60px',
                                 height: '60px',
                                 borderRadius: '50%',
-                                background: '#FF9933',
+                                background: '#FF7A18',
                                 color: 'white',
                                 fontSize: '1.5rem',
                                 fontWeight: 700,
@@ -329,7 +329,7 @@ export default function AboutPage() {
                     Discover amazing packages from official government tourism boards
                 </p>
                 <Link href="/packages" className="btn" style={{
-                    background: '#FF9933',
+                    background: '#FF7A18',
                     color: 'white',
                     padding: '1rem 2rem',
                     fontSize: '1.125rem',

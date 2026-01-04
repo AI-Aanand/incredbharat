@@ -172,7 +172,7 @@ export default function FavoritesPage() {
                                         fontSize: '0.875rem',
                                         boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                                     }}>
-                                        <Star size={14} fill="#FF9933" stroke="#FF9933" />
+                                        <Star size={14} fill="#FF7A18" stroke="#FF7A18" />
                                         {pkg.rating}
                                     </div>
                                 </div>
@@ -231,7 +231,7 @@ export default function FavoritesPage() {
                     background: 'linear-gradient(135deg, #FFF5E6 0%, #FFE5CC 100%)',
                     borderRadius: '1rem'
                 }}>
-                    <ShoppingBag size={64} color="#FF9933" style={{ marginBottom: '1.5rem', opacity: 0.5 }} />
+                    <ShoppingBag size={64} color="#FF7A18" style={{ marginBottom: '1.5rem', opacity: 0.5 }} />
                     <h2 style={{ fontSize: '2rem', marginBottom: '1rem', fontWeight: 700 }}>
                         No favorites yet
                     </h2>

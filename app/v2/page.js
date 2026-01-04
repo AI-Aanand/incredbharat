@@ -26,7 +26,7 @@ export default function HomeV2() {
                 <h2 style={{
                     fontSize: '1.5rem',
                     fontWeight: 700,
-                    color: '#131921',
+                    color: '#2E2E2E',
                     marginBottom: '1rem'
                 }}>
                     Interactive Map
@@ -61,7 +61,7 @@ export default function HomeV2() {
                     position: fixed;
                     bottom: 1rem;
                     right: 1rem;
-                    background-color: #FF9933;
+                    background-color: #FF7A18;
                     color: white;
                     padding: 0.5rem 1rem;
                     border-radius: 2rem;

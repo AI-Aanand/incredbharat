@@ -37,7 +37,7 @@ export default function NavbarV2() {
                 left: 0,
                 right: 0,
                 zIndex: 1000,
-                backgroundColor: '#131921', // Amazon dark blue
+                backgroundColor: '#0F4C75', // Deep Ocean Blue
                 color: 'white'
             }}>
                 <div style={{
@@ -62,7 +62,7 @@ export default function NavbarV2() {
                         onMouseEnter={(e) => e.currentTarget.style.borderColor = 'white'}
                         onMouseLeave={(e) => e.currentTarget.style.borderColor = 'transparent'}>
                         <span style={{ fontSize: '1.5rem', fontWeight: '700', color: 'white' }}>
-                            Incred<span style={{ color: '#FF9933' }}>Bharat</span>
+                            Incred<span style={{ color: '#FF7A18' }}>Bharat</span>
                         </span>
                     </Link>
 
@@ -89,7 +89,7 @@ export default function NavbarV2() {
                         />
                         <button style={{
                             padding: '0 1.5rem',
-                            backgroundColor: '#FF9933',
+                            backgroundColor: '#FF7A18',
                             border: 'none',
                             borderRadius: '0 0.25rem 0.25rem 0',
                             cursor: 'pointer',
@@ -99,7 +99,7 @@ export default function NavbarV2() {
                             transition: 'background-color 0.2s'
                         }}
                             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#e68a00'}
-                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#FF9933'}>
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#FF7A18'}>
                             <Search size={20} color="white" />
                         </button>
                     </div>
@@ -254,7 +254,7 @@ export default function NavbarV2() {
                         />
                         <button style={{
                             padding: '0 1.25rem',
-                            backgroundColor: '#FF9933',
+                            backgroundColor: '#FF7A18',
                             border: 'none',
                             borderRadius: '0 0.25rem 0.25rem 0',
                             cursor: 'pointer'
@@ -287,7 +287,7 @@ export default function NavbarV2() {
                         width: '80%',
                         maxWidth: '320px',
                         height: '100vh',
-                        backgroundColor: '#232f3e',
+                        backgroundColor: '#0a3a5c',
                         zIndex: 999,
                         padding: '1rem',
                         overflowY: 'auto'
@@ -326,7 +326,7 @@ export default function NavbarV2() {
                                 justifyContent: 'space-between'
                             }}>
                                 Favorites
-                                {favCount > 0 && <span style={{ color: '#FF9933' }}>({favCount})</span>}
+                                {favCount > 0 && <span style={{ color: '#FF7A18' }}>({favCount})</span>}
                             </Link>
                             <Link href="/compare" onClick={() => setIsOpen(false)} style={{
                                 color: 'white',
@@ -336,7 +336,7 @@ export default function NavbarV2() {
                                 justifyContent: 'space-between'
                             }}>
                                 Compare
-                                {compareCount > 0 && <span style={{ color: '#FF9933' }}>({compareCount})</span>}
+                                {compareCount > 0 && <span style={{ color: '#FF7A18' }}>({compareCount})</span>}
                             </Link>
                             <Link href="/faq" onClick={() => setIsOpen(false)} style={{
                                 color: 'white',

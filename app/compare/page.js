@@ -198,7 +198,7 @@ export default function ComparePage() {
                                 {comparePackages.map(pkg => (
                                     <td key={pkg.id} style={{ padding: '1rem', textAlign: 'center', borderBottom: '1px solid #e5e7eb' }}>
                                         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', background: '#FFF5E6', padding: '0.25rem 0.75rem', borderRadius: '1rem' }}>
-                                            <Star size={14} fill="#FF9933" stroke="#FF9933" />
+                                            <Star size={14} fill="#FF7A18" stroke="#FF7A18" />
                                             <strong>{pkg.rating}</strong>
                                             <span style={{ color: '#6b7280', fontSize: '0.875rem' }}>({pkg.reviews})</span>
                                         </span>

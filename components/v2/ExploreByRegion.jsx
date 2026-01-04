@@ -68,7 +68,7 @@ export default function ExploreByRegion() {
                 .v2-section-title {
                     font-size: 1.25rem;
                     font-weight: 700;
-                    color: #131921;
+                    color: #2E2E2E;
                     margin-bottom: 1rem;
                 }
 
@@ -91,14 +91,14 @@ export default function ExploreByRegion() {
                 }
 
                 .v2-region-card:hover {
-                    border-color: #FF9933;
+                    border-color: #FF7A18;
                     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
                 }
 
                 .v2-region-name {
                     font-size: 1rem;
                     font-weight: 600;
-                    color: #131921;
+                    color: #2E2E2E;
                     margin-bottom: 0.25rem;
                 }
 

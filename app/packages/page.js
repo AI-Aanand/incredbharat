@@ -300,7 +300,7 @@ export default function PackagesPage() {
                         zIndex: 1000,
                         display: 'none', // Will be shown via CSS media query
                         padding: '1rem',
-                        background: '#FF9933',
+                        background: '#FF7A18',
                         color: 'white',
                         border: 'none',
                         borderRadius: '50%',
@@ -349,7 +349,7 @@ export default function PackagesPage() {
                                 })}
                                 style={{
                                     fontSize: '0.875rem',
-                                    color: '#FF9933',
+                                    color: '#FF7A18',
                                     background: 'none',
                                     border: 'none',
                                     cursor: 'pointer',
@@ -442,7 +442,7 @@ export default function PackagesPage() {
                                                 setFilters({ ...filters, durationMin: val });
                                             }
                                         }}
-                                        style={{ width: '100%', accentColor: '#FF9933', height: '4px' }}
+                                        style={{ width: '100%', accentColor: '#FF7A18', height: '4px' }}
                                     />
                                     <input
                                         type="range"
@@ -456,7 +456,7 @@ export default function PackagesPage() {
                                                 setFilters({ ...filters, durationMax: val });
                                             }
                                         }}
-                                        style={{ width: '100%', accentColor: '#FF9933', height: '4px' }}
+                                        style={{ width: '100%', accentColor: '#FF7A18', height: '4px' }}
                                     />
                                 </div>
                             </div>
@@ -558,7 +558,7 @@ export default function PackagesPage() {
                                 style={{
                                     width: '100%',
                                     padding: '0.875rem',
-                                    background: '#FF9933',
+                                    background: '#FF7A18',
                                     color: 'white',
                                     border: 'none',
                                     borderRadius: '0.5rem',
@@ -668,7 +668,7 @@ export default function PackagesPage() {
                                                 fontSize: '0.875rem',
                                                 boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                                             }}>
-                                                <Star size={14} fill="#FF9933" stroke="#FF9933" />
+                                                <Star size={14} fill="#FF7A18" stroke="#FF7A18" />
                                                 {pkg.rating}
                                             </div>
                                         </div>
@@ -716,7 +716,7 @@ export default function PackagesPage() {
                                                         color: '#6b7280',
                                                         lineHeight: 1.6
                                                     }}>
-                                                        <span style={{ color: '#FF9933', marginTop: '0.125rem' }}>✓</span>
+                                                        <span style={{ color: '#FF7A18', marginTop: '0.125rem' }}>✓</span>
                                                         <span>{usp}</span>
                                                     </div>
                                                 ))}
@@ -784,14 +784,14 @@ export default function PackagesPage() {
                                                             fontSize: '0.875rem',
                                                             fontWeight: 600,
                                                             textAlign: 'center',
-                                                            background: '#FF9933',
+                                                            background: '#FF7A18',
                                                             color: 'white',
                                                             border: 'none',
                                                             borderRadius: '0.5rem',
                                                             transition: 'all 0.2s'
                                                         }}
                                                         onMouseEnter={(e) => e.currentTarget.style.background = '#FF6600'}
-                                                        onMouseLeave={(e) => e.currentTarget.style.background = '#FF9933'}
+                                                        onMouseLeave={(e) => e.currentTarget.style.background = '#FF7A18'}
                                                     >
                                                         View Details
                                                     </Link>
@@ -817,8 +817,8 @@ export default function PackagesPage() {
                                                             gap: '0.375rem'
                                                         }}
                                                         onMouseEnter={(e) => {
-                                                            e.currentTarget.style.borderColor = '#FF9933';
-                                                            e.currentTarget.style.color = '#FF9933';
+                                                            e.currentTarget.style.borderColor = '#FF7A18';
+                                                            e.currentTarget.style.color = '#FF7A18';
                                                         }}
                                                         onMouseLeave={(e) => {
                                                             e.currentTarget.style.borderColor = '#e5e7eb';

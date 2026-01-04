@@ -53,7 +53,7 @@ export default function Hero() {
                     color: 'white',
                     textShadow: '0 4px 6px rgba(0,0,0,0.3)'
                 }}>
-                    Discover the Magic <br /> of <span style={{ color: '#FF9933' }}>Incredible India</span>
+                    Discover the Magic <br /> of <span style={{ color: '#FF7A18' }}>Incredible India</span>
                 </h1>
                 <p className="hero-subtitle" style={{
                     fontSize: 'clamp(1.1rem, 2vw, 1.5rem)',

@@ -1,17 +1,29 @@
 :root {
-  --primary: #FF9933;
-  /* Saffron */
-  --primary-hover: #e68a00;
-  --secondary: #138808;
-  /* Green */
-  --secondary-hover: #0f6b06;
-  --accent: #000080;
-  /* Navy Blue */
-  --background: #f8f9fa;
-  --foreground: #1f2937;
+  /* Tourism Color System */
+  --primary: #0F4C75;
+  /* Deep Ocean Blue - headers, nav, structural */
+  --primary-hover: #0a3a5c;
+  /* Darker blue for hover */
+  --secondary: #1B9AAA;
+  /* Travel Teal - filters, icons, links */
+  --secondary-hover: #167a87;
+  /* Darker teal for hover */
+  --accent: #FF7A18;
+  /* Sunset Orange - CTAs, badges */
+  --accent-hover: #E56717;
+  /* Dark Orange for hover */
+  --background: #F7F9FC;
+  /* Warm Off-White */
+  --foreground: #2E2E2E;
+  /* Slate Charcoal - primary text */
   --card-bg: #ffffff;
-  --text-muted: #6b7280;
-  --border: #e5e7eb;
+  /* Pure White */
+  --text-muted: #6B7280;
+  /* Cool Grey - secondary text */
+  --border: #E5E7EB;
+  /* Light Grey - dividers */
+  --disabled: #CBD5E1;
+  /* Soft Grey - inactive */
 }
 
 body {
@@ -99,7 +111,7 @@ h5,
 h6 {
   margin: 0;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--primary);
 }
 
 .text-gradient {

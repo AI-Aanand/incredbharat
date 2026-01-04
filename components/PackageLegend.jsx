@@ -50,7 +50,7 @@ export default function PackageLegend() {
                                 borderRadius: '1rem',
                                 fontSize: '0.75rem',
                                 fontWeight: '600',
-                                backgroundColor: '#FF9933',
+                                backgroundColor: '#FF7A18',
                                 color: 'white'
                             }}>
                                 RTDC

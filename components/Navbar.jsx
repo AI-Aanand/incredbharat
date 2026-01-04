@@ -47,9 +47,9 @@ export default function Navbar() {
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '80px' }}>
                         {/* Logo */}
                         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <MapPin className="h-8 w-8 text-[var(--primary)]" style={{ color: '#FF9933' }} />
+                            <MapPin className="h-8 w-8 text-[var(--primary)]" style={{ color: '#FF7A18' }} />
                             <span style={{ fontSize: '1.5rem', fontWeight: '800', color: '#000080' }}>
-                                Incred<span style={{ color: '#FF9933' }}>Bharat</span>
+                                Incred<span style={{ color: '#FF7A18' }}>Bharat</span>
                             </span>
                         </Link>
 
@@ -70,7 +70,7 @@ export default function Navbar() {
                                             gap: '0.5rem',
                                             position: 'relative'
                                         }}
-                                        onMouseOver={(e) => e.currentTarget.style.color = '#FF9933'}
+                                        onMouseOver={(e) => e.currentTarget.style.color = '#FF7A18'}
                                         onMouseOut={(e) => e.currentTarget.style.color = '#1f2937'}
                                     >
                                         {Icon && <Icon size={18} />}

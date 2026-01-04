@@ -30,7 +30,7 @@ export default function CategoryStrip({ onCategorySelect }) {
             left: 0,
             right: 0,
             zIndex: 999,
-            backgroundColor: '#232F3E',
+            backgroundColor: '#0a3a5c', // Darker Ocean Blue
             borderBottom: '1px solid rgba(255,255,255,0.1)'
         }}>
             <div style={{
@@ -56,7 +56,7 @@ export default function CategoryStrip({ onCategorySelect }) {
                                 alignItems: 'center',
                                 gap: '0.5rem',
                                 padding: '0.5rem 1rem',
-                                backgroundColor: isActive ? '#FF9933' : 'transparent',
+                                backgroundColor: isActive ? '#FF7A18' : 'transparent', // Sunset Orange
                                 color: 'white',
                                 border: isActive ? 'none' : '1px solid rgba(255,255,255,0.3)',
                                 borderRadius: '1.5rem',
@@ -69,7 +69,7 @@ export default function CategoryStrip({ onCategorySelect }) {
                             }}
                             onMouseEnter={(e) => {
                                 if (!isActive) {
-                                    e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
+                                    e.currentTarget.style.backgroundColor = '#1B9AAA'; // Travel Teal hover
                                 }
                             }}
                             onMouseLeave={(e) => {

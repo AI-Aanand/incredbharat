@@ -14,10 +14,26 @@
     /* Total fixed navbar height (header + search) */
     --v2-total-header: 172px;
     /* Total height before content (navbar + category) */
-    --v2-dark: #131921;
-    --v2-dark-secondary: #232F3E;
-    --v2-accent: #FF9933;
-    --v2-link: #007185;
+
+    /* Tourism Color System */
+    --v2-dark: #0F4C75;
+    /* Deep Ocean Blue - primary */
+    --v2-dark-secondary: #0a3a5c;
+    /* Darker blue variant */
+    --v2-accent: #FF7A18;
+    /* Sunset Orange - CTAs */
+    --v2-accent-hover: #E56717;
+    /* Dark Orange - hover */
+    --v2-link: #1B9AAA;
+    /* Travel Teal - links */
+    --v2-text: #2E2E2E;
+    /* Slate Charcoal */
+    --v2-text-muted: #6B7280;
+    /* Cool Grey */
+    --v2-border: #E5E7EB;
+    /* Light Grey */
+    --v2-bg: #F7F9FC;
+    /* Warm Off-White */
 }
 
 /* ========================================

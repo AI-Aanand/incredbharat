@@ -26,7 +26,7 @@ export default function HeroV2() {
                 <div className="v2-hero-copy">
                     <h1 className="v2-hero-title">
                         Discover the Magic<br />
-                        of <span style={{ color: '#FF9933' }}>Incredible India</span>
+                        of <span style={{ color: '#FF7A18' }}>Incredible India</span>
                     </h1>
                     <p className="v2-hero-subtitle">
                         From the Himalayas in the north to the backwaters in the south, find your perfect getaway.
@@ -39,7 +39,7 @@ export default function HeroV2() {
                         fontSize: '1.25rem',
                         fontWeight: 700,
                         marginBottom: '1rem',
-                        color: '#131921'
+                        color: '#0F4C75'
                     }}>
                         Start Your Journey
                     </h3>
@@ -61,7 +61,7 @@ export default function HeroV2() {
                         />
                         <button style={{
                             padding: '0 1.5rem',
-                            backgroundColor: '#FF9933',
+                            backgroundColor: '#FF7A18',
                             border: 'none',
                             borderRadius: '0 0.375rem 0.375rem 0',
                             cursor: 'pointer',
@@ -171,7 +171,7 @@ export default function HeroV2() {
                     display: block;
                     width: 100%;
                     padding: 0.875rem;
-                    background-color: #131921;
+                    background-color: #0F4C75;
                     color: white;
                     text-align: center;
                     border-radius: 0.375rem;
@@ -191,7 +191,7 @@ export default function HeroV2() {
                 .v2-hero-cta-btn-mobile {
                     display: inline-block;
                     padding: 0.875rem 1.5rem;
-                    background-color: #FF9933;
+                    background-color: #FF7A18;
                     color: white;
                     border-radius: 0.375rem;
                     font-weight: 600;

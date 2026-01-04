@@ -18,7 +18,7 @@ export default function V2Banner() {
             zIndex: 1000,
             width: '90%',
             maxWidth: '800px',
-            backgroundColor: '#131921',
+            backgroundColor: '#0F4C75',
             color: 'white',
             padding: '1rem 1.5rem',
             borderRadius: '0.5rem',
@@ -30,7 +30,7 @@ export default function V2Banner() {
             animation: 'slideDown 0.5s ease-out'
         }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flex: 1 }}>
-                <Sparkles size={24} color="#FF9933" />
+                <Sparkles size={24} color="#FF7A18" />
                 <div>
                     <h3 style={{
                         fontSize: '1.125rem',
@@ -55,7 +55,7 @@ export default function V2Banner() {
                     href="/v2"
                     style={{
                         padding: '0.625rem 1.5rem',
-                        backgroundColor: '#FF9933',
+                        backgroundColor: '#FF7A18',
                         color: 'white',
                         borderRadius: '0.375rem',
                         fontWeight: 600,
@@ -64,7 +64,7 @@ export default function V2Banner() {
                         whiteSpace: 'nowrap'
                     }}
                     onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#e68a00'}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#FF9933'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#FF7A18'}
                 >
                     Try It Now →
                 </Link>

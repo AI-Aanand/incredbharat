@@ -50,7 +50,7 @@ export default function ContinueExploring() {
                     .v2-section-title {
                         font-size: 1.25rem;
                         font-weight: 700;
-                        color: #131921;
+                        color: #2E2E2E;
                         margin-bottom: 0.75rem;
                     }
 
@@ -124,7 +124,7 @@ export default function ContinueExploring() {
                 .v2-section-title {
                     font-size: 1.25rem;
                     font-weight: 700;
-                    color: #131921;
+                    color: #2E2E2E;
                 }
 
                 .v2-section-link {

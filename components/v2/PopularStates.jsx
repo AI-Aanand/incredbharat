@@ -60,7 +60,7 @@ export default function PopularStates() {
                 .v2-section-title {
                     font-size: 1.5rem;
                     font-weight: 700;
-                    color: #131921;
+                    color: #2E2E2E;
                 }
 
                 .v2-section-link {

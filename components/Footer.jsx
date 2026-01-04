@@ -5,14 +5,14 @@ import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react'
 
 export default function Footer() {
     return (
-        <footer className="footer-container" style={{ backgroundColor: '#1f2937', color: 'white', paddingTop: '4rem', paddingBottom: '2rem' }}>
+        <footer className="footer-container" style={{ backgroundColor: '#0F4C75', color: 'white', paddingTop: '4rem', paddingBottom: '2rem' }}>
             <div className="container">
                 <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
 
                     {/* Brand */}
                     <div>
                         <h3 style={{ color: 'white', fontSize: '1.5rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            Incred<span style={{ color: '#FF9933' }}>Bharat</span>
+                            Incred<span style={{ color: '#FF7A18' }}>Bharat</span>
                         </h3>
                         <p style={{ color: '#e5e7eb', lineHeight: '1.6' }}>
                             Discover the soul of India. From the Himalayas to the Indian Ocean, we aggregate the best experiences for you.
@@ -49,11 +49,11 @@ export default function Footer() {
                                 <MapPin size={18} />
                                 <span>Kalyan Nagar, Bengaluru, Karnataka</span>
                             </div>
-                            <a href="tel:+919663080203" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#d1d5db', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.currentTarget.style.color = '#FF9933'} onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}>
+                            <a href="tel:+919663080203" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#d1d5db', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.currentTarget.style.color = '#FF7A18'} onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}>
                                 <Phone size={18} />
                                 <span>+91 9663080203</span>
                             </a>
-                            <a href="mailto:aanand.blog@gmail.com" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#d1d5db', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.currentTarget.style.color = '#FF9933'} onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}>
+                            <a href="mailto:aanand.blog@gmail.com" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#d1d5db', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.currentTarget.style.color = '#FF7A18'} onMouseOut={(e) => e.currentTarget.style.color = '#d1d5db'}>
                                 <Mail size={18} />
                                 <span>aanand.blog@gmail.com</span>
                             </a>

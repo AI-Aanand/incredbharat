@@ -54,7 +54,7 @@ export default function StateCardsGrid() {
                             onMouseEnter={(e) => {
                                 e.currentTarget.style.transform = 'translateY(-8px) scale(1.02)';
                                 e.currentTarget.style.boxShadow = '0 20px 25px -5px rgba(0,0,0,0.2), 0 10px 10px -5px rgba(0,0,0,0.1)';
-                                e.currentTarget.style.borderColor = '#FF9933';
+                                e.currentTarget.style.borderColor = '#FF7A18';
                             }}
                             onMouseLeave={(e) => {
                                 e.currentTarget.style.transform = 'translateY(0) scale(1)';
@@ -152,7 +152,7 @@ export default function StateCardsGrid() {
                                     gap: '0.4rem',
                                     fontSize: '0.875rem',
                                     fontWeight: 600,
-                                    color: '#FF9933',
+                                    color: '#FF7A18',
                                     background: 'rgba(255,255,255,0.95)',
                                     padding: '0.4rem 0.85rem',
                                     borderRadius: '0.5rem',

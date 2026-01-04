@@ -201,7 +201,7 @@ export default function DisclaimerPage() {
                 {/* Back Link */}
                 <div style={{ textAlign: 'center', marginTop: '2rem' }}>
                     <Link href="/" style={{
-                        color: '#FF9933',
+                        color: '#FF7A18',
                         fontWeight: 600,
                         textDecoration: 'none',
                         display: 'inline-flex',

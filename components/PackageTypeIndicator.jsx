@@ -11,7 +11,7 @@ export default function PackageTypeIndicator({ organizer, transportMode, isSubsi
 
         // State Tourism Corporations - Saffron/Orange theme
         const stateTourism = ['KTDC', 'RTDC', 'GTDC', 'MTDC', 'KSTDC', 'OTDC', 'WBTDC', 'ATDC', 'APTDC', 'JKTDC', 'DTTDC', 'HPTDC'];
-        if (stateTourism.includes(organizer)) return { bg: '#FF9933', color: 'white' };
+        if (stateTourism.includes(organizer)) return { bg: '#FF7A18', color: 'white' };
 
         // Private - Gray theme
         return { bg: '#6B7280', color: 'white' };

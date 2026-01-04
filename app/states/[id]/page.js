@@ -248,7 +248,7 @@ export default function StatePage({ params }) {
                                             </td>
                                             <td style={{ padding: '1rem', color: '#6b7280' }}>
                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                                                    <Star size={16} fill="#FF9933" stroke="#FF9933" /> {pkg.rating} <span style={{ fontSize: '0.8em', color: '#9ca3af' }}>({pkg.reviews})</span>
+                                                    <Star size={16} fill="#FF7A18" stroke="#FF7A18" /> {pkg.rating} <span style={{ fontSize: '0.8em', color: '#9ca3af' }}>({pkg.reviews})</span>
                                                 </div>
                                             </td>
                                             <td style={{ padding: '1rem', color: '#111827', fontWeight: 600 }}>

@@ -29,7 +29,7 @@ export default function IndiaMap() {
         if (activeStatesSet.has(state.name)) {
             regionData[state.name] = {
                 value: 100,
-                color: '#FF9933',
+                color: '#FF7A18',
                 stateId: state.id
             };
         } else {
@@ -168,7 +168,7 @@ export default function IndiaMap() {
                         regionData={regionData}
                         mapLayout={{
                             startColor: '#e5e7eb',
-                            endColor: '#FF9933',
+                            endColor: '#FF7A18',
                             hoverTitle: 'Count',
                             noDataColor: '#e5e7eb',
                             borderColor: '#ffffff',
@@ -184,7 +184,7 @@ export default function IndiaMap() {
                                     style={{
                                         padding: '0.75rem',
                                         background: 'white',
-                                        border: '2px solid #FF9933',
+                                        border: '2px solid #FF7A18',
                                         borderRadius: '0.5rem',
                                         boxShadow: '0 4px 6px rgba(0,0,0,0.15)',
                                         pointerEvents: 'none',
@@ -197,7 +197,7 @@ export default function IndiaMap() {
                                         <span style={{
                                             display: 'block',
                                             fontSize: '0.875rem',
-                                            color: '#FF9933',
+                                            color: '#FF7A18',
                                             fontWeight: 600,
                                             marginTop: '0.5rem'
                                         }}>

@@ -62,7 +62,7 @@ export default function StateCardV2({ state, packageCount, compact = false }) {
                 .v2-state-card:hover {
                     transform: translateY(-2px);
                     box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-                    border-color: #FF9933;
+                    border-color: #FF7A18;
                 }
 
                 .v2-card-image {
@@ -90,7 +90,7 @@ export default function StateCardV2({ state, packageCount, compact = false }) {
                 .v2-card-title {
                     font-size: 1rem;
                     font-weight: 700;
-                    color: #131921;
+                    color: #2E2E2E;
                     margin-bottom: 0.25rem;
                     line-height: 1.3;
                 }
@@ -120,7 +120,7 @@ export default function StateCardV2({ state, packageCount, compact = false }) {
                     display: flex;
                     align-items: center;
                     gap: 0.25rem;
-                    color: #FF9933;
+                    color: #FF7A18;
                     font-size: 0.8rem;
                     font-weight: 600;
                     margin-top: auto;

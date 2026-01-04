@@ -63,7 +63,7 @@ export default function PackageList() {
 
                                 {/* Rating Badge - Below Favorite Button */}
                                 <div style={{ position: 'absolute', top: '3.5rem', right: '1rem', background: 'white', padding: '0.25rem 0.75rem', borderRadius: '2rem', display: 'flex', alignItems: 'center', gap: '0.25rem', fontWeight: 600, fontSize: '0.875rem' }}>
-                                    <Star size={14} fill="#FF9933" stroke="#FF9933" />
+                                    <Star size={14} fill="#FF7A18" stroke="#FF7A18" />
                                     {pkg.rating}
                                 </div>
                             </div>
