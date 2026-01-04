@@ -8,19 +8,16 @@ export default function ContinueExploring() {
     const [recentStates, setRecentStates] = useState([]);
 
     useEffect(() => {
-        // Get viewing history from localStorage
         const history = localStorage.getItem('viewHistory');
         if (history) {
             try {
                 const parsed = JSON.parse(history);
-                // Get last 6 unique state IDs
                 const stateIds = [...new Set(
                     parsed
                         .filter(item => item.type === 'state')
                         .map(item => item.id)
-                )].slice(0, 6);
+                )].slice(0, 4); // Reduced to 4 for mobile
 
-                // Map to state objects with package counts
                 const statesWithCounts = stateIds.map(id => {
                     const state = states.find(s => s.id === id);
                     const count = packages.filter(p => p.stateId === id).length;
@@ -34,82 +31,72 @@ export default function ContinueExploring() {
         }
     }, []);
 
-    // Don't show section if no history
+    // Empty state
     if (recentStates.length === 0) {
         return (
-            <section style={{
-                maxWidth: '1600px',
-                margin: '3rem auto',
-                padding: '0 2rem'
-            }}>
-                <h2 style={{
-                    fontSize: '1.75rem',
-                    fontWeight: 700,
-                    color: '#131921',
-                    marginBottom: '1rem'
-                }}>
-                    Continue Exploring
-                </h2>
-                <div style={{
-                    backgroundColor: '#f3f4f6',
-                    padding: '2.5rem',
-                    borderRadius: '0.5rem',
-                    textAlign: 'center',
-                    border: '1px dashed #d1d5db'
-                }}>
-                    <p style={{
-                        color: '#6b7280',
-                        fontSize: '0.95rem',
-                        margin: 0
-                    }}>
-                        🗺️ Visit some states to see personalized recommendations here
-                    </p>
+            <section className="v2-continue-section">
+                <h2 className="v2-section-title">Continue Exploring</h2>
+                <div className="v2-empty-state">
+                    <p>🗺️ Visit some states to see personalized recommendations</p>
                 </div>
+
+                <style jsx>{`
+                    .v2-continue-section {
+                        max-width: 1600px;
+                        margin: 1.5rem auto;
+                        padding: 0 1rem;
+                    }
+
+                    .v2-section-title {
+                        font-size: 1.25rem;
+                        font-weight: 700;
+                        color: #131921;
+                        margin-bottom: 0.75rem;
+                    }
+
+                    .v2-empty-state {
+                        background-color: #f3f4f6;
+                        padding: 1.5rem;
+                        border-radius: 0.5rem;
+                        text-align: center;
+                        border: 1px dashed #d1d5db;
+                    }
+
+                    .v2-empty-state p {
+                        color: #6b7280;
+                        font-size: 0.875rem;
+                        margin: 0;
+                    }
+
+                    @media (max-width: 768px) {
+                        .v2-continue-section {
+                            margin: 1rem 0.5rem;
+                            padding: 0;
+                        }
+
+                        .v2-section-title {
+                            font-size: 1.125rem;
+                            padding: 0 0.5rem;
+                        }
+
+                        .v2-empty-state {
+                            padding: 1rem;
+                            margin: 0 0.5rem;
+                        }
+                    }
+                `}</style>
             </section>
         );
     }
 
     return (
-        <section style={{
-            maxWidth: '1600px',
-            margin: '3rem auto',
-            padding: '0 2rem'
-        }}>
-            <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: '1rem'
-            }}>
-                <h2 style={{
-                    fontSize: '1.75rem',
-                    fontWeight: 700,
-                    color: '#131921'
-                }}>
-                    Continue Exploring
-                </h2>
-                <a href="#all-states" style={{
-                    color: '#007185',
-                    fontSize: '0.875rem',
-                    fontWeight: 500,
-                    textDecoration: 'none'
-                }}>
-                    View all states
-                </a>
+        <section className="v2-continue-section">
+            <div className="v2-section-header-row">
+                <h2 className="v2-section-title">Continue Exploring</h2>
+                <a href="#all-states" className="v2-section-link">View all</a>
             </div>
-            <p style={{
-                color: '#6b7280',
-                marginBottom: '1.5rem',
-                fontSize: '0.95rem'
-            }}>
-                Pick up where you left off
-            </p>
 
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
-                gap: '1.25rem'
-            }}>
+            <div className="v2-card-grid">
                 {recentStates.map(({ state, count }) => (
                     <StateCardV2
                         key={state.id}
@@ -119,6 +106,62 @@ export default function ContinueExploring() {
                     />
                 ))}
             </div>
+
+            <style jsx>{`
+                .v2-continue-section {
+                    max-width: 1600px;
+                    margin: 1.5rem auto;
+                    padding: 0 1.5rem;
+                }
+
+                .v2-section-header-row {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 0.75rem;
+                }
+
+                .v2-section-title {
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    color: #131921;
+                }
+
+                .v2-section-link {
+                    color: #007185;
+                    font-size: 0.8rem;
+                    font-weight: 500;
+                    text-decoration: none;
+                }
+
+                .v2-card-grid {
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 1rem;
+                }
+
+                @media (max-width: 1024px) {
+                    .v2-card-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+                }
+
+                @media (max-width: 768px) {
+                    .v2-continue-section {
+                        margin: 1rem 0;
+                        padding: 0 0.75rem;
+                    }
+
+                    .v2-section-title {
+                        font-size: 1.125rem;
+                    }
+
+                    .v2-card-grid {
+                        grid-template-columns: 1fr;
+                        gap: 0.5rem;
+                    }
+                }
+            `}</style>
         </section>
     );
 }

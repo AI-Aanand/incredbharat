@@ -1,187 +1,162 @@
 'use client';
 
-import { useState } from 'react';
-import StateCardV2 from './StateCardV2';
+import Link from 'next/link';
 import { states, packages } from '../../lib/data';
 import { ChevronRight } from 'lucide-react';
 
 export default function ExploreByRegion() {
-    const [expandedRegion, setExpandedRegion] = useState(null);
-
-    // Regional groupings
     const regions = {
         north: {
             name: 'North India',
-            states: ['himachal-pradesh', 'jammu-kashmir', 'ladakh', 'punjab', 'haryana', 'uttarakhand', 'chandigarh', 'delhi']
+            states: ['himachal-pradesh', 'jammu-kashmir', 'ladakh', 'punjab', 'uttarakhand', 'delhi']
         },
         south: {
             name: 'South India',
-            states: ['kerala', 'tamil-nadu', 'karnataka', 'andhra-pradesh', 'telangana', 'puducherry']
-        },
-        east: {
-            name: 'East India',
-            states: ['west-bengal', 'odisha', 'bihar', 'jharkhand']
+            states: ['kerala', 'tamil-nadu', 'karnataka', 'andhra-pradesh', 'telangana']
         },
         west: {
             name: 'West India',
-            states: ['rajasthan', 'gujarat', 'maharashtra', 'goa', 'dadra-nagar-haveli-daman-diu']
+            states: ['rajasthan', 'gujarat', 'maharashtra', 'goa']
         },
-        northeast: {
-            name: 'North-East India',
-            states: ['assam', 'meghalaya', 'sikkim', 'arunachal-pradesh', 'nagaland', 'mizoram', 'tripura', 'manipur']
-        },
-        islands: {
-            name: 'Islands & Union Territories',
-            states: ['andaman-nicobar', 'lakshadweep']
+        east: {
+            name: 'East & Northeast',
+            states: ['west-bengal', 'odisha', 'assam', 'sikkim', 'meghalaya']
         }
     };
 
-    const getRegionStates = (regionId) => {
-        return regions[regionId].states
-            .map(stateId => {
-                const state = states.find(s => s.id === stateId);
-                const count = packages.filter(p => p.stateId === stateId).length;
-                return { state, count };
-            })
-            .filter(item => item.state);
+    const getRegionStats = (regionId) => {
+        const stateIds = regions[regionId].states;
+        const stateCount = stateIds.filter(id => states.find(s => s.id === id)).length;
+        const packageCount = stateIds.reduce((acc, id) => {
+            return acc + packages.filter(p => p.stateId === id).length;
+        }, 0);
+        return { stateCount, packageCount };
     };
 
     return (
-        <section style={{
-            maxWidth: '1600px',
-            margin: '3rem auto',
-            padding: '0 2rem'
-        }}>
-            <h2 style={{
-                fontSize: '1.75rem',
-                fontWeight: 700,
-                color: '#131921',
-                marginBottom: '1rem'
-            }}>
-                Explore by Region
-            </h2>
-            <p style={{
-                color: '#6b7280',
-                marginBottom: '2rem',
-                fontSize: '0.95rem'
-            }}>
-                Discover destinations grouped by geographical regions
-            </p>
+        <section className="v2-region-section">
+            <h2 className="v2-section-title">Explore by Region</h2>
 
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '1.5rem'
-            }}>
+            <div className="v2-region-grid">
                 {Object.entries(regions).map(([regionId, region]) => {
-                    const regionStates = getRegionStates(regionId);
-                    const displayStates = regionStates.slice(0, 4);
-                    const hasMore = regionStates.length > 4;
-
+                    const stats = getRegionStats(regionId);
                     return (
-                        <div key={regionId} style={{
-                            backgroundColor: 'white',
-                            border: '1px solid #e5e7eb',
-                            borderRadius: '0.5rem',
-                            padding: '1.25rem',
-                            transition: 'box-shadow 0.2s'
-                        }}
-                            onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)'}
-                            onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}>
-                            <h3 style={{
-                                fontSize: '1.125rem',
-                                fontWeight: 700,
-                                color: '#131921',
-                                marginBottom: '0.375rem'
-                            }}>
-                                {region.name}
-                            </h3>
-                            <p style={{
-                                fontSize: '0.875rem',
-                                color: '#6b7280',
-                                marginBottom: '1rem'
-                            }}>
-                                {regionStates.length} state{regionStates.length !== 1 ? 's' : ''}
-                            </p>
-
-                            <div style={{
-                                display: 'grid',
-                                gridTemplateColumns: 'repeat(2, 1fr)',
-                                gap: '0.75rem',
-                                marginBottom: '1rem'
-                            }}>
-                                {displayStates.map(({ state, count }) => (
-                                    <a
-                                        key={state.id}
-                                        href={`/states/${state.id}`}
-                                        style={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            padding: '0.75rem',
-                                            backgroundColor: '#f9fafb',
-                                            borderRadius: '0.375rem',
-                                            textDecoration: 'none',
-                                            transition: 'background-color 0.2s'
-                                        }}
-                                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
-                                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
-                                    >
-                                        <span style={{
-                                            fontSize: '0.875rem',
-                                            fontWeight: 600,
-                                            color: '#131921',
-                                            marginBottom: '0.25rem'
-                                        }}>
-                                            {state.name}
-                                        </span>
-                                        {count > 0 && (
-                                            <span style={{
-                                                fontSize: '0.75rem',
-                                                color: '#007185'
-                                            }}>
-                                                {count} package{count !== 1 ? 's' : ''}
-                                            </span>
-                                        )}
-                                    </a>
-                                ))}
+                        <Link
+                            key={regionId}
+                            href={`/packages?region=${regionId}`}
+                            className="v2-region-card"
+                        >
+                            <div className="v2-region-content">
+                                <h3 className="v2-region-name">{region.name}</h3>
+                                <p className="v2-region-stats">
+                                    {stats.stateCount} states • {stats.packageCount} packages
+                                </p>
                             </div>
-
-                            {hasMore && (
-                                <button
-                                    onClick={() => setExpandedRegion(expandedRegion === regionId ? null : regionId)}
-                                    style={{
-                                        width: '100%',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        gap: '0.375rem',
-                                        padding: '0.625rem',
-                                        backgroundColor: 'transparent',
-                                        border: '1px solid #e5e7eb',
-                                        borderRadius: '0.375rem',
-                                        color: '#007185',
-                                        fontSize: '0.875rem',
-                                        fontWeight: 500,
-                                        cursor: 'pointer',
-                                        transition: 'all 0.2s'
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.backgroundColor = '#f3f4f6';
-                                        e.currentTarget.style.borderColor = '#007185';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.backgroundColor = 'transparent';
-                                        e.currentTarget.style.borderColor = '#e5e7eb';
-                                    }}
-                                >
-                                    View all {regionStates.length} states
-                                    <ChevronRight size={14} />
-                                </button>
-                            )}
-                        </div>
+                            <ChevronRight size={20} className="v2-region-arrow" />
+                        </Link>
                     );
                 })}
             </div>
+
+            <style jsx>{`
+                .v2-region-section {
+                    max-width: 1600px;
+                    margin: 1.5rem auto;
+                    padding: 0 1.5rem;
+                }
+
+                .v2-section-title {
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    color: #131921;
+                    margin-bottom: 1rem;
+                }
+
+                .v2-region-grid {
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 1rem;
+                }
+
+                .v2-region-card {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 1rem;
+                    background-color: white;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 0.5rem;
+                    text-decoration: none;
+                    transition: all 0.2s;
+                }
+
+                .v2-region-card:hover {
+                    border-color: #FF9933;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                }
+
+                .v2-region-name {
+                    font-size: 1rem;
+                    font-weight: 600;
+                    color: #131921;
+                    margin-bottom: 0.25rem;
+                }
+
+                .v2-region-stats {
+                    font-size: 0.75rem;
+                    color: #6b7280;
+                    margin: 0;
+                }
+
+                :global(.v2-region-arrow) {
+                    color: #9ca3af;
+                    flex-shrink: 0;
+                }
+
+                @media (max-width: 1024px) {
+                    .v2-region-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+                }
+
+                @media (max-width: 768px) {
+                    .v2-region-section {
+                        margin: 1rem 0;
+                        padding: 0 0.75rem;
+                    }
+
+                    .v2-section-title {
+                        font-size: 1.125rem;
+                    }
+
+                    .v2-region-grid {
+                        grid-template-columns: 1fr;
+                        gap: 0.5rem;
+                    }
+
+                    .v2-region-card {
+                        padding: 0.875rem;
+                    }
+
+                    .v2-region-name {
+                        font-size: 0.95rem;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .v2-region-card {
+                        padding: 0.75rem;
+                    }
+
+                    .v2-region-name {
+                        font-size: 0.875rem;
+                    }
+
+                    .v2-region-stats {
+                        font-size: 0.7rem;
+                    }
+                }
+            `}</style>
         </section>
     );
 }

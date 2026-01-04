@@ -2,7 +2,6 @@ import HeroV2 from '../../components/v2/HeroV2';
 import ContinueExploring from '../../components/v2/ContinueExploring';
 import PopularStates from '../../components/v2/PopularStates';
 import ExploreByRegion from '../../components/v2/ExploreByRegion';
-import StateCardsGrid from '../../components/StateCardsGrid';
 import IndiaMap from '../../components/IndiaMap';
 
 export const metadata = {
@@ -12,7 +11,7 @@ export const metadata = {
 
 export default function HomeV2() {
     return (
-        <div style={{ paddingBottom: '4rem' }}>
+        <div className="v2-homepage">
             <HeroV2 />
 
             {/* Continue Exploring - Personalized */}
@@ -24,41 +23,20 @@ export default function HomeV2() {
             {/* Explore by Region */}
             <ExploreByRegion />
 
-            {/* All States Grid */}
-            <section id="all-states" style={{
-                maxWidth: '1600px',
-                margin: '3rem auto',
-                padding: '0 2rem'
-            }}>
+            {/* Interactive Map - Hidden on Mobile */}
+            <section className="v2-map-section v2-hide-mobile">
                 <h2 style={{
-                    fontSize: '1.75rem',
+                    fontSize: '1.5rem',
                     fontWeight: 700,
                     color: '#131921',
-                    marginBottom: '1.5rem'
-                }}>
-                    All States & Union Territories
-                </h2>
-                <StateCardsGrid />
-            </section>
-
-            {/* Explore by Map */}
-            <section style={{
-                maxWidth: '1600px',
-                margin: '3rem auto',
-                padding: '0 2rem'
-            }}>
-                <h2 style={{
-                    fontSize: '1.75rem',
-                    fontWeight: 700,
-                    color: '#131921',
-                    marginBottom: '1.5rem'
+                    marginBottom: '1rem'
                 }}>
                     Interactive Map
                 </h2>
                 <p style={{
                     color: '#6b7280',
-                    marginBottom: '1.5rem',
-                    fontSize: '0.95rem'
+                    marginBottom: '1rem',
+                    fontSize: '0.9rem'
                 }}>
                     Click on any state to explore tour packages
                 </p>
@@ -66,21 +44,56 @@ export default function HomeV2() {
             </section>
 
             {/* Beta Badge */}
-            <div style={{
-                position: 'fixed',
-                bottom: '1rem',
-                right: '1rem',
-                backgroundColor: '#FF9933',
-                color: 'white',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '2rem',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-                fontSize: '0.875rem',
-                fontWeight: 600,
-                zIndex: 1000
-            }}>
+            <div className="v2-beta-badge">
                 ✨ v2 Preview
             </div>
+
+            <style jsx>{`
+                .v2-homepage {
+                    padding-bottom: 3rem;
+                }
+
+                .v2-map-section {
+                    max-width: 1600px;
+                    margin: 2rem auto;
+                    padding: 0 1.5rem;
+                }
+
+                .v2-beta-badge {
+                    position: fixed;
+                    bottom: 1rem;
+                    right: 1rem;
+                    background-color: #FF9933;
+                    color: white;
+                    padding: 0.5rem 1rem;
+                    border-radius: 2rem;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                    z-index: 1000;
+                }
+
+                .v2-hide-mobile {
+                    display: block;
+                }
+
+                @media (max-width: 768px) {
+                    .v2-homepage {
+                        padding-bottom: 2rem;
+                    }
+
+                    .v2-hide-mobile {
+                        display: none !important;
+                    }
+
+                    .v2-beta-badge {
+                        bottom: 0.5rem;
+                        right: 0.5rem;
+                        padding: 0.375rem 0.75rem;
+                        font-size: 0.7rem;
+                    }
+                }
+            `}</style>
         </div>
     );
 }
