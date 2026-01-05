@@ -1,4 +1,17 @@
+import { Outfit, Plus_Jakarta_Sans } from 'next/font/google'
 import { siteConfig, generatePageMetadata, generateOrganizationSchema, generateWebsiteSchema } from '../lib/seo-config'
+
+const outfit = Outfit({
+    subsets: ['latin'],
+    display: 'swap',
+    variable: '--font-heading',
+})
+
+const jakarta = Plus_Jakarta_Sans({
+    subsets: ['latin'],
+    display: 'swap',
+    variable: '--font-body',
+})
 
 export const metadata = {
     metadataBase: new URL('https://incredbharat.vercel.app'),
@@ -61,7 +74,7 @@ export const metadata = {
     },
 }
 
-import '../app/v2/v2.css' // Global V2 Styles
+
 import './globals.css'
 import NavbarV2 from '../components/v2/NavbarV2' // Use V2 Navbar globally
 import CategoryStrip from '../components/v2/CategoryStrip' // Use CategoryStrip globally
@@ -73,7 +86,7 @@ export default function RootLayout({ children }) {
     const websiteSchema = generateWebsiteSchema();
 
     return (
-        <html lang="en">
+        <html lang="en" className={`${outfit.variable} ${jakarta.variable}`}>
             <head>
                 {/* Structured Data */}
                 <script

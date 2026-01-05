@@ -8,7 +8,7 @@ import PackageTypeIndicator from '../../components/PackageTypeIndicator';
 import ImageWithFallback from '../../components/ImageWithFallback';
 import FavoriteButton from '../../components/FavoriteButton';
 import CompareButton from '../../components/CompareButton';
-import { Star, Clock, MapPin, SlidersHorizontal, X, ExternalLink, Shield } from 'lucide-react';
+import { Star, Clock, MapPin, SlidersHorizontal, X, ExternalLink, Shield, ChevronLeft, ChevronRight } from 'lucide-react';
 import { generateUSPs } from '../../lib/uspGenerator';
 import { generateThemes } from '../../lib/themeGenerator';
 
@@ -39,7 +39,16 @@ export default function PackagesPage() {
         }));
     }, [searchParams]);
 
-    const [showFilters, setShowFilters] = useState(true);
+    // Initial state false to prevent mobile flash, set to true on desktop mount
+    const [showFilters, setShowFilters] = useState(false);
+
+    useEffect(() => {
+        // Open sidebar by default on large screens
+        if (window.innerWidth >= 1024) {
+            setShowFilters(true);
+        }
+    }, []);
+
     const [searchSuggestions, setSearchSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
 
@@ -120,10 +129,11 @@ export default function PackagesPage() {
 
             // Category Filter
             if (filters.category.length > 0) {
-                const pkgCategories = pkg.themes || [];
-                // Check if ANY of the selected categories match ANY of the package themes
+                const pkgThemes = generateThemes(pkg);
+                // Check if ANY of the selected categories match ANY of the generated themes
+                // Use strict inclusion or equality, but case-insensitive
                 const hasCategory = filters.category.some(cat =>
-                    pkgCategories.some(pkgCat => pkgCat.toLowerCase().includes(cat.toLowerCase()))
+                    pkgThemes.some(theme => theme.toLowerCase().includes(cat.toLowerCase()) || cat.toLowerCase().includes(theme.toLowerCase()))
                 );
                 if (!hasCategory) return false;
             }
@@ -183,7 +193,7 @@ export default function PackagesPage() {
         <div className="container" style={{ paddingTop: '3rem', paddingBottom: '5rem' }}>
             <style jsx>{`
                 /* Mobile: Hide sidebar by default, show FAB, drawer overlay */
-                @media (max-width: 767px) {
+                @media (max-width: 1023px) {
                     .mobile-filter-btn {
                         display: flex !important;
                     }
@@ -193,28 +203,55 @@ export default function PackagesPage() {
                     .mobile-submit-btn {
                         display: block !important;
                     }
+                    .desktop-toggle-btn {
+                        display: none !important;
+                    }
                 }
 
-                /* Desktop: Fixed sidebar always visible, hide submit button */
+                /* Desktop: Fixed sidebar logic */
                 @media (min-width: 1024px) {
-                    .filter-sidebar {
-                        left: 0 !important;
-                    }
-                    .packages-container {
-                        margin-left: 320px !important;
+                    .mobile-filter-btn {
+                        display: none !important;
                     }
                     .mobile-submit-btn {
                         display: none !important;
                     }
                 }
-
-                /* Default: hide submit button */
-                .mobile-submit-btn {
-                    display: none;
-                }
             `}</style>
 
-            <div className="packages-container" style={{ transition: 'margin-left 0.3s ease-in-out' }}>
+            {/* Desktop Toggle Button (Visible when sidebar is closed) */}
+            {!showFilters && (
+                <button
+                    onClick={() => setShowFilters(true)}
+                    className="desktop-toggle-btn"
+                    style={{
+                        position: 'fixed',
+                        left: '0',
+                        top: '120px',
+                        zIndex: 998,
+                        background: 'white',
+                        border: '1px solid #e5e7eb',
+                        borderLeft: 'none',
+                        borderRadius: '0 0.5rem 0.5rem 0',
+                        padding: '0.75rem 0.25rem',
+                        cursor: 'pointer',
+                        boxShadow: '2px 0 5px rgba(0,0,0,0.05)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#4b5563'
+                    }}
+                    title="Show Filters"
+                >
+                    <ChevronRight size={20} />
+                </button>
+            )}
+
+            <div className="packages-container" style={{
+                /* Dynamically adjust margin based on sidebar state on desktop */
+                marginLeft: showFilters ? '300px' : '0',
+                transition: 'margin-left 0.3s ease-in-out'
+            }}>
                 <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem', fontWeight: 800 }}>
                     {filters.state === 'all'
                         ? 'All Tour Packages'
@@ -237,8 +274,10 @@ export default function PackagesPage() {
                 marginBottom: '2rem',
                 display: 'flex',
                 alignItems: 'flex-start',
-                gap: '0.75rem'
-            }}>
+                gap: '0.75rem',
+                marginLeft: showFilters ? '300px' : '0', // Align with content
+                transition: 'margin-left 0.3s ease-in-out'
+            }} className="desktop-margin-adjustment">
                 <span style={{ fontSize: '1.25rem', marginTop: '0.125rem' }}>ℹ️</span>
                 <div style={{ flex: 1 }}>
                     <p style={{ fontSize: '0.875rem', color: '#92400E', margin: 0, lineHeight: 1.6 }}>
@@ -251,7 +290,12 @@ export default function PackagesPage() {
             </div>
 
             {/* Search Bar with Autocomplete */}
-            <div style={{ marginBottom: '2rem', position: 'relative' }}>
+            <div style={{
+                marginBottom: '2rem',
+                position: 'relative',
+                marginLeft: showFilters ? '300px' : '0', // Align with content
+                transition: 'margin-left 0.3s ease-in-out'
+            }}>
                 <input
                     type="text"
                     placeholder="Search packages by destination, title, or organizer..."
@@ -373,29 +417,48 @@ export default function PackagesPage() {
                                 <SlidersHorizontal size={20} />
                                 Filters
                             </h3>
-                            <button
-                                onClick={() => setFilters({
-                                    state: 'all',
-                                    organizer: 'all',
-                                    transportMode: 'all',
-                                    isSubsidized: false,
-                                    priceRange: 'all',
-                                    minRating: 0,
-                                    durationMin: 0,
-                                    durationMax: 15,
-                                    searchQuery: ''
-                                })}
-                                style={{
-                                    fontSize: '0.875rem',
-                                    color: '#FF7A18',
-                                    background: 'none',
-                                    border: 'none',
-                                    cursor: 'pointer',
-                                    fontWeight: 600
-                                }}
-                            >
-                                Reset
-                            </button>
+                            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                                <button
+                                    onClick={() => setFilters({
+                                        state: 'all',
+                                        organizer: 'all',
+                                        transportMode: 'all',
+                                        isSubsidized: false,
+                                        priceRange: 'all',
+                                        minRating: 0,
+                                        durationMin: 0,
+                                        durationMax: 15,
+                                        searchQuery: ''
+                                    })}
+                                    style={{
+                                        fontSize: '0.875rem',
+                                        color: '#FF7A18',
+                                        background: 'none',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        fontWeight: 600
+                                    }}
+                                >
+                                    Reset
+                                </button>
+                                {/* Desktop Collapse Button */}
+                                <button
+                                    className="desktop-toggle-btn"
+                                    onClick={() => setShowFilters(false)}
+                                    style={{
+                                        background: '#f3f4f6',
+                                        border: 'none',
+                                        borderRadius: '4px',
+                                        padding: '4px',
+                                        cursor: 'pointer',
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    }}
+                                    title="Hide Filters"
+                                >
+                                    <ChevronLeft size={16} color="#4b5563" />
+                                </button>
+                            </div>
                         </div>
 
                         {/* State Filter */}
@@ -614,7 +677,7 @@ export default function PackagesPage() {
 
                 {/* Main Content Area - with margin for desktop sidebar */}
                 <div style={{
-                    marginLeft: '0', // Will be adjusted via CSS media query for desktop
+                    marginLeft: showFilters ? '300px' : '0',
                     width: '100%',
                     transition: 'margin-left 0.3s ease-in-out'
                 }} className="main-content">
@@ -648,18 +711,8 @@ export default function PackagesPage() {
                                     <div key={pkg.id} className="card" style={{
                                         height: '100%',
                                         display: 'flex',
-                                        flexDirection: 'column',
-                                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
-                                    }}
-                                        onMouseEnter={(e) => {
-                                            e.currentTarget.style.transform = 'translateY(-4px)';
-                                            e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.currentTarget.style.transform = 'translateY(0)';
-                                            e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
-                                        }}>
+                                        flexDirection: 'column'
+                                    }}>
                                         <div style={{ height: '220px', position: 'relative' }}>
                                             <ImageWithFallback
                                                 src={pkg.images[0]}

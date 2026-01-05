@@ -13,14 +13,14 @@ export default function PackageList() {
         : packages.slice(0, 3);
 
     return (
-        <section style={{ padding: '5rem 0', backgroundColor: '#f3f4f6' }}>
+        <section style={{ padding: '5rem 0', backgroundColor: 'var(--background)' }}>
             <div className="container">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2.5rem' }}>
                     <div>
                         <h2 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Featured Packages</h2>
                         <p style={{ color: 'var(--text-muted)' }}>Handpicked experiences at unbeatable prices.</p>
                     </div>
-                    <Link href="/packages" style={{ display: 'flex', alignItems: 'center', color: 'var(--primary)', fontWeight: 600 }}>
+                    <Link href="/packages" style={{ display: 'flex', alignItems: 'center', color: 'var(--secondary)', fontWeight: 600 }}>
                         View All <ArrowRight size={18} style={{ marginLeft: '0.5rem' }} />
                     </Link>
                 </div>
@@ -93,7 +93,7 @@ export default function PackageList() {
                                             ₹{pkg.price.toLocaleString('en-IN')}
                                         </div>
                                     </div>
-                                    <Link href={`/packages/${pkg.id}`} className="btn btn-outline" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}>
+                                    <Link href={`/packages/${pkg.id}`} className="btn btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}>
                                         Details
                                     </Link>
                                 </div>

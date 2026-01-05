@@ -6,6 +6,7 @@ import { Search, Heart, Scale, Menu, X, Package, MoreHorizontal } from 'lucide-r
 import { useState, useEffect } from 'react';
 import { getFavoritesCount } from '../../lib/favorites';
 import { getCompareCount } from '../../lib/compare';
+import TravelStats from './TravelStats';
 
 export default function NavbarV2() {
     const [isOpen, setIsOpen] = useState(false);
@@ -213,6 +214,8 @@ export default function NavbarV2() {
                             <span style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>Compare</span>
                         </Link>
 
+                        <TravelStats />
+
                         <div style={{ position: 'relative' }}>
                             <button style={{
                                 display: 'flex',
@@ -371,6 +374,10 @@ export default function NavbarV2() {
                                 padding: '0.75rem',
                                 borderBottom: '1px solid rgba(255,255,255,0.1)'
                             }}>Disclaimer</Link>
+
+                            <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: '0.5rem', paddingTop: '0.5rem' }}>
+                                <TravelStats isMobile={true} onCloseMobileMenu={() => setIsOpen(false)} />
+                            </div>
                         </div>
                     </div>
                 </>

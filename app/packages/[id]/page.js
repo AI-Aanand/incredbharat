@@ -16,6 +16,15 @@ export default function PackagePage({ params }) {
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
     const pkg = packages.find(p => p.id === params.id);
 
+    // Track view
+    useEffect(() => {
+        if (pkg) {
+            import('../../../lib/viewTracking').then(({ trackView }) => {
+                trackView('package', pkg.id);
+            });
+        }
+    }, [pkg]);
+
     if (!pkg) {
         return <div className="container" style={{ padding: '4rem', textAlign: 'center' }}>Package not found</div>;
     }
@@ -66,7 +75,7 @@ export default function PackagePage({ params }) {
 
                     {/* Left Content: Images & Details */}
                     <div>
-                        <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: '#111827' }}>{pkg.title}</h1>
+                        <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: 'var(--primary)' }}>{pkg.title}</h1>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '2rem', color: '#6b7280' }}>
                             <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><MapPin size={20} /> {state?.name}</span>
                             <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Clock size={20} /> {pkg.duration}</span>
