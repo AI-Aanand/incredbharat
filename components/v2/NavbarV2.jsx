@@ -298,7 +298,7 @@ export default function NavbarV2() {
                             right: 0,
                             bottom: 0,
                             backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                            zIndex: 998
+                            zIndex: 1999
                         }}
                     />
                     <div style={{
@@ -309,7 +309,7 @@ export default function NavbarV2() {
                         maxWidth: '320px',
                         height: '100vh',
                         backgroundColor: '#0a3a5c',
-                        zIndex: 999,
+                        zIndex: 2000,
                         padding: '1rem',
                         overflowY: 'auto'
                     }}>
