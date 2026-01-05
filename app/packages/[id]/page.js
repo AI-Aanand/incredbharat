@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { packages, states } from '../../../lib/data';
 import { notFound } from 'next/navigation';
 import { MapPin, Clock, CheckCircle2, Share2, Heart, ArrowLeft, ExternalLink } from 'lucide-react';
