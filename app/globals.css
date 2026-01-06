@@ -1,15 +1,34 @@
 :root {
-  /* Tourism Color System - Unified V2 Palette */
+  /* Tourism Color System - IncredBharat Premium Palette */
   --primary: #0F4C75;
-  /* Deep Ocean Blue - headers, nav */
+  /* Deep Ocean Blue */
+  --primary-rgb: 15, 76, 117;
   --primary-hover: #0a3a5c;
-  /* Darker blue */
+
   --secondary: #1B9AAA;
-  /* Travel Teal - links, accents */
+  /* Travel Teal */
+  --secondary-rgb: 27, 154, 170;
   --secondary-hover: #167a87;
+
   --accent: #FF7A18;
-  /* Sunset Orange - CTAs */
+  /* Sunset Orange */
   --accent-hover: #E56717;
+
+  /* Premium Gradients */
+  --gradient-primary: linear-gradient(135deg, #0F4C75 0%, #1B9AAA 100%);
+  --gradient-hero: linear-gradient(135deg, #0F4C75 0%, #3282B8 100%);
+  --gradient-card: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.8) 100%);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-blur: 12px;
+
+  /* Shadows - Elevated & Soft */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+  --shadow-glow: 0 0 20px rgba(255, 122, 24, 0.3);
 
   --background: #F7F9FC;
   /* Warm Off-White */
@@ -20,14 +39,10 @@
 
   --card-bg: #ffffff;
   --border: #E5E7EB;
-  --disabled: #CBD5E1;
 
   /* Layout Dimensions */
-  --header-height: 56px;
-  --search-height: 60px;
-  --category-height: 52px;
-  --total-header-height: 172px;
-  /* 120px + 52px */
+  --header-height: 80px;
+  /* Increased for premium feel */
 }
 
 body {
@@ -37,7 +52,37 @@ body {
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  /* Prevent horizontal scroll from full-width elements */
 }
+
+/* ========================================
+   PREMIUM UTILITIES
+   ======================================== */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.text-gradient {
+  background: var(--gradient-primary);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  /* Fix for gradient text sometimes getting cut off */
+}
+
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+}
+
 
 /* ========================================
    UTILITIES

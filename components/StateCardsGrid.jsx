@@ -19,21 +19,21 @@ export default function StateCardsGrid() {
     };
 
     return (
-        <section className="state-cards-section" style={{ padding: '5rem 0', background: 'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)' }}>
+        <section className="state-cards-section" style={{ padding: '4rem 0', background: 'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)' }}>
             <div className="container">
-                <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                    <h2 className="section-title" style={{ fontSize: '2.5rem', marginBottom: '1rem', fontWeight: 700 }}>
+                <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+                    <h2 className="section-title" style={{ fontSize: '2rem', marginBottom: '0.75rem', fontWeight: 700 }}>
                         Explore by State
                     </h2>
-                    <p className="section-subtitle" style={{ color: '#6b7280', fontSize: '1.125rem' }}>
-                        Choose your destination and discover amazing travel packages
+                    <p className="section-subtitle" style={{ color: '#6b7280', fontSize: '1rem' }}>
+                        Discover curated government tourism packages across India
                     </p>
                 </div>
 
                 <div className="state-cards-grid" style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-                    gap: '1.5rem',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', // Widened to 280px to force single column on mobile
+                    gap: '1.25rem',
                     maxWidth: '1400px',
                     margin: '0 auto'
                 }}>
@@ -41,126 +41,134 @@ export default function StateCardsGrid() {
                         <div
                             key={state.id}
                             onClick={() => handleCardClick(state.id)}
+                            className="hover-lift"
                             style={{
                                 position: 'relative',
-                                borderRadius: '1rem',
+                                borderRadius: '0.75rem',
                                 overflow: 'hidden',
                                 cursor: 'pointer',
-                                boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                border: '2px solid transparent',
-                                height: '280px'
+                                boxShadow: 'var(--shadow-sm)',
+                                border: '1px solid rgba(0,0,0,0.05)',
+                                height: '200px', // COMPACT HEIGHT (Reduced from 280px)
+                                transition: 'all 0.3s ease'
                             }}
                             onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = 'translateY(-8px) scale(1.02)';
-                                e.currentTarget.style.boxShadow = '0 20px 25px -5px rgba(0,0,0,0.2), 0 10px 10px -5px rgba(0,0,0,0.1)';
-                                e.currentTarget.style.borderColor = '#FF7A18';
+                                e.currentTarget.style.transform = 'translateY(-4px)'; // Reduced lift
+                                e.currentTarget.style.boxShadow = 'var(--shadow-md)';
+                                e.currentTarget.style.borderColor = 'var(--accent)';
                             }}
                             onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                                e.currentTarget.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
                                 e.currentTarget.style.borderColor = 'transparent';
                             }}
                         >
-                            {/* Background Image */}
+                            {/* Background Image with Smart Fallback */}
                             <div style={{
                                 position: 'absolute',
                                 top: 0,
                                 left: 0,
                                 right: 0,
                                 bottom: 0,
-                                overflow: 'hidden'
+                                zIndex: 0
                             }}>
                                 <ImageWithFallback
                                     src={state.image}
                                     alt={state.name}
+                                    fallbackType="icon" // KEY CHANGE: Use Icon for missing images
                                     style={{
                                         width: '100%',
                                         height: '100%',
                                         objectFit: 'cover',
-                                        transition: 'transform 0.3s ease'
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.transform = 'scale(1.1)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.transform = 'scale(1)';
+                                        transition: 'transform 0.5s ease'
                                     }}
                                 />
                             </div>
 
-                            {/* Gradient Overlay */}
+                            {/* Gradient Overlay Gradient - Stronger at bottom for text readability */}
                             <div style={{
                                 position: 'absolute',
                                 top: 0,
                                 left: 0,
                                 right: 0,
                                 bottom: 0,
-                                background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.2) 100%)'
+                                background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.1) 100%)',
+                                zIndex: 1
                             }} />
 
-                            {/* Package Count Badge */}
+                            {/* Package Count Badge - Compact Top Right */}
                             {state.packageCount > 0 && (
                                 <div style={{
                                     position: 'absolute',
                                     top: '0.75rem',
                                     right: '0.75rem',
-                                    background: 'rgba(255, 153, 51, 0.95)',
+                                    background: 'rgba(255, 122, 24, 0.9)', // Orange Brand color
                                     color: 'white',
-                                    padding: '0.4rem 0.85rem',
-                                    borderRadius: '2rem',
-                                    fontWeight: 600,
-                                    fontSize: '0.8rem',
-                                    boxShadow: '0 3px 10px rgba(0,0,0,0.4)',
-                                    backdropFilter: 'blur(10px)'
+                                    padding: '0.25rem 0.6rem',
+                                    borderRadius: '1rem',
+                                    fontWeight: 700,
+                                    fontSize: '0.7rem',
+                                    zIndex: 2,
+                                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                                    backdropFilter: 'blur(4px)'
                                 }}>
-                                    {state.packageCount} {state.packageCount === 1 ? 'Package' : 'Packages'}
+                                    {state.packageCount} Tours
                                 </div>
                             )}
 
-                            {/* Content */}
+                            {/* Content - Compact Bottom Layout */}
                             <div style={{
                                 position: 'absolute',
                                 bottom: 0,
                                 left: 0,
                                 right: 0,
-                                padding: '1.25rem',
+                                padding: '1rem',
                                 color: 'white',
-                                zIndex: 1
+                                zIndex: 2
                             }}>
                                 <h3 style={{
-                                    fontSize: '1.4rem',
+                                    fontSize: '1.1rem', // Slightly smaller
                                     fontWeight: 700,
-                                    marginBottom: '0.35rem',
-                                    textShadow: '0 3px 6px rgba(0,0,0,0.6), 0 1px 3px rgba(0,0,0,0.8)',
-                                    color: 'white'
+                                    marginBottom: '0.2rem',
+                                    textShadow: '0 2px 4px rgba(0,0,0,0.8)',
+                                    lineHeight: 1.2
                                 }}>
                                     {state.name}
                                 </h3>
-                                <p style={{
-                                    fontSize: '0.95rem',
-                                    color: '#ffffff',
-                                    marginBottom: '0.75rem',
-                                    fontStyle: 'italic',
-                                    textShadow: '0 2px 4px rgba(0,0,0,0.7), 0 1px 2px rgba(0,0,0,0.9)'
-                                }}>
-                                    {state.description}
-                                </p>
+
+                                {/* Truncated Description or Tagline */}
                                 <div style={{
-                                    display: 'inline-flex',
+                                    display: 'flex',
                                     alignItems: 'center',
-                                    gap: '0.4rem',
-                                    fontSize: '0.875rem',
-                                    fontWeight: 600,
-                                    color: '#FF7A18',
-                                    background: 'rgba(255,255,255,0.95)',
-                                    padding: '0.4rem 0.85rem',
-                                    borderRadius: '0.5rem',
-                                    transition: 'all 0.2s ease',
-                                    boxShadow: '0 2px 6px rgba(0,0,0,0.3)'
+                                    justifyContent: 'space-between',
+                                    marginTop: '0.5rem'
                                 }}>
-                                    Explore Packages
-                                    <span style={{ fontSize: '1rem' }}>→</span>
+                                    <p style={{
+                                        fontSize: '0.75rem',
+                                        color: 'rgba(255,255,255,0.9)',
+                                        maxWidth: '70%',
+                                        whiteSpace: 'nowrap',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis'
+                                    }}>
+                                        {state.description || 'Explore Official Packages'}
+                                    </p>
+
+                                    <span style={{
+                                        fontSize: '0.8rem',
+                                        fontWeight: 600,
+                                        color: '#FF7A18', // Brand Orange
+                                        background: 'white',
+                                        width: '24px',
+                                        height: '24px',
+                                        borderRadius: '50%',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        boxShadow: '0 2px 5px rgba(0,0,0,0.3)'
+                                    }}>
+                                        →
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -173,31 +181,15 @@ export default function StateCardsGrid() {
                     .state-cards-section {
                         padding: 3rem 0 !important;
                     }
-                    .section-title {
-                        font-size: 2rem !important;
-                    }
-                    .section-subtitle {
-                        font-size: 1rem !important;
-                    }
                     .state-cards-grid {
-                        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
-                        gap: 1.25rem !important;
+                        grid-template-columns: repeat(2, 1fr) !important; // 2 cols on mobile
+                        gap: 0.75rem !important;
                     }
                 }
 
                 @media (max-width: 480px) {
-                    .state-cards-section {
-                        padding: 2.5rem 0 !important;
-                    }
-                    .section-title {
-                        font-size: 1.75rem !important;
-                    }
-                    .section-subtitle {
-                        font-size: 0.95rem !important;
-                    }
                     .state-cards-grid {
-                        grid-template-columns: 1fr !important;
-                        gap: 1rem !important;
+                        grid-template-columns: 1fr !important; // 1 col on small mobile
                     }
                 }
             `}</style>

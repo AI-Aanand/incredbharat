@@ -76,8 +76,7 @@ export const metadata = {
 
 
 import './globals.css'
-import NavbarV2 from '../components/v2/NavbarV2' // Use V2 Navbar globally
-import CategoryStrip from '../components/v2/CategoryStrip' // Use CategoryStrip globally
+import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
 export default function RootLayout({ children }) {
@@ -103,17 +102,11 @@ export default function RootLayout({ children }) {
                 />
             </head>
             <body>
-                <NavbarV2 />
-                <CategoryStrip />
-                {/* 
-                    Adjust top padding for fixed header:
-                    Navbar (120px) + CategoryStrip (52px) = 172px 
-                    + some breathing room
-                */}
+                <Navbar />
                 <main style={{
-                    minHeight: 'calc(100vh - 172px - 300px)',
-                    paddingTop: '180px',
-                    backgroundColor: 'var(--background)' // Ensure background color is consistent
+                    minHeight: 'calc(100vh - 80px - 300px)',
+                    paddingTop: '80px',
+                    backgroundColor: 'var(--background)'
                 }}>
                     {children}
                 </main>
