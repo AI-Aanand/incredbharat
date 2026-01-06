@@ -24,7 +24,7 @@ export default function FAQPage() {
                 },
                 {
                     q: 'Is there a booking fee on IncredBharat?',
-                    a: 'No! IncredBharat is a free tour aggregator platform. You only pay the package price to the tour operator. We don\'t charge any booking or service fees.'
+                    a: 'No! IncredBharat is a free tour aggregator platform. You only pay the package price to the tour operator. We don&apos;t charge any booking or service fees.'
                 }
             ]
         },
@@ -83,7 +83,7 @@ export default function FAQPage() {
                 },
                 {
                     q: 'Are the tours safe for solo travelers?',
-                    a: 'Yes! Many packages welcome solo travelers. Some operators offer women-only group tours for added safety. Always inform the operator if you\'re traveling solo.'
+                    a: 'Yes! Many packages welcome solo travelers. Some operators offer women-only group tours for added safety. Always inform the operator if you&apos;re traveling solo.'
                 },
                 {
                     q: 'What COVID-19 precautions are in place?',
@@ -228,7 +228,7 @@ export default function FAQPage() {
                     Still have questions?
                 </h2>
                 <p style={{ fontSize: '1.125rem', color: '#6b7280', marginBottom: '2rem' }}>
-                    Can't find the answer you're looking for? Reach out to us directly.
+                    Can&apos;t find the answer you&apos;re looking for? Reach out to us directly.
                 </p>
                 <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                     <a

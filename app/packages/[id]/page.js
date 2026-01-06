@@ -85,12 +85,14 @@ export default function PackagePage({ params }) {
                         {/* Gallery */}
                         <div style={{ display: 'grid', gap: '1rem', marginBottom: '3rem' }}>
                             <div style={{ height: '400px', borderRadius: '1rem', overflow: 'hidden' }}>
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img src={pkg.images[0]} alt={pkg.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                             </div>
                             {pkg.images.length > 1 && (
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                                     {pkg.images.slice(1).map((img, i) => (
                                         <div key={i} style={{ height: '200px', borderRadius: '1rem', overflow: 'hidden' }}>
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
                                             <img src={img} alt={`${pkg.title} ${i + 2}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                         </div>
                                     ))}
@@ -106,7 +108,7 @@ export default function PackagePage({ params }) {
 
                         {/* Amenities */}
                         <section>
-                            <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>What's Included</h2>
+                            <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>What&apos;s Included</h2>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
                                 {pkg.amenities.map(item => (
                                     <div key={item} style={{

@@ -30,18 +30,18 @@ export default function AboutPage() {
                 </h2>
                 <p style={{ fontSize: '1.125rem', color: '#4b5563', lineHeight: 1.8, marginBottom: '1rem' }}>
                     India offers incredible tourism packages through various government bodies - from state tourism development
-                    corporations like KTDC and RTDC to IRCTC's luxury trains and state road transport services. However,
+                    corporations like KTDC and RTDC to IRCTC&apos;s luxury trains and state road transport services. However,
                     these are scattered across dozens of websites, making it difficult for travelers to discover, compare,
                     and choose the best options.
                 </p>
                 <p style={{ fontSize: '1.125rem', color: '#4b5563', lineHeight: 1.8, marginBottom: '1rem' }}>
                     <strong>IncredBharat</strong> brings together these official government tourism packages into one modern,
-                    user-friendly platform. Whether you're looking for a budget KSRTC bus tour, a subsidized heritage circuit,
+                    user-friendly platform. Whether you&apos;re looking for a budget KSRTC bus tour, a subsidized heritage circuit,
                     or a luxury Palace on Wheels experience, we make it easy to find and compare options.
                 </p>
                 <p style={{ fontSize: '1.125rem', color: '#4b5563', lineHeight: 1.8 }}>
                     With <strong>mobile-first design</strong>, <strong>intelligent search</strong>, <strong>easy sharing</strong>,
-                    and <strong>visual package indicators</strong>, we've modernized the way you discover India's incredible
+                    and <strong>visual package indicators</strong>, we&apos;ve modernized the way you discover India&apos;s incredible
                     travel experiences - all from trusted government sources.
                 </p>
             </div>

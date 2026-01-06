@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation'; // Import hook
 import { packages, states } from '../../lib/data';
@@ -12,7 +12,7 @@ import { Star, Clock, MapPin, SlidersHorizontal, X, ExternalLink, Shield, Chevro
 import { generateUSPs } from '../../lib/uspGenerator';
 import { generateThemes } from '../../lib/themeGenerator';
 
-export default function PackagesPage() {
+function PackagesContent() {
     const searchParams = useSearchParams(); // Use hook
     const [filters, setFilters] = useState({
         state: 'all',
@@ -802,125 +802,24 @@ export default function PackagesPage() {
                                                         display: 'flex',
                                                         alignItems: 'flex-start',
                                                         gap: '0.5rem',
-                                                        marginBottom: '0.375rem',
-                                                        fontSize: '0.875rem',
-                                                        color: '#6b7280',
-                                                        lineHeight: 1.6
+                                                        fontSize: '0.8rem',
+                                                        color: '#4b5563',
+                                                        marginBottom: '0.25rem'
                                                     }}>
-                                                        <span style={{ color: '#FF7A18', marginTop: '0.125rem' }}>✓</span>
-                                                        <span>{usp}</span>
+                                                        <span style={{ color: '#138808' }}>✓</span>
+                                                        {usp}
                                                     </div>
-                                                ))}
+                                                )).slice(0, 2)}
                                             </div>
 
-                                            {/* Theme Tags */}
-                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' }}>
-                                                {generateThemes(pkg).map((theme, idx) => (
-                                                    <span key={idx} style={{
-                                                        fontSize: '0.75rem',
-                                                        padding: '0.25rem 0.5rem',
-                                                        background: '#F3F4F6',
-                                                        color: '#4B5563',
-                                                        borderRadius: '0.25rem',
-                                                        fontWeight: 500
-                                                    }}>
-                                                        {theme}
-                                                    </span>
-                                                ))}
-                                            </div>
-
-                                            {/* Trust Badge - Government packages */}
-                                            {pkg.organizer && pkg.organizer !== 'Private' && (
-                                                <div style={{
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    gap: '0.375rem',
-                                                    fontSize: '0.75rem',
-                                                    color: '#10B981',
-                                                    fontWeight: 500,
-                                                    marginBottom: '1rem'
-                                                }}>
-                                                    <Shield size={14} />
-                                                    <span>Official Government Package</span>
+                                            <div style={{ marginTop: 'auto', paddingTop: '1rem', borderTop: '1px solid #f3f4f6', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                <div>
+                                                    <span style={{ fontSize: '0.75rem', color: '#6b7280', display: 'block' }}>Starting from</span>
+                                                    <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#111827' }}>₹{pkg.price.toLocaleString('en-IN')}</span>
                                                 </div>
-                                            )}
-
-                                            <div style={{ marginTop: 'auto' }}>
-                                                {/* Price + Review Count */}
-                                                <div style={{
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'space-between',
-                                                    marginBottom: '1rem'
-                                                }}>
-                                                    <div>
-                                                        <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>From</span>
-                                                        <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#000080' }}>
-                                                            ₹{pkg.price.toLocaleString('en-IN')}
-                                                        </div>
-                                                        <span style={{ fontSize: '0.6875rem', color: '#9ca3af' }}>Price from official source</span>
-                                                    </div>
-                                                    <div style={{ textAlign: 'right', fontSize: '0.75rem', color: '#6b7280' }}>
-                                                        ({pkg.reviews} reviews)
-                                                    </div>
-                                                </div>
-
-                                                {/* Dual CTAs */}
-                                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                                    <Link
-                                                        href={`/packages/${pkg.id}`}
-                                                        className="btn btn-primary"
-                                                        style={{
-                                                            padding: '0.625rem 1.25rem',
-                                                            fontSize: '0.875rem',
-                                                            fontWeight: 600,
-                                                            textAlign: 'center',
-                                                            background: '#FF7A18',
-                                                            color: 'white',
-                                                            border: 'none',
-                                                            borderRadius: '0.5rem',
-                                                            transition: 'all 0.2s'
-                                                        }}
-                                                        onMouseEnter={(e) => e.currentTarget.style.background = '#FF6600'}
-                                                        onMouseLeave={(e) => e.currentTarget.style.background = '#FF7A18'}
-                                                    >
-                                                        View Details
-                                                    </Link>
-                                                    <button
-                                                        onClick={(e) => {
-                                                            e.preventDefault();
-                                                            // Future: Track outbound click and redirect to official site
-                                                            alert('Official booking site will open here. (Feature in development)');
-                                                        }}
-                                                        style={{
-                                                            padding: '0.5rem 1rem',
-                                                            fontSize: '0.75rem',
-                                                            fontWeight: 500,
-                                                            background: 'white',
-                                                            color: '#6b7280',
-                                                            border: '1px solid #e5e7eb',
-                                                            borderRadius: '0.5rem',
-                                                            cursor: 'pointer',
-                                                            transition: 'all 0.2s',
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center',
-                                                            gap: '0.375rem'
-                                                        }}
-                                                        onMouseEnter={(e) => {
-                                                            e.currentTarget.style.borderColor = '#FF7A18';
-                                                            e.currentTarget.style.color = '#FF7A18';
-                                                        }}
-                                                        onMouseLeave={(e) => {
-                                                            e.currentTarget.style.borderColor = '#e5e7eb';
-                                                            e.currentTarget.style.color = '#6b7280';
-                                                        }}
-                                                        title="Opens official government booking site"
-                                                    >
-                                                        Official Site
-                                                        <ExternalLink size={12} />
-                                                    </button>
-                                                </div>
+                                                <Link href={`/packages/${pkg.id}`} className="btn btn-outline" style={{ fontSize: '0.875rem', padding: '0.5rem 1rem' }}>
+                                                    View Details
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
@@ -928,18 +827,12 @@ export default function PackagesPage() {
                             })}
                         </div>
                     ) : (
-                        <div style={{
-                            textAlign: 'center',
-                            padding: '5rem',
-                            background: '#f9fafb',
-                            borderRadius: '1rem'
-                        }}>
-                            <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#374151' }}>
-                                No packages found
-                            </h3>
-                            <p style={{ color: '#6b7280', marginBottom: '2rem' }}>
-                                Try adjusting your filters or search criteria
-                            </p>
+                        <div style={{ textAlign: 'center', padding: '5rem', background: '#f9fafb', borderRadius: '1rem' }}>
+                            <div style={{ display: 'inline-flex', padding: '1.5rem', borderRadius: '50%', background: '#e5e7eb', marginBottom: '1.5rem', color: '#6b7280' }}>
+                                <X size={48} />
+                            </div>
+                            <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#374151' }}>No packages found</h3>
+                            <p style={{ color: '#6b7280', marginBottom: '2rem' }}>Try adjusting your filters to find what you&apos;re looking for.</p>
                             <button
                                 onClick={() => setFilters({
                                     state: 'all',
@@ -948,16 +841,26 @@ export default function PackagesPage() {
                                     isSubsidized: false,
                                     priceRange: 'all',
                                     minRating: 0,
+                                    durationMin: 0,
+                                    durationMax: 15,
                                     searchQuery: ''
                                 })}
                                 className="btn btn-primary"
                             >
-                                Reset Filters
+                                Clear All Filters
                             </button>
                         </div>
                     )}
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function PackagesPage() {
+    return (
+        <Suspense fallback={<div className="container" style={{ padding: '4rem', textAlign: 'center' }}>Loading packages...</div>}>
+            <PackagesContent />
+        </Suspense>
     );
 }

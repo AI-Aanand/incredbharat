@@ -25,7 +25,7 @@ function SearchResults() {
     return (
         <div className="container" style={{ paddingTop: '3rem', paddingBottom: '5rem' }}>
             <h1 style={{ fontSize: '2rem', marginBottom: '2rem' }}>
-                Search Results for "{query}"
+                Search Results for &quot;{query}&quot;
                 <span style={{ fontSize: '1rem', color: '#6b7280', marginLeft: '1rem', fontWeight: 400 }}>
                     ({filteredPackages.length} packages found)
                 </span>
@@ -78,7 +78,7 @@ function SearchResults() {
                         <Search size={48} />
                     </div>
                     <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#374151' }}>No matches found</h3>
-                    <p style={{ color: '#6b7280', marginBottom: '2rem' }}>Try different keywords like "Kerala", "Beach", "Honeymoon".</p>
+                    <p style={{ color: '#6b7280', marginBottom: '2rem' }}>Try different keywords like &quot;Kerala&quot;, &quot;Beach&quot;, &quot;Honeymoon&quot;.</p>
                     <Link href="/" className="btn btn-primary">Back to Home</Link>
                 </div>
             )}
