@@ -1,10 +1,22 @@
 'use client';
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
 import ImageWithFallback from '../ImageWithFallback';
 
 export default function HeroV2() {
+    const router = useRouter();
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (searchQuery.trim()) {
+            router.push(`/packages?search=${encodeURIComponent(searchQuery.trim())}`);
+        }
+    };
+
     return (
         <div className="v2-hero-wrapper">
             {/* Background Image */}
@@ -45,10 +57,12 @@ export default function HeroV2() {
                     </h3>
 
                     {/* Search Input */}
-                    <div style={{ display: 'flex', marginBottom: '1.5rem' }}>
+                    <form onSubmit={handleSearch} style={{ display: 'flex', marginBottom: '1.5rem' }}>
                         <input
                             type="text"
                             placeholder="Search destinations..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             style={{
                                 flex: 1,
                                 padding: '0.875rem 1rem',
@@ -59,18 +73,24 @@ export default function HeroV2() {
                                 outline: 'none'
                             }}
                         />
-                        <button style={{
-                            padding: '0 1.5rem',
-                            backgroundColor: '#FF7A18',
-                            border: 'none',
-                            borderRadius: '0 0.375rem 0.375rem 0',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center'
-                        }}>
+                        <button
+                            type="submit"
+                            style={{
+                                padding: '0 1.5rem',
+                                backgroundColor: '#FF7A18',
+                                border: 'none',
+                                borderRadius: '0 0.375rem 0.375rem 0',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                transition: 'background-color 0.2s'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#e56910'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#FF7A18'}
+                        >
                             <Search size={20} color="white" />
                         </button>
-                    </div>
+                    </form>
 
                     {/* CTA Button */}
                     <Link
@@ -92,6 +112,43 @@ export default function HeroV2() {
 
                 {/* Mobile CTA - Only shown on mobile */}
                 <div className="v2-hero-mobile-cta v2-show-on-mobile">
+                    {/* Mobile Search */}
+                    <form onSubmit={handleSearch} style={{ marginBottom: '1rem' }}>
+                        <div style={{ display: 'flex' }}>
+                            <input
+                                type="text"
+                                placeholder="Search destinations..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                style={{
+                                    flex: 1,
+                                    padding: '0.875rem 1rem',
+                                    fontSize: '0.95rem',
+                                    border: '2px solid rgba(255,255,255,0.3)',
+                                    borderRight: 'none',
+                                    borderRadius: '0.375rem 0 0 0.375rem',
+                                    outline: 'none',
+                                    backgroundColor: 'rgba(255,255,255,0.95)',
+                                    color: '#1f2937'
+                                }}
+                            />
+                            <button
+                                type="submit"
+                                style={{
+                                    padding: '0 1.25rem',
+                                    backgroundColor: '#FF7A18',
+                                    border: 'none',
+                                    borderRadius: '0 0.375rem 0.375rem 0',
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                }}
+                            >
+                                <Search size={18} color="white" />
+                            </button>
+                        </div>
+                    </form>
+
                     <Link
                         href="/packages"
                         className="v2-hero-cta-btn-mobile"
@@ -154,7 +211,7 @@ export default function HeroV2() {
                 }
 
                 .v2-hero-subtitle {
-                    font-size: clamp(0.9rem, 1.5vw, 1.125rem);
+                    font-size: clamp(0.9rem, 1.5vw, 1.125rem); 
                     color: white;
                     text-shadow: 0 2px 4px rgba(0,0,0,0.9), 0 4px 8px rgba(0,0,0,0.6);
                     line-height: 1.5;
@@ -220,7 +277,7 @@ export default function HeroV2() {
                 @media (max-width: 768px) {
                     .v2-hero-wrapper {
                         margin-top: 190px; /* Same as desktop: navbar + category strip */
-                        min-height: 280px;
+                        min-height: 320px;
                     }
 
                     .v2-hero-container {
@@ -230,7 +287,8 @@ export default function HeroV2() {
                     }
 
                     .v2-hero-overlay {
-                        background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.75) 100%);
+                        /* Darker overlay for mobile for better text readability */
+                        background: linear-gradient(to bottom, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.85) 100%);
                     }
 
                     .v2-hero-title {
@@ -255,7 +313,7 @@ export default function HeroV2() {
                 /* Small Mobile */
                 @media (max-width: 480px) {
                     .v2-hero-wrapper {
-                        min-height: 240px;
+                        min-height: 280px;
                     }
 
                     .v2-hero-container {

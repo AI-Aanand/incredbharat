@@ -421,6 +421,7 @@ function PackagesContent() {
                                 <button
                                     onClick={() => setFilters({
                                         state: 'all',
+                                        category: [], // Reset category array
                                         organizer: 'all',
                                         transportMode: 'all',
                                         isSubsidized: false,

@@ -63,38 +63,46 @@ export default function IndiaMap() {
                 return; // Not a path click, ignore
             }
 
-            // react-datamaps-india doesn't include title tags in paths
-            // Instead, we need to find the state name from the hover tooltip
-            // The library creates a tooltip with class 'HoverInfo'
-            const hoverInfo = document.querySelector('.HoverInfo');
             let stateName = null;
 
-            if (hoverInfo && hoverInfo.textContent) {
-                // Extract state name from the <strong> tag inside the tooltip
-                // This avoids pollution from "👆 Click to explore" and injected CSS
-                const strongElement = hoverInfo.querySelector('strong');
-                stateName = strongElement ? strongElement.textContent.trim() : null;
+            //  Method 1: Try data-state-name attribute (we'll add this to paths)
+            stateName = path.getAttribute('data-state-name');
 
-                // Fallback: try first child if strong tag not found
-                if (!stateName) {
-                    stateName = hoverInfo.firstChild?.textContent?.trim();
-                }
-            }
-
-            // Fallback: Try to match the path's fill color to our regionData
+            // Method 2: Try to get from the HoverInfo tooltip
             if (!stateName) {
-                const pathFill = path.style.fill || path.getAttribute('fill');
-                // Try to find which state has this path by matching colors
-                for (const [name, data] of Object.entries(regionData)) {
-                    if (data.color && pathFill && pathFill.includes(data.color.substring(1))) {
-                        stateName = name;
-                        break;
+                const hoverInfo = document.querySelector('.HoverInfo');
+                if (hoverInfo) {
+                    // Extract state name from the <strong> tag inside the tooltip
+                    const strongElement = hoverInfo.querySelector('strong');
+                    if (strongElement) {
+                        stateName = strongElement.textContent.trim();
                     }
                 }
             }
 
+            // Method 3: Try to extract from aria-label or title attributes
             if (!stateName) {
-                console.log('⚠️ Could not determine state name from click');
+                stateName = path.getAttribute('aria-label') || path.getAttribute('title');
+            }
+
+            // Method 4: Try to get from path's id or class
+            if (!stateName) {
+                const pathId = path.getAttribute('id') || path.getAttribute('class');
+                if (pathId) {
+                    // The library may store state names in path IDs
+                    stateName = pathId.replace(/-/g, ' ').replace(/_/g, ' ');
+                }
+            }
+
+            if (!stateName) {
+                console.log('⚠️ Could not determine state name from click. Path:', path);
+                // Log all available attributes for debugging
+                console.log('Path attributes:', {
+                    id: path.id,
+                    className: path.className,
+                    fill: path.style.fill,
+                    'data-*': Array.from(path.attributes).filter(attr => attr.name.startsWith('data-'))
+                });
                 return;
             }
 
@@ -115,13 +123,27 @@ export default function IndiaMap() {
         container.addEventListener('click', handleContainerClick);
         console.log('📍 Event delegation listener attached to map container');
 
-        // Add cursor pointer style to all paths (retry until paths are available)
+        // Add cursor pointer style and data attributes to all paths (retry until paths are available)
         const styleTimer = setInterval(() => {
             const paths = container.querySelectorAll('svg path');
             if (paths.length > 0) {
                 console.log('✨ Styling', paths.length, 'map paths with pointer cursor');
-                paths.forEach(path => {
+                paths.forEach((path, index) => {
                     path.style.cursor = 'pointer';
+
+                    // Try to extract state name from the path and add as data attribute
+                    // The react-datamaps-india library may store state info in the path's siblings or parent
+                    const svgParent = path.closest('svg');
+                    if (svgParent) {
+                        // Look for title elements near this path that might contain the state name
+                        const titleElements = svgParent.querySelectorAll('title');
+                        if (titleElements[index]) {
+                            const titleText = titleElements[index].textContent;
+                            if (titleText && allStatesMap[titleText]) {
+                                path.setAttribute('data-state-name', titleText);
+                            }
+                        }
+                    }
                 });
                 clearInterval(styleTimer);
             }
