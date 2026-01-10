@@ -1,4 +1,5 @@
 import { Outfit, Plus_Jakarta_Sans } from 'next/font/google'
+import Script from 'next/script'
 import { siteConfig, generatePageMetadata, generateOrganizationSchema, generateWebsiteSchema } from '../lib/seo-config'
 
 const outfit = Outfit({
@@ -78,6 +79,7 @@ export const metadata = {
 import './globals.css'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import ErrorBoundary from '../components/ErrorBoundary'
 
 export default function RootLayout({ children }) {
     // Generate structured data
@@ -87,6 +89,20 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en" className={`${outfit.variable} ${jakarta.variable}`}>
             <head>
+                {/* Google Analytics 4 - Replace G-XXXXXXXXXX with your actual GA4 Measurement ID */}
+                <Script
+                    src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
+                    strategy="afterInteractive"
+                />
+                <Script id="google-analytics" strategy="afterInteractive">
+                    {`
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-XXXXXXXXXX');
+                    `}
+                </Script>
+
                 {/* Structured Data */}
                 <script
                     type="application/ld+json"
@@ -102,15 +118,17 @@ export default function RootLayout({ children }) {
                 />
             </head>
             <body>
-                <Navbar />
-                <main style={{
-                    minHeight: 'calc(100vh - 80px - 300px)',
-                    paddingTop: '80px',
-                    backgroundColor: 'var(--background)'
-                }}>
-                    {children}
-                </main>
-                <Footer />
+                <ErrorBoundary>
+                    <Navbar />
+                    <main style={{
+                        minHeight: 'calc(100vh - 80px - 300px)',
+                        paddingTop: '80px',
+                        backgroundColor: 'var(--background)'
+                    }}>
+                        {children}
+                    </main>
+                    <Footer />
+                </ErrorBoundary>
             </body>
         </html>
     )

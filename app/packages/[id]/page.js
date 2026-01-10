@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { packages, states } from '../../../lib/data';
 import { notFound } from 'next/navigation';
-import { MapPin, Clock, CheckCircle2, Share2, Heart, ArrowLeft, ExternalLink } from 'lucide-react';
+import { MapPin, Clock, CheckCircle2, Share2, Heart, ArrowLeft, ExternalLink, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import BookingModal from '../../../components/BookingModal';
 import ShareModal from '../../../components/ShareModal';
@@ -164,6 +164,34 @@ export default function PackagePage({ params }) {
                                     >
                                         <Share2 size={18} style={{ marginRight: '0.5rem' }} /> Share Package
                                     </button>
+
+                                    <a
+                                        href={`https://wa.me/919663080203?text=${encodeURIComponent(
+                                            `Hi! I'm interested in the *${pkg.title}* package.\n\nDuration: ${pkg.duration}\nPrice: ₹${pkg.price.toLocaleString('en-IN')}\n\nCould you please provide more details?`
+                                        )}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="btn"
+                                        style={{
+                                            width: '100%',
+                                            backgroundColor: '#25D366',
+                                            color: 'white',
+                                            border: 'none',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            gap: '0.5rem',
+                                            transition: 'background-color 0.2s'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.backgroundColor = '#128C7E';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.backgroundColor = '#25D366';
+                                        }}
+                                    >
+                                        <MessageCircle size={18} /> Inquire on WhatsApp
+                                    </a>
 
                                     <div style={{
                                         display: 'flex',
