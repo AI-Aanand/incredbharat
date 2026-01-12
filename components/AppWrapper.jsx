@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { Suspense } from 'react';
-import Navbar from './Navbar';
+// import Navbar from './Navbar'; // Removed as V2 is now global
 import Footer from './Footer';
 import NavbarV2 from './v2/NavbarV2';
 import CategoryStrip from './v2/CategoryStrip';
