@@ -9,24 +9,23 @@ import CategoryStrip from './v2/CategoryStrip';
 
 export default function AppWrapper({ children }) {
     const pathname = usePathname();
-    // Use V2 layout for root and /v2 paths
-    const isV2 = pathname === '/' || pathname?.startsWith('/v2');
+    const isHomepage = pathname === '/' || pathname?.startsWith('/v2');
 
     return (
         <>
-            {/* Navbar Selection */}
-            {isV2 ? <NavbarV2 /> : <Navbar />}
+            {/* Global V2 Navbar */}
+            <NavbarV2 />
 
-            {/* Category Strip (V2 Only) */}
-            {isV2 && (
-                <Suspense fallback={<div style={{ height: '60px', background: '#0a3a5c' }}></div>}>
+            {/* Category Strip (Homepage Only) */}
+            {isHomepage && (
+                <Suspense fallback={<div style={{ height: '60px', background: '#500000' }}></div>}>
                     <CategoryStrip />
                 </Suspense>
             )}
 
-            <main style={isV2 ? { paddingTop: 0 } : {
+            <main style={isHomepage ? { paddingTop: 0 } : {
                 minHeight: 'calc(100vh - 80px - 300px)',
-                paddingTop: '80px',
+                paddingTop: '80px', // Push content down for fixed navbar on non-home pages
                 backgroundColor: 'var(--background)'
             }}>
                 {children}

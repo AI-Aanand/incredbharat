@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
-import ImageWithFallback from '../ImageWithFallback';
+import OptimizedImage from '../OptimizedImage';
 
 export default function HeroV2() {
     const router = useRouter();
@@ -21,14 +21,13 @@ export default function HeroV2() {
         <div className="v2-hero-wrapper">
             {/* Background Image */}
             <div className="v2-hero-bg">
-                <ImageWithFallback
+                <OptimizedImage
                     src="https://images.unsplash.com/photo-1620766182966-c6eb5ed2b788?q=80&w=3570&auto=format&fit=crop"
                     alt="Incredible India"
-                    style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover'
-                    }}
+                    width={1920}
+                    height={600}
+                    priority
+                    showAIBadge={false}
                 />
                 <div className="v2-hero-overlay" />
             </div>

@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { ArrowLeft, MapPin, Clock, Star, ExternalLink, Info, Train, Bus, Building2, BadgeCheck, Sun, CloudRain, UtensilsCrossed, Camera, Landmark, Music } from 'lucide-react';
 import { destinationGuides } from '../../../lib/destinationData';
 import { notFound } from 'next/navigation';
+import OptimizedImage from '../../../components/OptimizedImage';
+import ViewTracker from '../../../components/ViewTracker';
 
 // Helper function to detect package transport type
 function getPackageType(pkg) {
@@ -77,12 +79,17 @@ export default function StatePage({ params }) {
 
     return (
         <div style={{ minHeight: '100vh', paddingBottom: '4rem', backgroundColor: '#f9fafb' }}>
+            <ViewTracker type="state" id={state.id} />
             {/* State Hero */}
             <div style={{ position: 'relative', height: '40vh', minHeight: '300px' }}>
-                <img
+                <OptimizedImage
                     src={state.image}
                     alt={state.name}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    width={1920}
+                    height={600}
+                    priority
+                    isAIGenerated={state.isAIGenerated}
+                    style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                 />
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)' }}></div>
                 <div className="container" style={{ position: 'absolute', bottom: '2rem', left: '0', right: '0' }}>

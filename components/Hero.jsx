@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MapPin } from 'lucide-react';
-import ImageWithFallback from './ImageWithFallback';
+import OptimizedImage from './OptimizedImage';
 
 export default function Hero() {
     const router = useRouter();
@@ -38,14 +38,13 @@ export default function Hero() {
                 zIndex: -1,
                 animation: 'zoomIn 20s ease infinite alternate'
             }}>
-                <ImageWithFallback
+                <OptimizedImage
                     src="https://images.unsplash.com/photo-1620766182966-c6eb5ed2b788?q=80&w=3570&auto=format&fit=crop"
                     alt="Incredible India"
-                    style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover'
-                    }}
+                    width={1920}
+                    height={1080}
+                    priority={true}
+                    showAIBadge={false}
                 />
                 <div className="hero-overlay" style={{
                     position: 'absolute',

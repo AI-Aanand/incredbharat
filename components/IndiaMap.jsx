@@ -26,90 +26,39 @@ export default function IndiaMap() {
     const regionData = {};
 
     states.forEach(state => {
-        if (activeStatesSet.has(state.name)) {
-            regionData[state.name] = {
-                value: 100,
-                color: '#FF7A18',
-                stateId: state.id
-            };
-        } else {
-            regionData[state.name] = {
-                value: 10,
-                color: '#e5e7eb'
-            };
-        }
+        // Normalize checking
+        const hasPackages = activeStatesSet.has(state.name);
+
+        regionData[state.name] = {
+            value: hasPackages ? 100 : 10,
+            // If it has packages, use the brand Orange. If not, use a visible but softer gray/blue.
+            color: hasPackages ? '#FF7A18' : '#cbd5e1',
+            stateId: state.id
+        };
     });
 
-    // Use EVENT DELEGATION to handle clicks on map states
-    // This is a workaround since react-datamaps-india doesn't support onClick prop
-    // Event delegation is more robust because it survives library re-renders of the SVG
+    const currentHoveredState = useRef(null);
+
+    // Update map click handler to use the tracked hover state
     useEffect(() => {
         if (!mapContainerRef.current) return;
 
-        const handleContainerClick = (event) => {
-            // Find the path element - could be the target itself or need to traverse up
-            let path = null;
-
-            // Check if direct target is a path
-            if (event.target.tagName === 'path' || event.target.nodeName === 'path') {
-                path = event.target;
-            }
-            // Try using closest if available
-            else if (event.target.closest) {
-                path = event.target.closest('path');
-            }
-
-            if (!path) {
-                return; // Not a path click, ignore
-            }
-
-            let stateName = null;
-
-            //  Method 1: Try data-state-name attribute (we'll add this to paths)
-            stateName = path.getAttribute('data-state-name');
-
-            // Method 2: Try to get from the HoverInfo tooltip
-            if (!stateName) {
-                const hoverInfo = document.querySelector('.HoverInfo');
-                if (hoverInfo) {
-                    // Extract state name from the <strong> tag inside the tooltip
-                    const strongElement = hoverInfo.querySelector('strong');
-                    if (strongElement) {
-                        stateName = strongElement.textContent.trim();
-                    }
-                }
-            }
-
-            // Method 3: Try to extract from aria-label or title attributes
-            if (!stateName) {
-                stateName = path.getAttribute('aria-label') || path.getAttribute('title');
-            }
-
-            // Method 4: Try to get from path's id or class
-            if (!stateName) {
-                const pathId = path.getAttribute('id') || path.getAttribute('class');
-                if (pathId) {
-                    // The library may store state names in path IDs
-                    stateName = pathId.replace(/-/g, ' ').replace(/_/g, ' ');
-                }
-            }
+        const handleContainerClick = () => {
+            const stateName = currentHoveredState.current;
 
             if (!stateName) {
-                console.log('⚠️ Could not determine state name from click. Path:', path);
-                // Log all available attributes for debugging
-                console.log('Path attributes:', {
-                    id: path.id,
-                    className: path.className,
-                    fill: path.style.fill,
-                    'data-*': Array.from(path.attributes).filter(attr => attr.name.startsWith('data-'))
-                });
+                console.log('⚠️ No state currently hovered');
                 return;
             }
 
             console.log('🗺️ MAP CLICKED! State:', stateName);
 
-            // Look up the state in our data
-            const activeState = allStatesMap[stateName];
+            // Look up the state in our data (using a loose name match)
+            const normalize = (str) => str ? str.toLowerCase().replace(/[^a-z0-9]/g, '') : '';
+            const normalizedTarget = normalize(stateName);
+
+            const activeState = states.find(s => normalize(s.name) === normalizedTarget);
+
             if (activeState) {
                 console.log('✅ NAVIGATING TO:', `/states/${activeState.id}`);
                 router.push(`/states/${activeState.id}`);
@@ -118,41 +67,13 @@ export default function IndiaMap() {
             }
         };
 
-        // Attach single listener to container (event delegation)
         const container = mapContainerRef.current;
         container.addEventListener('click', handleContainerClick);
         console.log('📍 Event delegation listener attached to map container');
 
-        // Add cursor pointer style and data attributes to all paths (retry until paths are available)
-        const styleTimer = setInterval(() => {
-            const paths = container.querySelectorAll('svg path');
-            if (paths.length > 0) {
-                console.log('✨ Styling', paths.length, 'map paths with pointer cursor');
-                paths.forEach((path, index) => {
-                    path.style.cursor = 'pointer';
-
-                    // Try to extract state name from the path and add as data attribute
-                    // The react-datamaps-india library may store state info in the path's siblings or parent
-                    const svgParent = path.closest('svg');
-                    if (svgParent) {
-                        // Look for title elements near this path that might contain the state name
-                        const titleElements = svgParent.querySelectorAll('title');
-                        if (titleElements[index]) {
-                            const titleText = titleElements[index].textContent;
-                            if (titleText && allStatesMap[titleText]) {
-                                path.setAttribute('data-state-name', titleText);
-                            }
-                        }
-                    }
-                });
-                clearInterval(styleTimer);
-            }
-        }, 100); // Check every 100ms until paths are available
-
         // Cleanup
         return () => {
             container.removeEventListener('click', handleContainerClick);
-            clearInterval(styleTimer);
         };
     }, []); // Run once on mount
 
@@ -171,59 +92,61 @@ export default function IndiaMap() {
                         width: '100%',
                         maxWidth: '800px',
                         margin: '0 auto',
-                        height: '600px'
+                        height: '600px',
+                        cursor: 'pointer' // Make the whole container clickable-looking
                     }}
                 >
+                    {/* Styles to ensure pointer events work */}
                     <style jsx>{`
-                        /* Force pointer-events on SVG paths for Chrome */
-                        svg path {
-                            pointer-events: all !important;
-                            cursor: pointer !important;
-                        }
-                        /* Disable pointer-events on any overlays */
-                        svg > :not(path):not(g) {
-                            pointer-events: none !important;
+                        :global(svg path) {
+                             cursor: pointer !important;
+                             pointer-events: all !important;
                         }
                     `}</style>
 
                     <ReactDatamaps
                         regionData={regionData}
                         mapLayout={{
-                            startColor: '#e5e7eb',
-                            endColor: '#FF7A18',
+                            startColor: '#94a3b8', // Slate-400 (Default for non-active)
+                            endColor: '#FF7A18',   // Orange (Active)
                             hoverTitle: 'Count',
-                            noDataColor: '#e5e7eb',
+                            noDataColor: '#94a3b8', // Fallback color
                             borderColor: '#ffffff',
-                            hoverBorderColor: '#000080',
-                            hoverColor: '#138808',
+                            hoverBorderColor: '#0F4C75',
+                            hoverColor: '#FF9F55', // Lighter orange on hover
                         }}
                         hoverComponent={({ value }) => {
+                            // Update ref whenever hover component renders (which implies hover)
+                            currentHoveredState.current = value.name;
+
+                            // We can't clear the ref easily on unmount of this specific component 
+                            // because it unmounts and remounts rapidly.
+                            // But click handler only fires when *clicking*, so it should be fine.
+
                             const activeState = allStatesMap[value.name];
-                            const isClickable = !!activeState;
+                            const hasPackages = activeStatesSet.has(value.name);
 
                             return (
                                 <div
                                     style={{
                                         padding: '0.75rem',
                                         background: 'white',
-                                        border: '2px solid #FF7A18',
+                                        border: `2px solid ${hasPackages ? '#FF7A18' : '#94a3b8'}`,
                                         borderRadius: '0.5rem',
                                         boxShadow: '0 4px 6px rgba(0,0,0,0.15)',
                                         pointerEvents: 'none',
                                         zIndex: 100,
-                                        userSelect: 'none'
+                                        minWidth: '150px'
                                     }}
                                 >
-                                    <strong style={{ fontSize: '1rem', color: '#1f2937' }}>{value.name}</strong>
-                                    {isClickable && (
-                                        <span style={{
-                                            display: 'block',
-                                            fontSize: '0.875rem',
-                                            color: '#FF7A18',
-                                            fontWeight: 600,
-                                            marginTop: '0.5rem'
-                                        }}>
-                                            👆 Click to explore
+                                    <strong style={{ fontSize: '1rem', color: '#1f2937', display: 'block' }}>{value.name}</strong>
+                                    {hasPackages ? (
+                                        <span style={{ color: '#FF7A18', fontSize: '0.875rem', fontWeight: 600 }}>
+                                            ✨ View Packages
+                                        </span>
+                                    ) : (
+                                        <span style={{ color: '#6b7280', fontSize: '0.875rem' }}>
+                                            Explore State
                                         </span>
                                     )}
                                 </div>

@@ -14,6 +14,12 @@ const jakarta = Plus_Jakarta_Sans({
     variable: '--font-body',
 })
 
+export const viewport = {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+}
+
 export const metadata = {
     metadataBase: new URL('https://incredbharat.vercel.app'),
     title: {
@@ -30,7 +36,6 @@ export const metadata = {
         address: false,
         telephone: false,
     },
-    viewport: 'width=device-width, initial-scale=1, maximum-scale=5',
     openGraph: {
         type: 'website',
         locale: 'en_IN',
@@ -77,8 +82,7 @@ export const metadata = {
 
 
 import './globals.css'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+import AppWrapper from '../components/AppWrapper'
 import ErrorBoundary from '../components/ErrorBoundary'
 
 export default function RootLayout({ children }) {
@@ -119,15 +123,9 @@ export default function RootLayout({ children }) {
             </head>
             <body>
                 <ErrorBoundary>
-                    <Navbar />
-                    <main style={{
-                        minHeight: 'calc(100vh - 80px - 300px)',
-                        paddingTop: '80px',
-                        backgroundColor: 'var(--background)'
-                    }}>
+                    <AppWrapper>
                         {children}
-                    </main>
-                    <Footer />
+                    </AppWrapper>
                 </ErrorBoundary>
             </body>
         </html>

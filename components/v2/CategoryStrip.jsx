@@ -33,7 +33,7 @@ export default function CategoryStrip() {
             left: 0,
             right: 0,
             zIndex: 999,
-            backgroundColor: '#0a3a5c', // Darker Ocean Blue
+            backgroundColor: '#500000', // Darker Burgundy
             borderBottom: '1px solid rgba(255,255,255,0.1)'
         }}>
             <div style={{

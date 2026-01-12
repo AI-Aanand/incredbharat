@@ -53,7 +53,7 @@ export default function NavbarV2() {
                 left: 0,
                 right: 0,
                 zIndex: 1000,
-                backgroundColor: '#0F4C75', // Deep Ocean Blue
+                backgroundColor: '#790101', // Deep Burgundy (User Experiment)
                 color: 'white'
             }}>
                 <div style={{

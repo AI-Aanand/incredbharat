@@ -8,11 +8,15 @@ const nextConfig = {
                 port: '',
                 pathname: '/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'images.pexels.com',
+                port: '',
+                pathname: '/**',
+            },
         ],
         // Enable image optimization
         formats: ['image/webp', 'image/avif'],
-        // Allow unoptimized for development
-        unoptimized: process.env.NODE_ENV === 'development',
     },
 };
 

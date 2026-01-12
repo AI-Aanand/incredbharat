@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <img id="ref-img" src="/temp_color_ref.png" crossOrigin="Anonymous" style="display:none;" />
+    <h1>Dominant Color: <span id="color-output">Calculating...</span></h1>
+    <canvas id="canvas"></canvas>
+    <script>
+        window.onload = function() {
+            var img = document.getElementById('ref-img');
+            var canvas = document.getElementById('canvas');
+            var ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            
+            // Sample center pixel
+            var p = ctx.getImageData(img.width / 2, img.height / 2, 1, 1).data; 
+            var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
+            
+            document.getElementById('color-output').innerText = hex;
+            document.body.style.backgroundColor = hex;
+
+            function rgbToHex(r, g, b) {
+                if (r > 255 || g > 255 || b > 255)
+                    throw "Invalid color component";
+                return ((r << 16) | (g << 8) | b).toString(16);
+            }
+        };
+    </script>
+</body>
+</html>

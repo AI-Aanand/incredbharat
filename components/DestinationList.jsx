@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { states } from '../lib/data';
+import OptimizedImage from './OptimizedImage';
 
 export default function DestinationList() {
     const featuredStates = states.filter(s => s.popular).slice(0, 4);
@@ -26,15 +27,18 @@ export default function DestinationList() {
                     {featuredStates.map(state => (
                         <Link key={state.id} href={`/states/${state.id}`} className="card" style={{ display: 'block' }}>
                             <div style={{ position: 'relative', height: '240px' }}>
-                                <img
+                                <OptimizedImage
                                     src={state.image}
                                     alt={state.name}
-                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    width={400}
+                                    height={240}
+                                    isAIGenerated={state.isAIGenerated}
                                 />
                                 <div style={{
                                     position: 'absolute',
                                     inset: 0,
-                                    background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%)' // Gradient overlay for text readability
+                                    background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%)',
+                                    pointerEvents: 'none'
                                 }}></div>
                                 <div style={{ position: 'absolute', bottom: '1.5rem', left: '1.5rem', color: 'white' }}>
                                     <h3 style={{ color: 'white', marginBottom: '0.25rem', fontSize: '1.5rem' }}>{state.name}</h3>

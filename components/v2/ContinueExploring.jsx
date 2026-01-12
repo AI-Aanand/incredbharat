@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { packages, states } from '../../lib/data';
 import { ArrowRight, Clock, MapPin, Star } from 'lucide-react';
 import StateCardV2 from './StateCardV2';
-import ImageWithFallback from '../ImageWithFallback';
+import OptimizedImage from '../OptimizedImage';
+import { getPackageImage, isPackageImageAI } from '../../lib/imageHelpers';
 
 export default function ContinueExploring() {
     const [recentStates, setRecentStates] = useState([]);
@@ -85,10 +86,14 @@ export default function ContinueExploring() {
                                             flexShrink: 0
                                         }}>
                                             <div style={{ height: '160px', position: 'relative' }}>
-                                                <ImageWithFallback
-                                                    src={pkg.images[0]}
+                                                <OptimizedImage
+                                                    src={getPackageImage(pkg, state)}
                                                     alt={pkg.title}
-                                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                                    width={280}
+                                                    height={160}
+                                                    isAIGenerated={isPackageImageAI(pkg, state)}
+                                                    fallbackSrc={state?.image}
+                                                    isFallbackAIGenerated={state?.isAIGenerated}
                                                 />
                                                 <div style={{
                                                     position: 'absolute',

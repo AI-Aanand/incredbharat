@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { ArrowRight, Clock, Star, MapPin } from 'lucide-react';
-import { packages } from '../lib/data';
+import { packages, states } from '../lib/data';
 import { samplePackagesWithMetadata } from '../lib/sample-packages-with-metadata';
 import PackageTypeIndicator from './PackageTypeIndicator';
-import ImageWithFallback from './ImageWithFallback';
+import OptimizedImage from './OptimizedImage';
 import FavoriteButton from './FavoriteButton';
 
 export default function PackageList() {
@@ -30,76 +30,83 @@ export default function PackageList() {
                     gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
                     gap: '2rem'
                 }}>
-                    {featuredPackages.map(pkg => (
-                        <div key={pkg.id} className="card">
-                            <div style={{ height: '220px', position: 'relative' }}>
-                                <ImageWithFallback
-                                    src={pkg.images[0]}
-                                    alt={pkg.title}
-                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                />
-                                {/* Package Type Indicators - Top Left with overlay for better readability */}
-                                {(pkg.organizer || pkg.transportMode || pkg.isSubsidized) && (
-                                    <div style={{
-                                        position: 'absolute',
-                                        top: '0rem',
-                                        left: '0rem',
-                                        padding: '1rem',
-                                        background: 'linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 50%, transparent 100%)',
-                                        borderRadius: '0 0 1rem 0'
-                                    }}>
-                                        <PackageTypeIndicator
-                                            organizer={pkg.organizer}
-                                            transportMode={pkg.transportMode}
-                                            isSubsidized={pkg.isSubsidized}
-                                        />
-                                    </div>
-                                )}
-
-                                {/* Favorite Button - Top Right */}
-                                <div style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', zIndex: 10 }}>
-                                    <FavoriteButton packageId={pkg.id} size={20} />
-                                </div>
-
-                                {/* Rating Badge - Below Favorite Button */}
-                                <div style={{ position: 'absolute', top: '3.5rem', right: '1rem', background: 'white', padding: '0.25rem 0.75rem', borderRadius: '2rem', display: 'flex', alignItems: 'center', gap: '0.25rem', fontWeight: 600, fontSize: '0.875rem' }}>
-                                    <Star size={14} fill="#FF7A18" stroke="#FF7A18" />
-                                    {pkg.rating}
-                                </div>
-                            </div>
-
-                            <div style={{ padding: '1.5rem' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem', textTransform: 'uppercase' }}>
-                                    <MapPin size={16} />
-                                    {/* Map stateId to something readable if needed, or just assume context */}
-                                    Discover India
-                                </div>
-
-                                <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: '#111827' }}>
-                                    <Link href={`/packages/${pkg.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                        {pkg.title}
-                                    </Link>
-                                </h3>
-
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#6b7280', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
-                                    <Clock size={16} />
-                                    {pkg.duration}
-                                </div>
-
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto' }}>
-                                    <div>
-                                        <span style={{ fontSize: '0.875rem', color: '#6b7280' }}>Starts from</span>
-                                        <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--secondary)' }}>
-                                            ₹{pkg.price.toLocaleString('en-IN')}
+                    {featuredPackages.map(pkg => {
+                        const state = packages.find(p => p.id === pkg.id) ? states.find(s => s.id === pkg.stateId) : null;
+                        return (
+                            <div key={pkg.id} className="card">
+                                <div style={{ height: '220px', position: 'relative' }}>
+                                    <OptimizedImage
+                                        src={pkg.images[0]}
+                                        alt={pkg.title}
+                                        width={400}
+                                        height={220}
+                                        isAIGenerated={pkg.isAIGenerated}
+                                        fallbackSrc={state?.image}
+                                        isFallbackAIGenerated={state?.isAIGenerated}
+                                    />
+                                    {/* Package Type Indicators - Top Left with overlay for better readability */}
+                                    {(pkg.organizer || pkg.transportMode || pkg.isSubsidized) && (
+                                        <div style={{
+                                            position: 'absolute',
+                                            top: '0rem',
+                                            left: '0rem',
+                                            padding: '1rem',
+                                            background: 'linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 50%, transparent 100%)',
+                                            borderRadius: '0 0 1rem 0'
+                                        }}>
+                                            <PackageTypeIndicator
+                                                organizer={pkg.organizer}
+                                                transportMode={pkg.transportMode}
+                                                isSubsidized={pkg.isSubsidized}
+                                            />
                                         </div>
+                                    )}
+
+                                    {/* Favorite Button - Top Right */}
+                                    <div style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', zIndex: 10 }}>
+                                        <FavoriteButton packageId={pkg.id} size={20} />
                                     </div>
-                                    <Link href={`/packages/${pkg.id}`} className="btn btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}>
-                                        Details
-                                    </Link>
+
+                                    {/* Rating Badge - Below Favorite Button */}
+                                    <div style={{ position: 'absolute', top: '3.5rem', right: '1rem', background: 'white', padding: '0.25rem 0.75rem', borderRadius: '2rem', display: 'flex', alignItems: 'center', gap: '0.25rem', fontWeight: 600, fontSize: '0.875rem' }}>
+                                        <Star size={14} fill="#FF7A18" stroke="#FF7A18" />
+                                        {pkg.rating}
+                                    </div>
+                                </div>
+
+                                <div style={{ padding: '1.5rem' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem', textTransform: 'uppercase' }}>
+                                        <MapPin size={16} />
+                                        {/* Map stateId to something readable if needed, or just assume context */}
+                                        Discover India
+                                    </div>
+
+                                    <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: '#111827' }}>
+                                        <Link href={`/packages/${pkg.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                            {pkg.title}
+                                        </Link>
+                                    </h3>
+
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#6b7280', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
+                                        <Clock size={16} />
+                                        {pkg.duration}
+                                    </div>
+
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto' }}>
+                                        <div>
+                                            <span style={{ fontSize: '0.875rem', color: '#6b7280' }}>Starts from</span>
+                                            <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--secondary)' }}>
+                                                ₹{pkg.price.toLocaleString('en-IN')}
+                                            </div>
+                                        </div>
+                                        <Link href={`/packages/${pkg.id}`} className="btn btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}>
+                                            Details
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         </section>

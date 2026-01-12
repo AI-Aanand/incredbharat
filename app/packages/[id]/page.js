@@ -9,12 +9,16 @@ import BookingModal from '../../../components/BookingModal';
 import ShareModal from '../../../components/ShareModal';
 import FavoriteButton from '../../../components/FavoriteButton';
 import { formatShareMessage, formatEmailShare, shareViaWebAPI, canUseWebShare } from '../../../lib/shareUtils';
+import OptimizedImage from '../../../components/OptimizedImage';
 
 
 export default function PackagePage({ params }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
     const pkg = packages.find(p => p.id === params.id);
+    // Determine if the *package* images are AI. 
+    // Since data.js Pexels images are real, we default to false unless specified.
+    const isAI = pkg?.isAIGenerated || false;
 
     // Track view
     useEffect(() => {
@@ -84,16 +88,27 @@ export default function PackagePage({ params }) {
 
                         {/* Gallery */}
                         <div style={{ display: 'grid', gap: '1rem', marginBottom: '3rem' }}>
-                            <div style={{ height: '400px', borderRadius: '1rem', overflow: 'hidden' }}>
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img src={pkg.images[0]} alt={pkg.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <div style={{ height: '400px', borderRadius: '1rem', overflow: 'hidden', position: 'relative' }}>
+                                <OptimizedImage
+                                    src={pkg.images[0]}
+                                    alt={pkg.title}
+                                    width={800}
+                                    height={600}
+                                    priority={true}
+                                    isAIGenerated={isAI}
+                                />
                             </div>
                             {pkg.images.length > 1 && (
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                                     {pkg.images.slice(1).map((img, i) => (
-                                        <div key={i} style={{ height: '200px', borderRadius: '1rem', overflow: 'hidden' }}>
-                                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                                            <img src={img} alt={`${pkg.title} ${i + 2}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                        <div key={i} style={{ height: '200px', borderRadius: '1rem', overflow: 'hidden', position: 'relative' }}>
+                                            <OptimizedImage
+                                                src={img}
+                                                alt={`${pkg.title} ${i + 2}`}
+                                                width={400}
+                                                height={300}
+                                                isAIGenerated={isAI}
+                                            />
                                         </div>
                                     ))}
                                 </div>

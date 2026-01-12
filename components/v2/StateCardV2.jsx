@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import ImageWithFallback from '../ImageWithFallback';
+import OptimizedImage from '../OptimizedImage';
 import { MapPin, ArrowRight } from 'lucide-react';
 
 export default function StateCardV2({ state, packageCount, compact = false }) {
@@ -10,14 +10,12 @@ export default function StateCardV2({ state, packageCount, compact = false }) {
             <div className="v2-state-card">
                 {/* Image */}
                 <div className="v2-card-image">
-                    <ImageWithFallback
+                    <OptimizedImage
                         src={state.image}
                         alt={state.name}
-                        style={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover'
-                        }}
+                        width={400}
+                        height={160}
+                        isAIGenerated={state.isAIGenerated}
                     />
                     <div className="v2-card-gradient" />
                 </div>
