@@ -14,9 +14,18 @@ const nextConfig = {
                 port: '',
                 pathname: '/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'upload.wikimedia.org',
+                port: '',
+                pathname: '/**',
+            },
         ],
         // Enable image optimization
         formats: ['image/webp', 'image/avif'],
+    },
+    compiler: {
+        removeConsole: process.env.NODE_ENV === 'production',
     },
 };
 

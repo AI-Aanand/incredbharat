@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Scale, X, Trash2, MapPin, Clock, Star, ArrowRight } from 'lucide-react';
 import { packages, states } from '../../lib/data';
-import ImageWithFallback from '../../components/ImageWithFallback';
+import OptimizedImage from '../../components/OptimizedImage';
 
 export default function ComparePage() {
     const [compareIds, setCompareIds] = useState([]);
@@ -134,10 +134,11 @@ export default function ComparePage() {
                                             <X size={16} color="#ef4444" />
                                         </button>
                                         <div style={{ height: '160px', marginBottom: '0.75rem', borderRadius: '0.5rem', overflow: 'hidden' }}>
-                                            <ImageWithFallback
+                                            <OptimizedImage
                                                 src={pkg.images[0]}
                                                 alt={pkg.title}
-                                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                                fill
+                                                style={{ objectFit: 'cover' }}
                                             />
                                         </div>
                                         <Link href={`/packages/${pkg.id}`} style={{ textDecoration: 'none' }}>

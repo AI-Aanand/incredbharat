@@ -2,7 +2,6 @@
 
 import { usePathname } from 'next/navigation';
 import { Suspense } from 'react';
-// import Navbar from './Navbar'; // Removed as V2 is now global
 import Footer from './Footer';
 import NavbarV2 from './v2/NavbarV2';
 import CategoryStrip from './v2/CategoryStrip';
@@ -16,12 +15,10 @@ export default function AppWrapper({ children }) {
             {/* Global V2 Navbar */}
             <NavbarV2 />
 
-            {/* Category Strip (Homepage Only) */}
-            {isHomepage && (
-                <Suspense fallback={<div style={{ height: '60px', background: '#500000' }}></div>}>
-                    <CategoryStrip />
-                </Suspense>
-            )}
+            {/* Category Strip (Global) */}
+            <Suspense fallback={<div style={{ height: '60px', background: '#500000' }}></div>}>
+                <CategoryStrip />
+            </Suspense>
 
             <main style={isHomepage ? { paddingTop: 0 } : {
                 minHeight: 'calc(100vh - 80px - 300px)',

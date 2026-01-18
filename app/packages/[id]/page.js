@@ -3,9 +3,8 @@
 import { useState, useEffect } from 'react';
 import { packages, states } from '../../../lib/data';
 import { notFound } from 'next/navigation';
-import { MapPin, Clock, CheckCircle2, Share2, Heart, ArrowLeft, ExternalLink, MessageCircle } from 'lucide-react';
+import { MapPin, Clock, CheckCircle2, Share2, Heart, ArrowLeft, ExternalLink, MessageCircle, Info } from 'lucide-react';
 import Link from 'next/link';
-import BookingModal from '../../../components/BookingModal';
 import ShareModal from '../../../components/ShareModal';
 import FavoriteButton from '../../../components/FavoriteButton';
 import { formatShareMessage, formatEmailShare, shareViaWebAPI, canUseWebShare } from '../../../lib/shareUtils';
@@ -13,7 +12,6 @@ import OptimizedImage from '../../../components/OptimizedImage';
 
 
 export default function PackagePage({ params }) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
     const pkg = packages.find(p => p.id === params.id);
     // Determine if the *package* images are AI. 
@@ -64,6 +62,9 @@ export default function PackagePage({ params }) {
     const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
     const shareMessage = formatShareMessage(pkg, state);
     const emailData = formatEmailShare(pkg, state, shareUrl);
+
+    // Get Official Website URL (prefer package-specific, fallback to state)
+    const officialUrl = pkg.website || state?.website;
 
     return (
         <div style={{ paddingBottom: '4rem', background: 'white' }}>
@@ -119,6 +120,22 @@ export default function PackagePage({ params }) {
                         <section style={{ marginBottom: '3rem' }}>
                             <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Overview</h2>
                             <p style={{ lineHeight: '1.8', color: '#4b5563', fontSize: '1.1rem' }}>{pkg.description}</p>
+
+                            {/* Last Updated Timestamp */}
+                            <div style={{
+                                marginTop: '1.5rem',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                padding: '0.5rem 1rem',
+                                backgroundColor: '#f3f4f6',
+                                borderRadius: '2rem',
+                                fontSize: '0.875rem',
+                                color: '#6b7280'
+                            }}>
+                                <Info size={14} />
+                                <span>Data verified as of: <strong>{pkg.lastUpdated || 'January 14, 2026'}</strong></span>
+                            </div>
                         </section>
 
                         {/* Amenities */}
@@ -152,9 +169,9 @@ export default function PackagePage({ params }) {
                                 </div>
 
                                 <div style={{ display: 'grid', gap: '1rem' }}>
-                                    {state?.website ? (
+                                    {officialUrl ? (
                                         <a
-                                            href={state.website}
+                                            href={officialUrl}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="btn btn-primary"
@@ -164,11 +181,11 @@ export default function PackagePage({ params }) {
                                         </a>
                                     ) : (
                                         <button
-                                            onClick={() => setIsModalOpen(true)}
+                                            disabled
                                             className="btn btn-primary"
-                                            style={{ width: '100%', fontSize: '1.1rem', padding: '1rem' }}
+                                            style={{ width: '100%', fontSize: '1.1rem', padding: '1rem', opacity: 0.7, cursor: 'not-allowed' }}
                                         >
-                                            Book Now
+                                            Official Link Unavailable
                                         </button>
                                     )}
 
@@ -234,25 +251,27 @@ export default function PackagePage({ params }) {
                                     </div>
                                 </div>
 
-                                <div style={{ marginTop: '1.5rem', padding: '1rem', backgroundColor: '#f0fdf4', borderRadius: '0.5rem', border: '1px solid #bbf7d0' }}>
-                                    <p style={{ fontSize: '0.875rem', color: '#166534', textAlign: 'center', margin: 0 }}>
-                                        <strong>Trusted Source:</strong> This package is managed strictly by the {state?.name} Tourism Department.
-                                    </p>
-                                </div>
+                                {/* Governance / Trust Badge */}
+                                {pkg.organizer !== 'Private' && (
+                                    <div style={{ marginTop: '1.5rem', padding: '1rem', backgroundColor: '#f0fdf4', borderRadius: '0.5rem', border: '1px solid #bbf7d0' }}>
+                                        <p style={{ fontSize: '0.875rem', color: '#166534', textAlign: 'center', margin: 0 }}>
+                                            <strong>Trusted Source:</strong> This package is managed by {pkg.organizer} ({state?.name} Govt).
+                                        </p>
+                                    </div>
+                                )}
+                                {pkg.organizer === 'Private' && (
+                                    <div style={{ marginTop: '1.5rem', padding: '1rem', backgroundColor: '#fefce8', borderRadius: '0.5rem', border: '1px solid #fef08a' }}>
+                                        <p style={{ fontSize: '0.875rem', color: '#854d0e', textAlign: 'center', margin: 0 }}>
+                                            <strong>Operator:</strong> This is a privately organized tour verified for listing.
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
 
                 </div>
             </div>
-
-            {/* Booking Modal */}
-            <BookingModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                packageTitle={pkg.title}
-                price={pkg.price}
-            />
 
             {/* Share Modal */}
             <ShareModal

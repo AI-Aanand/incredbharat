@@ -275,7 +275,7 @@ export default function HeroV2() {
                 /* Mobile */
                 @media (max-width: 768px) {
                     .v2-hero-wrapper {
-                        margin-top: 190px; /* Same as desktop: navbar + category strip */
+                        margin-top: 120px; /* Adjusted for mobile header (Navbar ~60px + Category ~60px) */
                         min-height: 320px;
                     }
 

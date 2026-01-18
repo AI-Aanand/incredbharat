@@ -92,7 +92,13 @@ export default function CategoryStrip() {
                 div::-webkit-scrollbar {
                     display: none;
                 }
+
+                @media (max-width: 768px) {
+                    div {
+                        top: 60px !important;
+                    }
+                }
             `}</style>
-        </div>
+        </div >
     );
 }

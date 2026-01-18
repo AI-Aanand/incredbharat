@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Heart, Trash2, ShoppingBag, MapPin, Clock, Star } from 'lucide-react';
 import { getFavorites, removeFromFavorites, clearFavorites } from '../../lib/favorites';
 import { packages, states } from '../../lib/data';
-import ImageWithFallback from '../../components/ImageWithFallback';
+import OptimizedImage from '../../components/OptimizedImage';
 import PackageTypeIndicator from '../../components/PackageTypeIndicator';
 
 export default function FavoritesPage() {
@@ -133,10 +133,11 @@ export default function FavoritesPage() {
                                 </button>
 
                                 <div style={{ height: '200px', position: 'relative' }}>
-                                    <ImageWithFallback
+                                    <OptimizedImage
                                         src={pkg.images[0]}
                                         alt={pkg.title}
-                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                        fill
+                                        style={{ objectFit: 'cover' }}
                                     />
 
                                     {/* Package Type Indicators */}

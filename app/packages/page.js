@@ -2,10 +2,12 @@
 
 import { useState, useMemo, useEffect, Suspense } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation'; // Import hook
+import { useRouter, useSearchParams, usePathname } from 'next/navigation'; // Import hook
 import { packages, states } from '../../lib/data';
+
+const ITEMS_PER_PAGE = 9;
 import PackageTypeIndicator from '../../components/PackageTypeIndicator';
-import ImageWithFallback from '../../components/ImageWithFallback';
+import OptimizedImage from '../../components/OptimizedImage';
 import FavoriteButton from '../../components/FavoriteButton';
 import CompareButton from '../../components/CompareButton';
 import { Star, Clock, MapPin, SlidersHorizontal, X, ExternalLink, Shield, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -13,7 +15,14 @@ import { generateUSPs } from '../../lib/uspGenerator';
 import { generateThemes } from '../../lib/themeGenerator';
 
 function PackagesContent() {
+    const router = useRouter();
+    const pathname = usePathname();
     const searchParams = useSearchParams(); // Use hook
+
+    // pagination state
+    const pageParam = searchParams.get('page');
+    const initialPage = pageParam ? parseInt(pageParam) : 1;
+    const [currentPage, setCurrentPage] = useState(initialPage);
     const [filters, setFilters] = useState({
         state: 'all',
         category: [],
@@ -31,13 +40,29 @@ function PackagesContent() {
     useEffect(() => {
         const category = searchParams.get('category');
         const search = searchParams.get('search');
+        const page = searchParams.get('page');
 
         setFilters(prev => ({
             ...prev,
             category: category ? [category] : [],
             searchQuery: search || ''
         }));
+
+        if (page) {
+            setCurrentPage(parseInt(page));
+        } else {
+            setCurrentPage(1);
+        }
     }, [searchParams]);
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+        const params = new URLSearchParams(searchParams);
+        params.set('page', newPage.toString());
+        router.push(`${pathname}?${params.toString()}`, { scroll: true });
+        // Scroll to top of grid
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     // Initial state false to prevent mobile flash, set to true on desktop mount
     const [showFilters, setShowFilters] = useState(false);
@@ -129,11 +154,11 @@ function PackagesContent() {
 
             // Category Filter
             if (filters.category.length > 0) {
-                const pkgThemes = generateThemes(pkg);
+                const pkgThemes = generateThemes(pkg) || [];
                 // Check if ANY of the selected categories match ANY of the generated themes
                 // Use strict inclusion or equality, but case-insensitive
                 const hasCategory = filters.category.some(cat =>
-                    pkgThemes.some(theme => theme.toLowerCase().includes(cat.toLowerCase()) || cat.toLowerCase().includes(theme.toLowerCase()))
+                    pkgThemes.some(theme => (theme && cat) && (theme.toLowerCase().includes(cat.toLowerCase()) || cat.toLowerCase().includes(theme.toLowerCase())))
                 );
                 if (!hasCategory) return false;
             }
@@ -151,10 +176,11 @@ function PackagesContent() {
             if (filters.isSubsidized && !pkg.isSubsidized) return false;
 
             // Duration filter
-            const durationMatch = pkg.duration.match(/(\d+)/);
+            const durationStr = pkg.duration || '';
+            const durationMatch = durationStr.match(/(\d+)/);
             const nights = durationMatch ? parseInt(durationMatch[0]) : 0;
             // Handle "Day Trip" or similar (0 nights)
-            const pkgDuration = pkg.duration.toLowerCase().includes('day') && !pkg.duration.toLowerCase().includes('night') ? 1 : nights;
+            const pkgDuration = durationStr.toLowerCase().includes('day') && !durationStr.toLowerCase().includes('night') ? 1 : nights;
 
             if (pkgDuration < filters.durationMin || pkgDuration > filters.durationMax) return false;
 
@@ -188,6 +214,20 @@ function PackagesContent() {
             return true;
         });
     }, [filters]); // Re-compute when filters change
+
+    // Pagination Logic
+    const totalPages = Math.ceil(filteredPackages.length / ITEMS_PER_PAGE);
+    const currentPackages = filteredPackages.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
+
+    // Reset to page 1 if filters change and current page is out of bounds (handled by useEffect largely, but good safety)
+    useEffect(() => {
+        if (currentPage > totalPages && totalPages > 0) {
+            // handlePageChange(1); // Avoid infinite loop, just let user navigate
+        }
+    }, [totalPages]);
 
     return (
         <div className="container" style={{ paddingTop: '3rem', paddingBottom: '5rem' }}>
@@ -419,7 +459,8 @@ function PackagesContent() {
                             </h3>
                             <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                                 <button
-                                    onClick={() => setFilters({
+                                    onClick={() => setFilters(prev => ({
+                                        ...prev,
                                         state: 'all',
                                         category: [], // Reset category array
                                         organizer: 'all',
@@ -430,7 +471,7 @@ function PackagesContent() {
                                         durationMin: 0,
                                         durationMax: 15,
                                         searchQuery: ''
-                                    })}
+                                    }))}
                                     style={{
                                         fontSize: '0.875rem',
                                         color: '#FF7A18',
@@ -685,7 +726,7 @@ function PackagesContent() {
                     {/* Results Count & Filter Toggle */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
                         <p style={{ fontSize: '1rem', color: '#6b7280' }}>
-                            Showing <strong>{filteredPackages.length}</strong> of {packages.length} packages
+                            Showing <strong>{(currentPage - 1) * ITEMS_PER_PAGE + 1}-{Math.min(currentPage * ITEMS_PER_PAGE, filteredPackages.length)}</strong> of <strong>{filteredPackages.length}</strong> packages
                         </p>
                         <button
                             onClick={() => setShowFilters(!showFilters)}
@@ -706,7 +747,7 @@ function PackagesContent() {
                                 gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
                                 gap: '2rem'
                             }}>
-                            {filteredPackages.map(pkg => {
+                            {currentPackages.map((pkg, index) => {
                                 const state = states.find(s => s.id === pkg.stateId);
                                 return (
                                     <div key={pkg.id} className="card" style={{
@@ -715,10 +756,12 @@ function PackagesContent() {
                                         flexDirection: 'column'
                                     }}>
                                         <div style={{ height: '220px', position: 'relative' }}>
-                                            <ImageWithFallback
+                                            <OptimizedImage
                                                 src={pkg.images[0]}
                                                 alt={pkg.title}
-                                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                                fill
+                                                priority={index < 4}
+                                                style={{ objectFit: 'cover' }}
                                             />
 
                                             {/* Package Type Indicators - Top Left with overlay for better readability */}
@@ -849,6 +892,74 @@ function PackagesContent() {
                                 className="btn btn-primary"
                             >
                                 Clear All Filters
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Pagination Controls */}
+                    {totalPages > 1 && (
+                        <div style={{
+                            marginTop: '3rem',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            gap: '0.5rem'
+                        }}>
+                            <button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                style={{
+                                    padding: '0.5rem',
+                                    border: '1px solid #e5e7eb',
+                                    borderRadius: '0.375rem',
+                                    background: currentPage === 1 ? '#f3f4f6' : 'white',
+                                    color: currentPage === 1 ? '#9ca3af' : '#374151',
+                                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                }}
+                            >
+                                <ChevronLeft size={20} />
+                            </button>
+
+                            {/* Page Numbers */}
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                                <button
+                                    key={page}
+                                    onClick={() => handlePageChange(page)}
+                                    style={{
+                                        width: '36px',
+                                        height: '36px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        border: page === currentPage ? 'none' : '1px solid #e5e7eb',
+                                        borderRadius: '0.375rem',
+                                        background: page === currentPage ? '#FF7A18' : 'white',
+                                        color: page === currentPage ? 'white' : '#374151',
+                                        cursor: 'pointer',
+                                        fontWeight: page === currentPage ? 700 : 400
+                                    }}
+                                >
+                                    {page}
+                                </button>
+                            ))}
+
+                            <button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                                style={{
+                                    padding: '0.5rem',
+                                    border: '1px solid #e5e7eb',
+                                    borderRadius: '0.375rem',
+                                    background: currentPage === totalPages ? '#f3f4f6' : 'white',
+                                    color: currentPage === totalPages ? '#9ca3af' : '#374151',
+                                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                }}
+                            >
+                                <ChevronRight size={20} />
                             </button>
                         </div>
                     )}

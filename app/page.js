@@ -1,10 +1,15 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import HeroV2 from '../components/v2/HeroV2';
 import ContinueExploring from '../components/v2/ContinueExploring';
 import PopularStates from '../components/v2/PopularStates';
 import ExploreByRegion from '../components/v2/ExploreByRegion';
-import IndiaMap from '../components/IndiaMap';
+
+const IndiaMap = dynamic(() => import('../components/IndiaMap'), {
+    loading: () => <div style={{ height: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f9fafb' }}>Loading Map...</div>,
+    ssr: false // Map is client-side interaction heavy
+});
 
 
 export default function Home() {

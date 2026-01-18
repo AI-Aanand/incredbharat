@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { useState } from 'react';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, MapPin } from 'lucide-react';
 
 export default function OptimizedImage({
     src,
@@ -15,6 +15,7 @@ export default function OptimizedImage({
     showAIBadge = true,
     fallbackSrc = '/images/fallback.svg',
     isFallbackAIGenerated = false,
+    fallbackType = 'default', // 'default' | 'icon'
     ...props
 }) {
     const [imgSrc, setImgSrc] = useState(src);
@@ -24,10 +25,16 @@ export default function OptimizedImage({
 
     const handleError = () => {
         if (!usingFallback) {
-            console.warn(`Image failed to load: ${src}, using fallback: ${fallbackSrc}`);
-            setImgSrc(fallbackSrc);
-            setUsingFallback(true);
-            setHasError(false); // Reset error to try loading fallback
+            if (fallbackType === 'icon') {
+                // For icon logic, immediately switch to error state to show icon
+                setHasError(true);
+                setUsingFallback(true);
+            } else {
+                console.warn(`Image failed to load: ${src}, using fallback: ${fallbackSrc}`);
+                setImgSrc(fallbackSrc);
+                setUsingFallback(true);
+                setHasError(false); // Reset error to try loading fallback
+            }
         } else {
             setHasError(true); // Fallback also failed
         }
@@ -37,20 +44,41 @@ export default function OptimizedImage({
     // If using fallback, use fallback's AI flag. Else use primary AI flag.
     const shouldShowBadge = showAIBadge && !hasError && (usingFallback ? isFallbackAIGenerated : isAIGenerated);
 
+    // Render Icon Fallback
+    if (hasError && (fallbackType === 'icon')) {
+        return (
+            <div
+                className={className}
+                style={{
+                    position: 'relative',
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)',
+                    color: '#9ca3af',
+                    ...style
+                }}
+            >
+                <MapPin size={32} />
+            </div>
+        );
+    }
+
     return (
-        <div style={{ position: 'relative', width: '100%', height: '100%', ...style }}>
+        <div className={className} style={{ position: 'relative', width: '100%', height: '100%', ...style }}>
             <Image
                 src={imgSrc || fallbackSrc} // Handle empty src passed in
                 alt={alt}
                 width={width}
                 height={height}
-                className={className}
                 onError={handleError}
                 onLoad={() => setIsLoading(false)}
                 priority={priority}
                 quality={80} // Balance quality vs size
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                 {...props}
             />
 

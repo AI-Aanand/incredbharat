@@ -12,148 +12,156 @@ export default function IndiaMap() {
     const router = useRouter();
     const mapContainerRef = useRef(null);
 
-    // Create a map of all state names for O(1) lookup
-    const allStatesMap = states.reduce((acc, state) => {
-        acc[state.name] = state;
+    // Helper: Normalize state names for consistent matching
+    const normalizeName = (name) => {
+        if (!name) return '';
+        return name.toLowerCase()
+            .replace(/&/g, 'and')
+            .replace(/island(s)?/g, '')
+            .replace(/[^a-z0-9]/g, '')
+            .trim();
+    };
+
+    // Create a robust lookup map
+    const stateLookup = states.reduce((acc, state) => {
+        acc[normalizeName(state.name)] = state;
+        // Add specific overrides if needed
+        if (state.id === 'andaman-nicobar') acc['andamanandnicobar'] = state;
+        if (state.id === 'dadra-nagar-haveli-daman-diu') acc['dadraandnagarhaveli'] = state; // Map often shortens this
         return acc;
     }, {});
 
-    const statesWithPackages = states.filter(state =>
-        packages.some(pkg => pkg.stateId === state.id)
-    );
+    const activeStatesSet = new Set(Object.values(stateLookup).filter(s =>
+        packages.some(pkg => pkg.stateId === s.id)
+    ).map(s => s.id));
 
-    const activeStatesSet = new Set(statesWithPackages.map(s => s.name));
     const regionData = {};
-
     states.forEach(state => {
-        // Normalize checking
-        const hasPackages = activeStatesSet.has(state.name);
-
+        const hasPackages = activeStatesSet.has(state.id);
         regionData[state.name] = {
             value: hasPackages ? 100 : 10,
-            // If it has packages, use the brand Orange. If not, use a visible but softer gray/blue.
-            color: hasPackages ? '#FF7A18' : '#cbd5e1',
-            stateId: state.id
+            color: hasPackages ? '#FF7A18' : '#e2e8f0', // Lighter grey for inactive
         };
     });
 
-    const currentHoveredState = useRef(null);
+    const handleStateClick = (stateName) => {
+        if (!stateName) return;
 
-    // Update map click handler to use the tracked hover state
-    useEffect(() => {
-        if (!mapContainerRef.current) return;
+        console.log('📍 Clicked State:', stateName);
+        const normalized = normalizeName(stateName);
+        const state = stateLookup[normalized];
 
-        const handleContainerClick = () => {
-            const stateName = currentHoveredState.current;
-
-            if (!stateName) {
-                console.log('⚠️ No state currently hovered');
-                return;
-            }
-
-            console.log('🗺️ MAP CLICKED! State:', stateName);
-
-            // Look up the state in our data (using a loose name match)
-            const normalize = (str) => str ? str.toLowerCase().replace(/[^a-z0-9]/g, '') : '';
-            const normalizedTarget = normalize(stateName);
-
-            const activeState = states.find(s => normalize(s.name) === normalizedTarget);
-
-            if (activeState) {
-                console.log('✅ NAVIGATING TO:', `/states/${activeState.id}`);
-                router.push(`/states/${activeState.id}`);
-            } else {
-                console.log('ℹ️ State clicked but not in our data:', stateName);
-            }
-        };
-
-        const container = mapContainerRef.current;
-        container.addEventListener('click', handleContainerClick);
-        console.log('📍 Event delegation listener attached to map container');
-
-        // Cleanup
-        return () => {
-            container.removeEventListener('click', handleContainerClick);
-        };
-    }, []); // Run once on mount
+        if (state) {
+            console.log('✅ Navigating to:', state.name);
+            router.push(`/states/${state.id}`);
+        } else {
+            console.warn('⚠️ State not found in data:', stateName);
+        }
+    };
 
     return (
-        <section style={{ padding: '5rem 0', background: '#ffffff' }}>
-            <div className="container">
-                <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                    <h2 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Explore by Map</h2>
-                    <p style={{ color: '#6b7280' }}>Click on any highlighted state to explore tour packages.</p>
+        <section style={{ padding: '3rem 0', background: '#ffffff', minHeight: '600px' }}>
+            <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
+                <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+                    <h2 style={{
+                        fontSize: 'clamp(1.5rem, 3vw, 2.25rem)',
+                        fontWeight: 700,
+                        color: '#1a202c',
+                        marginBottom: '0.5rem'
+                    }}>
+                        Explore by Map
+                    </h2>
+                    <p style={{ color: '#64748b' }}>
+                        Click on any highlighted state to view {packages.length}+ official packages
+                    </p>
                 </div>
 
                 <div
                     ref={mapContainerRef}
-                    style={{
-                        position: 'relative',
-                        width: '100%',
-                        maxWidth: '800px',
-                        margin: '0 auto',
-                        height: '600px',
-                        cursor: 'pointer' // Make the whole container clickable-looking
+                    className="india-map-container"
+                    onClick={(e) => {
+                        // Global click handler for the map container
+                        const target = e.target;
+
+                        // Check if clicked on a path (State)
+                        if (target.tagName === 'path') {
+                            const name = target.getAttribute('name') || target.getAttribute('title');
+                            handleStateClick(name);
+                        }
                     }}
                 >
-                    {/* Styles to ensure pointer events work */}
-                    <style jsx>{`
-                        :global(svg path) {
-                             cursor: pointer !important;
-                             pointer-events: all !important;
-                        }
-                    `}</style>
-
                     <ReactDatamaps
                         regionData={regionData}
                         mapLayout={{
-                            startColor: '#94a3b8', // Slate-400 (Default for non-active)
-                            endColor: '#FF7A18',   // Orange (Active)
+                            startColor: '#e2e8f0',
+                            endColor: '#FF7A18',
                             hoverTitle: 'Count',
-                            noDataColor: '#94a3b8', // Fallback color
+                            noDataColor: '#e2e8f0',
                             borderColor: '#ffffff',
                             hoverBorderColor: '#0F4C75',
-                            hoverColor: '#FF9F55', // Lighter orange on hover
+                            hoverColor: '#ff9f55',
                         }}
                         hoverComponent={({ value }) => {
-                            // Update ref whenever hover component renders (which implies hover)
-                            currentHoveredState.current = value.name;
-
-                            // We can't clear the ref easily on unmount of this specific component 
-                            // because it unmounts and remounts rapidly.
-                            // But click handler only fires when *clicking*, so it should be fine.
-
-                            const activeState = allStatesMap[value.name];
-                            const hasPackages = activeStatesSet.has(value.name);
+                            const normalized = normalizeName(value.name);
+                            const state = stateLookup[normalized];
+                            const hasPackages = state && activeStatesSet.has(state.id);
 
                             return (
                                 <div
-                                    style={{
-                                        padding: '0.75rem',
-                                        background: 'white',
-                                        border: `2px solid ${hasPackages ? '#FF7A18' : '#94a3b8'}`,
-                                        borderRadius: '0.5rem',
-                                        boxShadow: '0 4px 6px rgba(0,0,0,0.15)',
-                                        pointerEvents: 'none',
-                                        zIndex: 100,
-                                        minWidth: '150px'
+                                    className="map-tooltip"
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Prevent double firing
+                                        handleStateClick(value.name);
                                     }}
                                 >
-                                    <strong style={{ fontSize: '1rem', color: '#1f2937', display: 'block' }}>{value.name}</strong>
+                                    <div style={{ fontWeight: 700, marginBottom: '0.25rem' }}>{value.name}</div>
                                     {hasPackages ? (
-                                        <span style={{ color: '#FF7A18', fontSize: '0.875rem', fontWeight: 600 }}>
-                                            ✨ View Packages
-                                        </span>
+                                        <div style={{
+                                            color: '#FF7A18',
+                                            fontSize: '0.75rem',
+                                            fontWeight: 600,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '0.25rem'
+                                        }}>
+                                            <span>View Packages</span>
+                                            <span style={{ fontSize: '1rem' }}>→</span>
+                                        </div>
                                     ) : (
-                                        <span style={{ color: '#6b7280', fontSize: '0.875rem' }}>
-                                            Explore State
-                                        </span>
+                                        <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Comparing...</div>
                                     )}
                                 </div>
                             )
                         }}
                     />
                 </div>
+
+                <style jsx global>{`
+                    .india-map-container {
+                        position: relative;
+                        width: 100%;
+                        max-width: 800px;
+                        margin: 0 auto;
+                        /* Ensure SVG paths are clickable */
+                        & path {
+                            cursor: pointer;
+                            transition: fill 0.2s;
+                        }
+                    }
+
+                    /* Custom Tooltip Styling */
+                    .map-tooltip {
+                        padding: 0.75rem 1rem;
+                        background: white;
+                        border-radius: 0.5rem;
+                        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                        border: 1px solid #e2e8f0;
+                        pointer-events: auto !important; /* Enable clicks on tooltip */
+                        cursor: pointer;
+                        min-width: 140px;
+                        z-index: 50;
+                    }
+                `}</style>
             </div>
         </section>
     );

@@ -264,6 +264,9 @@ export default function NavbarV2() {
                         <input
                             type="text"
                             placeholder="Search destinations..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onKeyDown={handleKeyDown}
                             style={{
                                 flex: 1,
                                 padding: '0.625rem 1rem',
@@ -273,13 +276,18 @@ export default function NavbarV2() {
                                 outline: 'none'
                             }}
                         />
-                        <button style={{
-                            padding: '0 1.25rem',
-                            backgroundColor: '#FF7A18',
-                            border: 'none',
-                            borderRadius: '0 0.25rem 0.25rem 0',
-                            cursor: 'pointer'
-                        }}>
+                        <button
+                            onClick={handleSearch}
+                            style={{
+                                padding: '0 1.25rem',
+                                backgroundColor: '#FF7A18',
+                                border: 'none',
+                                borderRadius: '0 0.25rem 0.25rem 0',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}>
                             <Search size={18} color="white" />
                         </button>
                     </div>
@@ -308,7 +316,7 @@ export default function NavbarV2() {
                         width: '80%',
                         maxWidth: '320px',
                         height: '100vh',
-                        backgroundColor: '#0a3a5c',
+                        backgroundColor: '#790101', // Deep Burgundy (Matched to Header)
                         zIndex: 2000,
                         padding: '1rem',
                         overflowY: 'auto'

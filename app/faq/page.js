@@ -12,7 +12,7 @@ export default function FAQPage() {
             questions: [
                 {
                     q: 'How do I book a tour package?',
-                    a: 'Click on any package to view details, then click "Enquire Now" or "Book Now". Fill in your details and our partner tour operators will contact you within 24 hours to confirm your booking.'
+                    a: 'Simply browse our curated packages and click the "View on Official Website" button. You will be redirected to the official state tourism or operator website to complete your booking securely and directly.'
                 },
                 {
                     q: 'Can I customize a package?',
@@ -24,7 +24,7 @@ export default function FAQPage() {
                 },
                 {
                     q: 'Is there a booking fee on IncredBharat?',
-                    a: 'No! IncredBharat is a free tour aggregator platform. You only pay the package price to the tour operator. We don&apos;t charge any booking or service fees.'
+                    a: 'No! IncredBharat is a 100% free aggregator. We help you discover the best government and approved private packages. You pay directly to the official operators with zero commission to us.'
                 }
             ]
         },
@@ -33,7 +33,7 @@ export default function FAQPage() {
             questions: [
                 {
                     q: 'What payment methods are accepted?',
-                    a: 'Payment methods vary by tour operator. Most accept bank transfers, UPI, credit/debit cards, and online payment gateways. The operator will provide payment details after confirming your booking.'
+                    a: 'Since you book directly with the official operators (like KTDC, RTDC, etc.), payment methods depend on their specific portals. Most government tourism websites accept Credit/Debit Cards, Net Banking, and UPI.'
                 },
                 {
                     q: 'Are the prices shown final?',
@@ -58,7 +58,7 @@ export default function FAQPage() {
                 },
                 {
                     q: 'How do I cancel my booking?',
-                    a: 'Contact the tour operator directly using the contact details they provided when confirming your booking. IncredBharat is an aggregator and cannot process cancellations directly.'
+                    a: 'Cancellations must be done directly through the official website where you made the booking. IncredBharat does not handle payments or bookings, so we cannot process cancellations.'
                 },
                 {
                     q: 'Can I get a full refund?',
